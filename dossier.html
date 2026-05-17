@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Dossier — Máscaras de Nyarlathotep</title>
+<style>
+:root{--bg:#111;--panel:#1c1c1c;--border:#2a2a2a;--red:#c0392b;--redl:#e74c3c;--green:#27ae60;--gold:#d4a017;--blue:#2980b9;--purple:#8e44ad;--orange:#e67e22;--txt:#ddd;--txt2:#999;--ink:#f5f0e0;--current:#d4a017}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:'Courier New',monospace;font-size:12px;line-height:1.5;min-height:100vh;overflow-x:hidden}
+nav{background:#080808;border-bottom:2px solid var(--red);display:flex;align-items:center;padding:0 10px;position:sticky;top:0;z-index:100;overflow-x:auto;white-space:nowrap;scrollbar-width:thin}
+nav::-webkit-scrollbar{height:3px}nav::-webkit-scrollbar-thumb{background:#333}
+nav h1{color:var(--red);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 10px 8px 0;border-right:1px solid #333;margin-right:6px;flex-shrink:0}
+.tab{padding:8px 12px;cursor:pointer;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--txt2);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;flex-shrink:0}
+.tab:hover{color:var(--txt)}
+.tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.tab.current-chapter{color:#ff9900;border-bottom-color:#ff9900}
+.tab.current-chapter.on{color:var(--gold)}
+#sbar{padding:5px 12px;background:#080808;border-bottom:1px solid #1a1a1a;display:flex;align-items:center;gap:8px;position:sticky;top:37px;z-index:99}
+#srch{background:#1c1c1c;border:1px solid #2a2a2a;color:#eee;padding:3px 8px;font-family:'Courier New',monospace;font-size:10px;width:200px;border-radius:2px}
+#srch:focus{outline:none;border-color:var(--gold)}
+#srch::placeholder{color:#444}
+#src-count{font-size:9px;color:#444}
+.section{display:none;padding:12px 14px;max-width:1500px}
+.section.on{display:block}
+.cols{display:grid;gap:10px}.c2{grid-template-columns:1fr 1fr}.c3{grid-template-columns:1fr 1fr 1fr}.c4{grid-template-columns:1fr 1fr 1fr 1fr}
+@media(max-width:1000px){.c3,.c4{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.c2,.c3,.c4{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:2px;overflow:hidden;margin-bottom:10px}
+.ph{padding:4px 10px;font-size:8px;letter-spacing:2px;text-transform:uppercase;font-weight:bold;border-bottom:1px solid var(--border)}
+.ph.red{background:#2a0000;color:#ff8888}.ph.green{background:#002a10;color:#88ff88}.ph.gold{background:#1e1400;color:var(--gold)}.ph.blue{background:#001428;color:#88ccff}.ph.purple{background:#160028;color:#cc88ff}.ph.grey{background:#141414;color:#888}.ph.orange{background:#1e0a00;color:#ffaa44}.ph.teal{background:#001a1a;color:#44dddd}
+.pb{padding:8px 10px}
+.npc{padding:5px 8px;border-bottom:1px solid #1a1a1a;display:grid;grid-template-columns:1fr auto;gap:6px;align-items:start}
+.npc:last-child{border-bottom:none}
+.nn{font-weight:bold;color:#eee;font-size:11px}.nr{color:var(--txt2);font-size:9px;font-style:italic}
+.nd{font-size:9px;color:var(--txt2);grid-column:1/-1;padding-top:2px}
+.nd li{list-style:none;padding-left:9px;position:relative;margin-bottom:1px}
+.nd li::before{content:'›';position:absolute;left:0;color:#444}
+.st{font-size:7px;font-weight:bold;letter-spacing:.8px;padding:2px 5px;border-radius:2px;white-space:nowrap;align-self:start;flex-shrink:0}
+.sd{background:#5a0000;color:#ffa0a0}.sj{background:#4a2000;color:#ffcc88}.sk{background:#001a50;color:#8888ff}.sm{background:#3a0030;color:#ff88ee}.sp{background:#1a1a00;color:#eeee00}.sa{background:#002a10;color:#88ff88}.se{background:#2a0000;color:#ff8888}.su{background:#1a1a1a;color:#888}.sc{background:#002230;color:#88ccff}
+.clue{padding:4px 8px;border-bottom:1px solid #1a1a1a;font-size:10px}
+.clue:last-child{border-bottom:none}
+.cid{color:var(--gold);font-weight:bold;font-size:8px;display:inline-block;min-width:24px}.cn{color:#eee;font-weight:bold}.cl{color:var(--txt2);font-size:9px;padding-left:24px;margin-top:1px}.cl span{color:#ff9900}
+.loc{padding:5px 8px;border-bottom:1px solid #1a1a1a;font-size:10px}.loc:last-child{border-bottom:none}
+.ln{color:#5ab0f0;font-weight:bold}.ld{color:var(--txt2);font-size:9px;margin-top:2px}
+.ms{padding:6px 8px;border-bottom:1px solid #1a1a1a;display:flex;gap:7px;align-items:flex-start}
+.ms:last-child{border-bottom:none}
+.mp{font-size:7px;font-weight:bold;padding:2px 5px;border-radius:2px;white-space:nowrap;align-self:center;flex-shrink:0}
+.pcrit{background:#5a0000;color:#fff}.phi{background:#4a2000;color:#fff}.pmed{background:#1a1a00;color:#eee}.plo{background:#141414;color:#888}.pok{background:#002a10;color:#88ff88}
+.mt{font-size:11px;color:#eee;flex:1}.mt small{display:block;color:var(--txt2);font-size:9px;margin-top:2px}
+.tl{padding:4px 8px;border-bottom:1px solid #111;display:grid;grid-template-columns:115px 1fr;gap:6px;font-size:9px}
+.tl:last-child{border-bottom:none}
+.td{color:var(--gold);font-size:8px;padding-top:1px}.te{color:var(--txt2)}
+.te b{color:#eee}.te .dead{color:var(--redl)}.te .ok{color:#66ff88}.te .warn{color:#ffaa44}
+.ev{padding:4px 8px;border-bottom:1px solid #111;font-size:9px;color:var(--txt2)}.ev:last-child{border-bottom:none}.ev b{color:#eee}
+.callout{border-left:3px solid var(--orange);background:#150800;padding:7px 10px;font-size:10px;color:var(--txt2);margin:8px 0}
+.callout.red{background:#150000;border-color:var(--red);color:#eaa}.callout.green{background:#001508;border-color:var(--green);color:#8e8}.callout.purple{background:#0d0018;border-color:#8e44ad;color:#c9f}
+.callout b{color:#fff}
+.stitle{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#444;border-bottom:1px solid #1a1a1a;padding:8px 0 3px;margin:8px 0 6px}
+.code-badge{display:inline-block;font-size:8px;padding:1px 6px;border-radius:2px;font-weight:bold;margin-right:4px;letter-spacing:.5px}
+.spell{padding:6px 8px;border-bottom:1px solid #1a1a1a;font-size:10px}.spell:last-child{border-bottom:none}
+.sn{color:#c080ff;font-weight:bold}.sc2{color:var(--txt2);font-size:9px;margin-top:2px}.sc2 b{color:#eee}
+.art{padding:5px 8px;border-bottom:1px solid #1a1a1a;font-size:10px}.art:last-child{border-bottom:none}
+.an{color:var(--gold);font-weight:bold}.ad{color:var(--txt2);font-size:9px;margin-top:2px}
+.hi{outline:2px solid var(--gold)!important;outline-offset:1px}
+</style>
+</head>
+<body>
+<nav>
+  <h1>MoN — Dossier</h1>
+  <div class="tab on" onclick="show('peru')">Perú 1921</div>
+  <div class="tab" onclick="show('ny')">Nueva York</div>
+  <div class="tab" onclick="show('arkham')">Arkham</div>
+  <div class="tab" onclick="show('london')">Londres</div>
+  <div class="tab" onclick="show('egypt')">Egipto</div>
+  <div class="tab current-chapter" onclick="show('kenya')">★ Kenia</div>
+  <div class="tab" onclick="show('australia')">Australia</div>
+  <div class="tab" onclick="show('china')">China/Shanghai</div>
+  <div class="tab" onclick="show('art')">Artefactos</div>
+  <div class="tab" onclick="show('mis')">Misiones</div>
+  <div class="tab" onclick="show('crono')">Cronología</div>
+</nav>
+<div id="sbar">
+  <span style="font-size:9px;color:#444">Buscar:</span>
+  <input id="srch" type="text" placeholder="nombre, lugar, pista..." oninput="doSearch(this.value)">
+  <span id="src-count"></span>
+</div>
+
+<!-- ══════════════════════════ PERÚ ══════════════════════════ -->
+<div id="s-peru" class="section on">
+<div class="callout green"><b>PERÚ — Marzo 1921.</b> Cuatro años antes. Objetivo: sellar al Padre de los Gusanos en pirámide Tiwanaku. <b>✅ Nadie del grupo murió.</b></div>
+<div class="stitle">Personajes Jugadores</div>
+<div class="cols c4">
+<div class="panel"><div class="ph blue">Lionel Blackwood</div><div class="pb"><div class="nr">Actor · Piso en NY</div><ul class="nd"><li>Episodio de locura en isla Titicaca — cree que Harrison Jones mató a su hermanita</li><li>Lanza fósforo al pozo → explosión que incendia kharisiri</li><li>Ayuda a colocar la Golden Ward y la Máscara</li></ul></div></div>
+<div class="panel"><div class="ph blue">Milunka Saric</div><div class="pb"><div class="nr">Combatiente eficaz · Acento extraño</div><ul class="nd"><li>Conocida en el Bar Cordano</li><li>Retiene a De Mendoza en el museo (acto clave)</li><li>Mata la larva en combate final. Desmaya a Lionel Blackwood en el barco.</li></ul></div></div>
+<div class="panel"><div class="ph blue">Harrison Jones</div><div class="pb"><div class="nr">Ladrón hábil</div><ul class="nd"><li>Roba la <b>Máscara Dorada</b> (Golden Mirror) a De Mendoza</li><li>Compra sustancia inflamable en el mercado de Lima</li><li>La usa para incendiar el pozo en la pirámide</li></ul></div></div>
+<div class="panel"><div class="ph blue">Hiroku Ryōshiz</div><div class="pb"><div class="nr">Médico / Científico</div><ul class="nd"><li>Lleva calmantes y pociones</li><li>Coloca la Golden Ward en el sello</li><li>Va a la morgue con Federico</li></ul></div></div>
+</div>
+<div class="stitle">NPCs Clave — Perú</div>
+<div class="cols c2">
+<div class="panel"><div class="ph green">Aliados</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Jackson Elías</div><div class="nr">alias "Jesse Hughes" · Escritor/investigador</div><ul class="nd"><li>Revela identidad real tras cenar con Larkin</li><li>Advierte sobre kharisiri y De Mendoza</li><li>Se queda con De Mendoza mientras el grupo huye del museo</li><li>Escribe <i>The Hungry Dead</i> basado en estos eventos</li></ul></div><span class="st sa">SOBREVIVE</span></div>
+<div class="npc"><div><div class="nn">Prof. Nemesio Sánchez</div><div class="nr">Arqueólogo · Universidad San Marcos · Lima</div><ul class="nd"><li>Trabaja con Trinidad en Confesiones de Figueroa</li><li>Atacado arriba del museo — salvado por el grupo</li><li>Conoce la Golden Ward y la barrera mágica</li></ul></div><span class="st sa">SALVADO</span></div>
+<div class="npc"><div><div class="nn">Trinidad Rizo</div><div class="nr">Estudiante de Sánchez</div><ul class="nd"><li>Encontrada con la Golden Ward y una carta en el sótano del museo</li><li>Atacada por De Mendoza (se alimenta de ella). Milunka Saric lo retiene pero tarde.</li></ul></div><span class="st sd">MUERTA</span></div>
+<div class="npc"><div><div class="nn">Nayra</div><div class="nr">Yatiri aymara · Puno · Islas flotantes Titicaca</div><ul class="nd"><li>Conoce la leyenda del Héroe Equeco = historia de la pirámide</li><li>La máscara pertenecía al dios — parte del sello</li><li>Muere en el ataque de kharisiri en la isla flotante</li></ul></div><span class="st sd">MUERTA</span></div>
+<div class="npc"><div><div class="nn">Federico Blume y Corbacho</div><div class="nr">Actor · Amigo de Lionel Blackwood · Hotel Castilla</div><ul class="nd"><li>Actor conocido, amigo de Lionel Blackwood.</li><li>Se hospedaba en el Hotel Castilla cuando sucedieron los eventos del museo.</li><li>Va a la morgue con Hiroku Ryōshiz.</li><li>Se unió al grupo temporalmente durante el capítulo de Perú.</li></ul></div><span class="st sa">ACTIVO (Perú)</span></div>
+</div></div>
+<div class="panel"><div class="ph red">Adversarios</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Augustus Larkin</div><div class="nr">Poseído · Acento keniano · Heroin addict</div><ul class="nd"><li>Poseído por Nyarlathotep vía tatuaje Lengua Sangrienta en el pecho</li><li>Lo pudre por dentro — heroína para el dolor</li><li>Miente sobre dejar la expedición — su plan siempre fue llevarlos a la pirámide</li><li>⚠️ Encontrado y MUERTO en sótano de su mansión en Arkham (Ses. 10)</li></ul></div><span class="st sd">MUERTO Ses.10</span></div>
+<div class="npc"><div><div class="nn">Luis de Mendoza</div><div class="nr">Kharisiri original · Conquistador ~370 años · Guardaespaldas Larkin</div><ul class="nd"><li>Mata a Trinidad en el sótano del museo</li><li>Oculta la Máscara Dorada bajo su colchón (Hotel España, hab. 202)</li><li>Hostilidad especial hacia Jackson Elías</li><li>Retenido por Milunka Saric en el museo durante la huida del grupo.</li><li><b>DESTINO FINAL:</b> Al sellarse la pirámide, se desintegró junto al resto de los kharisiri — murió al restaurarse el sello dorado.</li></ul></div><span class="st sd">MUERTO (sello pirámide) ✅</span></div>
+<div class="npc"><div><div class="nn">Los Kharisiri</div><div class="nr">~30 transformados · Conquistadores originales + recientes</div><ul class="nd"><li>Atacan la isla flotante durante la noche</li><li>Varios eliminados. Resto sellado con el Padre.</li><li>Mujer de ~30 años de Puno (kharisiri reciente) + conquistador extranjero encontrados en la travesía</li></ul></div><span class="st sd">SELLADOS</span></div>
+</div></div>
+</div>
+<div class="stitle">Ubicaciones — Perú</div>
+<div class="cols c2">
+<div class="panel"><div class="ph blue">Lima</div><div class="pb" style="padding:0">
+<div class="loc"><div class="ln">Bar Cordano</div><div class="ld">Jirón Ancash 202. Cena 18 Mar 7pm. Larkin muestra artefactos cebo. Milunka Saric conocida aquí.</div></div>
+<div class="loc"><div class="ln">Hotel Maury</div><div class="ld">Hospedaje inicial investigadores.</div></div>
+<div class="loc"><div class="ln">Hotel España</div><div class="ld">Larkin (hab. 202, heroína) + De Mendoza. Harrison Jones infiltra y roba Máscara Dorada.</div></div>
+<div class="loc"><div class="ln">Hotel Castilla</div><div class="ld">Refugio post-museo. Frederick hospedado aquí.</div></div>
+<div class="loc"><div class="ln">Museo de Arqueología y Antropología</div><div class="ld">Sánchez + Trinidad. Sótano: ataque a Trinidad. Golden Ward encontrada aquí.</div></div>
+</div></div>
+<div class="panel"><div class="ph blue">Altiplano</div><div class="pb" style="padding:0">
+<div class="loc"><div class="ln">Puno</div><div class="ld">Base de expedición. Nayra. Leyenda del Héroe Equeco = el dios en la pirámide.</div></div>
+<div class="loc"><div class="ln">Isla Flotante (Lago Titicaca)</div><div class="ld">Ataque kharisiri. Nayra muere. Lionel Blackwood episodio de locura.</div></div>
+<div class="loc"><div class="ln">La Pirámide (Altiplano)</div><div class="ld">70 km sur-sureste de Puno. Entrada por pozo de muertos. <b>✅ Padre sellado. Nadie murió.</b></div></div>
+</div></div>
+</div>
+<div class="callout"><b>El "niño fantasma":</b> Eran kharisiri que acechaban en las montañas de Perú, usando la apariencia de un niño para acercarse al grupo y robar objetos. Lionel Blackwood sufrió su episodio de locura al verlo en la isla flotante.</div>
+<div class="callout green"><b>Consecuencias para la campaña:</b> Jackson escribe <i>The Hungry Dead</i>. Su testamento deja ~$50.000 (oro pirámide, admin. Carlton Ramsey) para investigar la Expedición Carlyle. Tatuaje de Larkin = Lengua Sangrienta = mismo símbolo en frente de Jackson (NY). <b>Nyarlathotep prometió que se volverían a ver.</b></div>
+</div>
+
+<!-- ══════════════════════════ NUEVA YORK ══════════════════════════ -->
+<div id="s-ny" class="section">
+<div class="callout red"><b>NUEVA YORK — 15 Enero al 24 Enero, 1925.</b> Jackson Elías convoca al grupo. Muere asesinado antes de que lleguen. Asalto a Ju-Ju House. Escape. Revelaciones. <b>⚠️ 24 Enero: Eclipse + Ritual del culto.</b></div>
+<div class="stitle">Personajes Jugadores</div>
+<div class="cols c3">
+<div class="panel"><div class="ph blue">Phineas McKalan</div><div class="pb"><div class="nr">Fotógrafo · Piso en NY · Conoce a Kensington</div><ul class="nd"><li>No estuvo en Perú. Citado por Jackson.</li><li>Fotografía escena del crimen, símbolo, placa vehículo NYL7</li><li>Herido grave por sombra sobrenatural (con Cristopher, ses. 6)</li><li>Escapa del hospital disfrazado de doctor</li><li><b>Madre SECUESTRADA por el culto → rescatada en Ju-Ju House ses. 11</b></li><li>Su nombre aparece en la dedicatoria del libro inédito de Jackson (aunque no estuvo en Perú)</li></ul></div></div>
+<div class="panel"><div class="ph blue">Dora Flinders</div><div class="pb"><div class="nr">Experta artefactos egipcios · Hija de Edward Flinders</div><ul class="nd"><li>Aparece en el funeral de Jackson (hija de amigo)</li><li>"Su papá estaba en el Hotel Chelsea" (antes de Miskatonic)</li><li>Descifra el Velo de Anubis y tablillas</li><li>Enfrenta a la criatura en Arkham: "Sé que no eres mi padre"</li><li>Padre Edward Flinders encontrado en ático de la granja — coma → DESPERTÓ (ses. 15)</li><li>Su nombre aparece en la dedicatoria del libro inédito ⚠️</li></ul></div></div>
+<div class="panel"><div class="ph purple">Milunka Saric — ⚠️ DOBLE AGENTE</div><div class="pb"><div class="nr">Veterana Perú · Espía socialista (confesa ses. 13)</div><ul class="nd"><li>17 ene: recogida por carro lujoso. "El objetivo estuvo en Perú."</li><li>Tarea asignada: conseguir info sobre el libro que Jackson buscaba</li><li>Ses. 13: confiesa que espiaba para partido socialista buscando <i>Africa's Dark Sects</i></li><li>Plan: entregar libro FALSO para ganar tiempo</li><li>Nyarlathotep se comunicó directamente con ella (visión Arkham)</li><li>Mata a Robson en Fat Maybelle's (ses. 12). Mata a Gavigan, Shafik, Silas N'Kwane, Edjo, Marshall, Shipley, Bertha (Londres).</li></ul></div></div>
+</div>
+<div class="stitle">NPCs Clave — Nueva York</div>
+<div class="cols c2">
+<div class="panel"><div class="ph green">Aliados NY</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Tte. Martin Poole</div><div class="nr">Detective · Precinto 7a · West 20th St</div><ul class="nd"><li>Investiga asesinato de Jackson con objetividad</li><li>9 asesinatos previos con la misma marca. Sospecha que Robson es corrupto.</li></ul></div><span class="st sa">ALIADO</span></div>
+<div class="npc"><div><div class="nn">Jonah Kensington</div><div class="nr">Editor · Prospero House · Lexington & 35th</div><ul class="nd"><li>Último en hablar con Jackson. Tiene documentos que mencionan al grupo.</li></ul></div><span class="st sa">ALIADO</span></div>
+<div class="npc"><div><div class="nn">Carlton Ramsey</div><div class="nr">Abogado/albacea de Jackson</div><ul class="nd"><li>Administra fondo ~$50.000 (oro de Perú) para financiar la investigación</li><li>Coordinador central. Niece: Willa Sligh.</li></ul></div><span class="st sa">ALIADO</span></div>
+<div class="npc"><div><div class="nn">Dr. Mordecai Lemming</div><div class="nr">Folklorista excéntrico · Manhattan</div><ul class="nd"><li>Identificó el símbolo → Culto africano de muerte. Recomendó Silas N'Kwane.</li><li><b>Decapitado por el culto</b> tras hablar con el grupo. Cabeza enviada a casa de Lionel Blackwood.</li></ul></div><span class="st sd">MUERTO</span></div>
+<div class="npc"><div><div class="nn">Hilton Adams</div><div class="nr">369° Inf. · Sing Sing · Death row</div><ul class="nd"><li>Falsamente acusado por Robson de 8 asesinatos del culto</li><li>Tenía evidencia (cinta roja, máscara, diario) — confiscada por Robson</li><li><b>✅ LIBRE — exonerado (ses. 15).</b> Probablemente con traumas, escondido en NY, alejado del culto. La amenaza ya no es grave.</li></ul></div><span class="st sa">LIBRE ✅</span></div>
+<div class="npc"><div><div class="nn">Millie Adams</div><div class="nr">Actriz · Teatro Lafayette 132nd & 7th</div><ul class="nd"><li>Vigilaba Ju-Ju House desde edificio cercano</li><li>20-30 personas entran mensualmente de madrugada</li></ul></div><span class="st sa">ALIADA</span></div>
+<div class="npc"><div><div class="nn">Rebecca Shosenburg</div><div class="nr">Reportera · NY Times</div><ul class="nd"><li>Cubre caso Adams. Cree que Robson es corrupto.</li><li>Recibió evidencia → exoneración de Hilton</li></ul></div><span class="st sa">ALIADA</span></div>
+<div class="npc"><div><div class="nn">Gregory</div><div class="nr">Teniente · Contacto policial de Phineas McKalan</div><ul class="nd"><li>Entregó a Curly amordazado. Confía en el grupo.</li><li><b>Desapareció del radar</b> por seguridad tras ses. 7</li></ul></div><span class="st su">DESAPARECIDO</span></div>
+<div class="npc"><div><div class="nn">Nikola Tesla</div><div class="nr">Inventor · Workshop Long Island</div><ul class="nd"><li>Rescata a Hiroku Ryōshiz del Hunting Horror en el metro</li><li>Trabaja con Miskatonic investigando actividad radiológica NYC</li><li>Entrega aparato que repele criaturas (luz cegadora)</li><li>Uno de sus patentes = similar al Velo de Anubis</li></ul></div><span class="st sa">ALIADO</span></div>
+<div class="npc"><div><div class="nn">Arthur Emerson</div><div class="nr">Importador · Emerson Imports</div><ul class="nd"><li>Suministraba a Ju-Ju House. Contacto en Mombasa: Ahja Singh.</li><li><b>Asesinado el 18 enero</b> por el culto</li></ul></div><span class="st sd">MUERTO</span></div>
+</div></div>
+<div class="panel"><div class="ph red">Enemigos NY</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Mukunga M'Dari <span class="code-badge" style="background:#3a0000;color:#ff8888">EL ESCORPIÓN</span></div><div class="nr">Alto Sacerdote · Bloody Tongue NYC · Ju-Ju House</div><ul class="nd"><li>Ordenó el asesinato de Jackson. Paga sobornos a Robson.</li><li>Invoca Apophis (Hunting Horror). "El escorpión no muere tan fácil."</li><li>Ses. 12: baleado en la cabeza por Dora Flinders en el metro. <b>Destino sin confirmar.</b></li></ul></div><span class="st sd">MUERTO ✅</span></div>
+<div class="npc"><div><div class="nn">Silas N'Kwane</div><div class="nr">Gerente Ju-Ju House · 1 Ransom Court</div><ul class="nd"><li>73 años, delgado, shuka roja. Cobarde. Llave del sótano.</li><li>Ledger: pagos a "W.R.14" = Robson</li><li>Ses. 11: atado en el cuarto trasero de Ju-Ju House. <b>Error del grupo: lo dejaron vivo.</b></li><li>Aprovechó para escapar y contactar a <b>Michael McHallan</b> (hermano de Phineas McKalan). Lo convenció de que Phineas tenía a su madre secuestrada en Arkham — maniobra para enfrentarlos.</li><li>Ambos viajaron a Londres — por eso Michael McHallan estaba allí.</li><li><b>Ses. 18: aparece en Misr House con Gavigan. Cortó piernas de Hiroku Ryōshiz. MUERTO (Milunka Saric, persecución). ✅</b></li></ul></div><span class="st sd">MUERTO Ses.18 ✅</span></div>
+<div class="npc"><div><div class="nn">Cpt. Walter Robson</div><div class="nr">Policía corrupto · Precinto 14 · Harlem</div><ul class="nd"><li>Sobornado por M'Dari. Inculpó a Hilton Adams. Protegía Ju-Ju House.</li><li><b>Ses. 12: MUERTO — Milunka Saric le dispara en Fat Maybelle's.</b></li></ul></div><span class="st sd">MUERTO Ses.12</span></div>
+<div class="npc"><div><div class="nn">Jackson Elías (reanimado)</div><div class="nr">Cuerpo robado de la morgue → transformado por el culto</div><ul class="nd"><li>Encontrado en el laboratorio de Ju-Ju House, atrapado en tejido carnoso del techo</li><li>Comienza a transformarse durante el asalto</li><li><b>Ses. 12: destruido en las alcantarillas. Sus ojos miraron a Lionel Blackwood con tristeza antes del golpe final.</b></li></ul></div><span class="st sd">DESTRUIDO</span></div>
+</div></div>
+</div>
+<div class="stitle">Pistas de la Hab. 410 — Hotel Chelsea</div>
+<div class="panel"><div class="ph gold">7 Pistas Encontradas</div><div class="pb" style="padding:0">
+<div class="clue"><span class="cid">#1</span><span class="cn">Carta Warren Besart a Roger Carlyle</span><div class="cl">→ <span>EGIPTO</span>. Besart en El Cairo. Contacto para capítulo Egipto.</div></div>
+<div class="clue"><span class="cid">#2</span><span class="cn">Tarjeta Fundación Penhew (Edward Gavigan)</span><div class="cl">→ <span>LONDRES</span>. Gavigan es El León. Fundación = frente del culto.</div></div>
+<div class="clue"><span class="cid">#3</span><span class="cn">Tarjeta Emerson Imports ("Silas N'Kwane" escrito atrás)</span><div class="cl">→ <span>JU-JU HOUSE</span>. Link importadora → culto.</div></div>
+<div class="clue"><span class="cid">#4</span><span class="cn">Carta de Miriam Atwright (Harvard)</span><div class="cl">Buscaba <i>Africa's Dark Sects</i> para Jackson → libro recuperado en Ju-Ju House (ses. 11).</div></div>
+<div class="clue"><span class="cid">#5</span><span class="cn">Foto borrosa del yate "DAR..."</span><div class="cl">→ <span>SHANGHAI</span>. Dark Mistress, río Whangpoo.</div></div>
+<div class="clue"><span class="cid">#6</span><span class="cn">Cerillas del Stumbling Tiger Bar</span><div class="cl">→ <span>SHANGHAI</span>. Bar donde Elías conoció a Jack Brady.</div></div>
+<div class="clue"><span class="cid">#7</span><span class="cn">Folleto "Culto de la Oscuridad" — conf. Prof. Cowles</span><div class="cl">→ <span>AUSTRALIA</span>. Fotos de monolitos en desierto australiano.</div></div>
+<div class="clue"><span class="cid">+</span><span class="cn">Placa NYL7 — Black Hudson 1915</span><div class="cl">Robado 15 enero. Propietario Thomas Witherspoon (inocente). Usado por los asesinos.</div></div>
+<div class="clue"><span class="cid">+</span><span class="cn">"La Sangre se Enrojecerá"</span><div class="cl">Frase dicha por un cultista durante el combate. ¿Profecía del Gran Plan?</div></div>
+</div></div>
+<div class="stitle">Ju-Ju House — Lo que encontraron (Ses. 11)</div>
+<div class="panel"><div class="ph red">1 Ransom Court, West 137th St, Harlem — COMPROMETIDA</div><div class="pb" style="padding:0">
+<div class="ev"><b>Acceso:</b> Trampilla bajo el mostrador → pasillo con símbolos Kikuyu → puerta metálica reforzada (llave de Silas)</div>
+<div class="ev"><b>Laboratorio:</b> Dos mesas quirúrgicas (madre de Phineas McKalan viva; hombre conectado por cabeza a botellas de ámbar con larvas). Persona en tejido carnoso en esquina. Cabezas en pilares conectadas a jarras. Jackson Elías colgando del techo transformándose.</div>
+<div class="ev"><b>El Chakota:</b> Cilindro de músculo violáceo ~2.4m compuesto de docenas de rostros humanos llorando/gritando = víctimas del culto fusionadas.</div>
+<div class="ev"><b>Ciimba (necromorfos):</b> 4 guardias zombis. Uno impala a Hiroku Ryōshiz en el hombro. Dora Flinders enloquece (alucinaciones de sangre).</div>
+<div class="ev"><b>Evidencias recuperadas:</b> <i>Africa's Dark Sects</i> (libro Harvard robado), guantes de garra de león (arma ritual de M'Dari — marca el símbolo), documentos incriminadores de Robson, cronómetro marino (GMT, igual a los de Egipto y China), máscara ritual.</div>
+<div class="ev"><b>Escape:</b> Por el agujero de madera con mecanismo de cadena → alcantarillas. M'Dari baja con máscara y machete.</div>
+</div></div>
+<div class="stitle">Eventos Clave — NY (Resumen)</div>
+<div class="cols c2">
+<div class="panel"><div class="ph orange">Ses. 11-12: Asalto y Escape</div><div class="pb" style="padding:0">
+<div class="ev">Madre de Phineas McKalan <b class="ok">rescatada</b> del laboratorio</div>
+<div class="ev">Jackson Elías transformado → <span class="dead">destruido en alcantarillas</span></div>
+<div class="ev">M'Dari invoca Apophis (Hunting Horror) en el metro. Tesla y Walters rescatan a Hiroku Ryōshiz con aparato luminoso.</div>
+<div class="ev">Fat Maybelle's (139th & 6th): conectado por túneles a Ju-Ju House. <span class="dead">Robson muerto</span> aquí por Milunka Saric.</div>
+<div class="ev">M'Dari baleado por Dora Flinders. <b>Destino sin confirmar.</b></div>
+<div class="ev">24 Enero: Eclipse solar. Visión compartida = Nyarlathotep ("Soy Nyarlathotep"), ámbar gigante, portal entre mundos.</div>
+</div></div>
+<div class="panel"><div class="ph orange">Ses. 5-10: Investigación</div><div class="pb" style="padding:0">
+<div class="ev">Lemming: <span class="dead">decapitado</span>. Emerson: <span class="dead">muerto</span>. Cuerpo Jackson: robado de morgue.</div>
+<div class="ev">Prof. Harvey Walters (Miskatonic, Hotel Waldorf) tiene libro inédito Jackson con <b>dedicatoria imposible</b> — incluye a Dora Flinders y Phineas McKalan aunque no estuvieron en Perú.</div>
+<div class="ev">Curly (policía aspirante a cultista) interrogado: ritual 24 enero, quería sacrificar a Phineas McKalan.</div>
+<div class="ev"><b>Visión Milunka Saric (Arkham):</b> Nyarlathotep de traje, cara totalmente negra — "Quería jugar con sus mentes. Los espero en Ju-Ju House."</div>
+</div></div>
+</div>
+</div>
+
+<!-- ══════════════════════════ ARKHAM ══════════════════════════ -->
+<div id="s-arkham" class="section">
+<div class="callout"><b>ARKHAM — 19-21 Enero, 1925.</b> Massachusetts. Herencia de Jackson (mansión de Larkin). Criatura liberada por muerte de Rupert Merryweather. Miskatonic University.</div>
+<div class="cols c2">
+<div class="panel"><div class="ph green">Aliados Arkham</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Henry Armitage</div><div class="nr">Director Biblioteca Orne · Miskatonic</div><ul class="nd"><li>Ya enfrentó amenazas del Mythos (<i>Dunwich Horror</i>) — cree al grupo de inmediato</li><li>Mostró monolito secreto bajo Miskatonic (inscripciones = pirámide Perú)</li><li>Tiene Necronomicón (no deja leerlo). Tiene el Diario de Sir Francis Drake.</li><li>Marion Allen robó libro de Miskatonic para el ritual de 1877</li><li>Herbert West trabajó con Rupert en experimentos con sustancias reanimadoras</li></ul></div><span class="st sa">ALIADO</span></div>
+<div class="npc"><div><div class="nn">Prof. Harvey Walters</div><div class="nr">Miskatonic · Hotel Waldorf Astoria NY</div><ul class="nd"><li>Enviado por Armitage a buscar al grupo tras ver "foto imposible" en el libro de Jackson</li><li>Tiene el libro inédito <i>The Hungry Dead</i> con dedicatoria inexplicable (incluye Dora Flinders y Phineas McKalan)</li><li>Edward Flinders se lo dejó ~10 enero en Miskatonic</li></ul></div><span class="st sa">ALIADO</span></div>
+<div class="npc"><div><div class="nn">Jake</div><div class="nr">Vagabundo · Refugiado sótano de la granja</div><ul class="nd"><li>Entrega: Polvo de Ibn-Ghazi, sulfato de cobre, túnicas</li><li>Participa en el ritual de destierro. Dejado en el pueblo.</li></ul></div><span class="st sa">ALIADO</span></div>
+<div class="npc"><div><div class="nn">Philippa "Pepper"</div><div class="nr">Taxista · Arkham</div><ul class="nd"><li>Baleada por error por Lionel Blackwood. Estabilizada por Hiroku Ryōshiz.</li><li>Hospital Arkham. Cuida de la madre de Phineas McKalan y de Edward Flinders.</li></ul></div><span class="st sj">RECUPERADA</span></div>
+<div class="npc"><div><div class="nn">Edward Flinders</div><div class="nr">Padre de Dora Flinders · Contacto de Jackson</div><ul class="nd"><li>Dejó libro inédito de Jackson a Walters (~10 enero)</li><li>Tareas de Jackson: contactar a Larkin y comprar la mansión</li><li>Encontrado en el ático de la granja en estado deplorable</li><li><b>✅ DESPERTÓ — ses. 15. Ahora con la madre de Phineas McKalan en Arkham.</b></li></ul></div><span class="st sa">DESPERTÓ ✅</span></div>
+</div></div>
+<div class="panel"><div class="ph red">Amenazas Arkham</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">La Criatura de la Granja</div><div class="nr">Entidad invisible · Muchos tentáculos · Múltiples bocas</div><ul class="nd"><li>Liberada por la muerte de Rupert (último miembro del ritual de 1877)</li><li>Invisible normalmente — se revela cuando come/ataca</li><li>Ataca atravesando el pecho, abre la caja torácica, extrae el corazón</li><li>Víctimas: Pa Peters (sheriff), El Padre (cura), Mary McPetter</li><li><b>✅ Desterrada mediante ritual con el Velo de Anubis</b></li></ul></div><span class="st sd">DESTERRADA ✅</span></div>
+<div class="npc"><div><div class="nn">Rupert Merryweather</div><div class="nr">Último miembro del ritual de 1877</div><ul class="nd"><li>Marion Allen lo convenció del ritual (18 marzo 1877)</li><li>Compró la granja para la ceremonia. Alguien borró el pentagrama → criatura libre del círculo.</li><li>Era el último miembro vivo → al morir, la criatura quedó libre</li><li>Nos entregó: maletín con artefacto, moneda, páginas de diario</li></ul></div><span class="st sd">MUERTO</span></div>
+<div class="npc"><div><div class="nn">Augustus Larkin (Arkham)</div><div class="nr">Sótano de la Mansión Larkin · Barrio Francés</div><ul class="nd"><li>Se encerró a sí mismo antes de completar la transformación</li><li>Asesinó a los habitantes de la casa (cráneos de 2 niños + 1 adulto)</li><li>Milunka Saric le dispara en la cabeza → se levanta transformado → Milunka Saric lo mata</li><li>Del cuello emergió criatura débil (fragmento Nyarlathotep deteriorado) — destruida. Lionel Blackwood inhaló esporas.</li></ul></div><span class="st sd">MUERTO Ses.10</span></div>
+</div></div>
+</div>
+<div class="stitle">Descubrimientos Clave — Arkham</div>
+<div class="cols c2">
+<div class="panel"><div class="ph gold">Mansión de Larkin</div><div class="pb" style="padding:0">
+<div class="ev">Habitación principal: investigación sobre la pirámide de Perú en las paredes (diarios, telegramas)</div>
+<div class="ev"><b>Diarios de Larkin:</b> Devoción a M'Weru (sacerdotisa). Negativa a minería (negocio familiar). Telegramas desde Kenia — familia se niega a enviar dinero.</div>
+<div class="ev"><b>Carta "El Lince" → "El Chacal":</b> Nombres en clave de la red de Nyarlathotep. Menciona un sello.</div>
+<div class="ev"><b>Tablilla posición pirámide Perú:</b> Larkin tenía la info ANTES de reclutar al grupo en 1921.</div>
+<div class="ev">Habitaciones de niños + sótano con pared falsa → habitación oculta con huesos + Larkin.</div>
+</div></div>
+<div class="panel"><div class="ph gold">Monolito Secreto (Miskatonic)</div><div class="pb" style="padding:0">
+<div class="ev">Estaba allí cuando se fundó la universidad. Inscripciones similares a pirámide de Perú.</div>
+<div class="ev">Dos orificios. Velo de Anubis insertado → hologramas: <b>Saqqara/Egipto</b>, <b>Pirámide Perú</b>, <b>Portugal</b></div>
+<div class="ev">Diario de Sir Francis Drake insertado en segunda ranura → ráfaga de energía al cielo.</div>
+<div class="ev">Confirmado: los Yith construyeron los monolitos como sellos protectores contra Nyarlathotep.</div>
+</div></div>
+</div>
+</div>
+
+<!-- ══════════════════════════ LONDRES ══════════════════════════ -->
+<div id="s-london" class="section">
+<div class="callout red"><b>★ LONDRES — Febrero 1925 (CAPÍTULO CERRADO — Ses. 13-20).</b> Gavigan MUERTO. Shafik MUERTA. Silas N'Kwane MUERTO. Misr House DESTRUIDA. <b style="color:#ff6666">LIONEL MUERTO (Ses. 20 — poseído por Nyarlathotep, apuñala a Phineas McKalan, noqueado por Milunka Saric, muere de heridas).</b> Grupo FUGITIVO en Inglaterra (retrato hablado de Gavigan, toque de queda). Escaparon en el barco de Silas March. <b>Nyarlathotep confirmó que huyó a EGIPTO. Tregua temporal concedida.</b></div>
+
+<div class="stitle">Nombres en Clave del Culto (Animales)</div>
+<div class="panel"><div class="ph red">Red Global — Brotherhood of the Black Pharaoh</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#5a2000;color:#ffcc88">EL ESCORPIÓN</span> Mukunga M'Dari</div><div class="nr">NYC — Ju-Ju House</div><ul class="nd"><li>Baleado en la cabeza por Dora Flinders (ses. 12). Destino sin confirmar.</li></ul></div><span class="st sd">MUERTO ✅</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#3a3a00;color:#ffee88">EL León</span> Edward Gavigan</div><div class="nr">Londres — Penhew Foundation / Misr House</div><ul class="nd"><li>Director Penhew Foundation. Poderes de control mental y Send Dream.</li><li>Espada de Lionel Blackwood + disparos de Milunka Saric. Ses. 18.</li></ul></div><span class="st sd">MUERTO Ses.18 ✅</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#3a0030;color:#ffaaee">LA LEONA</span> Zahra Shafik</div><div class="nr">Londres — Empire Spices, Soho</div><ul class="nd"><li>Alta sacerdotisa. Tiene cetro espejo (escudo mágico). Ataques psíquicos.</li><li>Capturada ses. 17. Reveló estructura del culto. Intentó traicionar a Dora Flinders.</li><li>Milunka Saric la dispara ses. 18.</li></ul></div><span class="st sd">MUERTA Ses.18 ✅</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#002a10;color:#88ffaa">EL BABUINO</span> Frank Marshall</div><div class="nr">Derby — Henson Manufacturing</div><ul class="nd"><li>Alto, musculoso, cicatriz mejilla izquierda. Dueño de fábrica que produce componentes para la ojiva de Penhew.</li><li>Capturado ses. 18. Se negó a hablar. Reveló bajo Send Dream: ojiva en China, M'Weru en Kenia, Carl Stanford.</li></ul></div><span class="st sd">MUERTO Ses.19 ✅</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#001a3a;color:#88ccff">EL HIPOPÓTAMO</span> Ho Fang</div><div class="nr">Shanghai — 15 Kaoying Street</div><ul class="nd"><li>Líder del culto en Shanghai. Recibe maquinaria y artefactos de Penhew.</li><li>Estatua de "mujer aletargada" etiquetada "Ho Fang" encontrada en sanctum de Gavigan.</li></ul></div><span class="st se">ACTIVO</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#1a1a00;color:#eeee44">EL CERDO</span> Miles Shipley</div><div class="nr">Londres — 6 Holbein Mews, Chelsea SW1W</div><ul class="nd"><li>Artista que pinta visiones del Mythos sin entrenamiento formal. Sus cuadros negros = portales dimensionales.</li><li>Su madre Bertha = Serpent Person (raza pre-humana reptiliana).</li></ul></div><span class="st sd">MUERTO Ses.19 ✅</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#3a1000;color:#ffaa44">LA HIENA</span> Omar al-Shakti</div><div class="nr">El Cairo — Líder Brotherhood</div><ul class="nd"><li>Verdadero líder de la Hermandad. Quería eliminar a Gavigan.</li><li>Carta a Gavigan reclamando estatuilla del Faraón Negro (aparente disputa interna).</li></ul></div><span class="st se">ACTIVO · EGIPTO</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#001a1a;color:#88dddd">EL HIPOPÓTAMO PÁLIDO</span> Sir Aubrey Penhew</div><div class="nr">¿Vivo? — China / Gray Dragon Island</div><ul class="nd"><li>Declarado muerto en Kenia 1920. Michael dice que iba al ritual del 14 Feb en Misr House.</li><li>Marshall reveló: Penhew está construyendo una <b>ojiva/cohete</b> en China.</li><li>Los componentes de Henson (Derby) ya fueron enviados a Shanghai.</li></ul></div><span class="st su">¿VIVO? · CHINA</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#1a001a;color:#ddaaff">LA VÍBORA</span> Desconocida</div><div class="nr">Identidad sin revelar</div><ul class="nd"><li>Nota en Misr House: interesada en capturar a <b>Jack Brady</b>. Pide que lo capturen.</li></ul></div><span class="st su">DESCONOCIDA</span></div>
+</div></div>
+
+<div class="stitle">NPCs Aliados — Londres</div>
+<div class="panel"><div class="ph green">Aliados Londres</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Mickey Mahoney</div><div class="nr">Editor · The Scoop · Tabloid semanal</div><ul class="nd"><li>Irlandés obeso, fumador de puros. Conoció a Jackson Elías en diciembre.</li><li>Jackson le prometió artículo sobre el culto en Londres. Dio acceso a los archivos.</li><li>3 artículos marcados por Jackson: (1) víctima fuera del Teatro Buckingham, (2) Miles Shipley pinta visiones, (3) bestia en Derwent Valley (Derbyshire)</li></ul></div><span class="st sa">ALIADO</span></div>
+<div class="npc"><div><div class="nn">Inspector James Barrington</div><div class="nr">Scotland Yard · Asesinatos egipcios</div><ul class="nd"><li>"Policía estrella" según Sir Reginald. Tarjeta de contacto entregada.</li><li>Los asesinatos egipcios en Londres = víctimas de <b>nacionalidad egipcia</b></li><li>Nunca le dieron evidencia formal. El culto tiene abogados.</li></ul></div><span class="st sa">CONTACTO</span></div>
+<div class="npc"><div><div class="nn">Sir Reginald Thorne</div><div class="nr">Amante de Lionel Blackwood · Refugio</div><ul class="nd"><li>Lionel Blackwood le contó todo — le creyó. Prestó su casa como refugio.</li><li>Puso su salón a disposición para el hechizo de protección.</li></ul></div><span class="st sa">ALIADO</span></div>
+<div class="npc"><div><div class="nn">Robert Maxwell</div><div class="nr">Asistente Prof. Western · Nuevo en el grupo (ses. 15)</div><ul class="nd"><li>Investigador del Museo de Historia Natural. Conoce a Shafik y Western.</li><li>Primer contacto con el Mythos en el museo → episodio de locura.</li><li>Herido en el hombro. Entregó armamento al grupo.</li><li>Investigó a Shafik por su cuenta. Prometió ayuda.</li></ul></div><span class="st sa">ACTIVO</span></div>
+<div class="npc"><div><div class="nn">Leyla</div><div class="nr">Madre de Dora Flinders · Egiptóloga · Penhew Foundation</div><ul class="nd"><li>Trabajaba con Penhew Foundation. Tenía relación con Gavigan (2+ años, fue manipulada).</li><li>Accedió entrevista con Gavigan. Conoce a Ada (sirvienta de la casa Howard Carter).</li><li>Traduce las tablillas. Resiste el control mental de Gavigan.</li><li>Fue enviada a América con Edward Flinders. Capitán Silas March la transportó.</li></ul></div><span class="st sa">EN AMERICA</span></div>
+<div class="npc"><div><div class="nn">Capitán Silas March</div><div class="nr">SS Venture · Capitán del barco</div><ul class="nd"><li>Hiroku Ryōshiz y él forjaron amistad (afinidad con el mar). Conoce rituales marinos.</li><li>Transportó al grupo de NY a Southampton. Hizo ritual de niebla para el asalto a Misr House.</li><li><b>Desapareció del hotel en la madrugada tras la batalla naval. No localizable.</b> Iba a China y Australia.</li></ul></div><span class="st su">DESAPARECIDO</span></div>
+<div class="npc"><div><div class="nn">Michael McHallan</div><div class="nr">Hermano interdimensional de Phineas McKalan · Enviado a América</div><ul class="nd"><li>Gavigan lo mantuvo en el manicomio, pagando al Dr. Elliotson para extraerle información.</li><li>Estaba al tanto de los "hermanos interdimensionales". Fue a Misr House con Silas N'Kwane.</li><li>Información: todo ya fue enviado a China. Penhew iba al ritual del 14 Feb.</li><li>Los investigadores murieron en otra línea temporal — la Gran Raza Yith los envió de vuelta para salvarlos.</li><li>Phineas McKalan le envía dinero para barco a América. Cristopher lo vigilará.</li></ul></div><span class="st sa">A AMERICA</span></div>
+</div></div>
+
+<div class="stitle">NPCs Neutrales / Muertos — Londres</div>
+<div class="panel"><div class="ph grey">Otros</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Prof. John Western</div><div class="nr">Profesor · Museo Historia Natural</div><ul class="nd"><li>Traicionaba a Gavigan vendiendo secretos a los alemanes</li><li>Mostró especimen robado (langosta-escorpión de otro planeta). Los hongos cobraron vida.</li><li><b>Disparado por alemán → transformado en necromorfo → destruido.</b></li></ul></div><span class="st sd">MUERTO</span></div>
+<div class="npc"><div><div class="nn">Ada</div><div class="nr">Sirvienta · Casa Howard Carter</div><ul class="nd"><li><b>Bala atraviesa la puerta y la cabeza.</b> Enviada por Zahra Shafik.</li></ul></div><span class="st sd">MUERTA</span></div>
+<div class="npc"><div><div class="nn">Lars Torvak</div><div class="nr">Capitán Ivory Wind</div><ul class="nd"><li>Noruego. Transporta maquinaria industrial de Penhew → Ho Fang (Shanghai). No es cultista — solo cobrado.</li></ul></div><span class="st su">NEUTRAL</span></div>
+<div class="npc"><div><div class="nn">Bertha Shipley</div><div class="nr">Madre de Miles Shipley</div><ul class="nd"><li><b>Era una Serpent Person</b> (raza pre-humana reptiliana). Transformada en combate.</li><li>Dinamita de Lionel Blackwood en el sótano.</li></ul></div><span class="st sd">MUERTA Ses.19</span></div>
+<div class="npc"><div><div class="nn">Edjo</div><div class="nr">Sirviente/vendedor · Empire Spices</div><ul class="nd"><li>Devoto de Shafik. Disparado por Milunka Saric.</li></ul></div><span class="st sd">MUERTO</span></div>
+<div class="npc"><div><div class="nn">Henry Yeoward</div><div class="nr">Compró los libros Carlyle (Erica los vendió)</div><ul class="nd"><li>Vive en Londres. <b>NUNCA VISITADO.</b> Tiene los libros Mythos de Roger Carlyle.</li></ul></div><span class="st su">SIN VISITAR</span></div>
+<div class="npc"><div><div class="nn">Carl Stanford</div><div class="nr">Logia del Crepúsculo Plateado (Silver Twilight Lodge)</div><ul class="nd"><li>Mencionado por Marshall: saboteador del plan de Gavigan.</li><li>Pertenece a una facción opuesta a Nyarlathotep.</li></ul></div><span class="st su">DESCONOCIDO</span></div>
+</div></div>
+
+<div class="stitle">Ubicaciones — Londres</div>
+<div class="cols c2">
+<div class="panel"><div class="ph blue">Ubicaciones Activas</div><div class="pb" style="padding:0">
+<div class="loc"><div class="ln">The Scoop</div><div class="ld">Pequeña oficina. Mickey Mahoney. Archivos con 3 artículos marcados por Jackson.</div></div>
+<div class="loc"><div class="ln">Penhew Foundation</div><div class="ld">3 pisos + sótano. Sarcófago en armario → ojos = mecanismo → trampilla → sanctum secreto de Gavigan. Saqueada y simulado robo.</div></div>
+<div class="loc"><div class="ln">Empire Spices (Wardour St, Soho)</div><div class="ld">Tienda fachada de Shafik. Asaltada ses. 17. Cetros, medallón, tablilla Leonera recuperados.</div></div>
+<div class="loc"><div class="ln">Blue Pyramid Club</div><div class="ld">Donde Gavigan y Shafik se reunían. <b>Sin visitar.</b></div></div>
+<div class="loc"><div class="ln">Muelle Limehouse / Ivory Wind</div><div class="ld">Hiroku Ryōshiz descubrió: Penhew no transporta antigüedades — transporta motores industriales a "Ho Fang". Una caja tenía estatua de faraón (táctil: sensación de tentáculos).</div></div>
+<div class="loc"><div class="ln">Casa Sir Reginald Thorne</div><div class="ld">Refugio ses. 16-20. Amante de Lionel Blackwood. Hechizo de protección activado aquí. <b>Ses. 20: Nyarlathotep poseyó a Reginald y a Lionel Blackwood. Lionel Blackwood apuñaló a Phineas McKalan. Reginald sobrevivió pero es peligroso. Grupo escapó desde su muelle privado.</b></div></div>
+</div></div>
+<div class="panel"><div class="ph red">Destruidas / Comprometidas</div><div class="pb" style="padding:0">
+<div class="loc"><div class="ln">Misr House (Essex, costa)</div><div class="ld">Casa colonial ~1840 con obeliscos. Sede de rituales. Monolito en forma de obelisco en la cueva subterránea. Celdas con rehenes torturados. <b>DESTRUIDA (grietas dimensionales, ses. 18).</b></div></div>
+<div class="loc"><div class="ln">Casa Howard Carter</div><div class="ld">Dora Flinders y Leyla usaban como base. <b>Comprometida</b> — Ada muerta, Gavigan la visitaba.</div></div>
+<div class="loc"><div class="ln">Casa de Miles Shipley (Chelsea)</div><div class="ld">6 Holbein Mews SW1W. Barrio pobre, casa de 3 pisos. Olor a jaulas de reptiles. Sótano con nidos y túneles. <b>INCENDIADA ses. 19.</b></div></div>
+<div class="loc"><div class="ln">Museo Historia Natural</div><div class="ld">Prof. Western trabajaba aquí. Especimen extraterrestre (langosta-escorpión) causó transformación. Necromorfo destruido. Reportado como pelea de pandillas.</div></div>
+</div></div>
+</div>
+
+<div class="stitle">Revelaciones Clave — Londres</div>
+<div class="cols c2">
+<div class="panel"><div class="ph purple">Red de Comunicación Global</div><div class="pb" style="padding:0">
+<div class="ev"><b>Telegrama en Penhew Foundation:</b> "El escritor ha muerto, objetivo NY cumplido. Informa al Chacal, mi León." — Firmado: El Escorpión</div>
+<div class="ev">Confirma: Escorpión (M'Dari, NY) → León (Gavigan, Londres) → Chacal (Egipto)</div>
+<div class="ev"><b>Conexiones de envío:</b> Henson Manufacturing (Derby) fabrica componentes → Puneet Chaudhary (Limehouse) → Ivory Wind (Torvak) → Ho Fang (Shanghai)</div>
+<div class="ev"><b>Randolph Shipping</b> (Port Darwin, Australia) aparece en facturas de Penhew</div>
+</div></div>
+<div class="panel"><div class="ph purple">Sanctum de Gavigan — Contenidos</div><div class="pb" style="padding:0">
+<div class="ev"><b>10 pergaminos de cánticos</b> — Formas de Nyarlathotep: Murciélago de Arena, Lengua Sangrienta, Hombre Oscuro, Mujer Aletargada, Señor del Bosque</div>
+<div class="ev"><b>4 pergaminos de invocación</b> — "Demonio del Viento", "Diablo del Cielo Tifón" (Old English, árabe, latín, francés)</div>
+<div class="ev"><b>Tablilla del León</b> — Instrucciones para invocar Apophis usando el Velo de Anubis</div>
+<div class="ev"><b>Frasco verde-azul</b> — Suero de reanimación (similar al de Ju-Ju House / Herbert West)</div>
+<div class="ev"><b>Figura alienígena (caja Australia)</b> — Extremidades tipo pulpo</div>
+<div class="ev"><b>Estatua Mujer Aletargada</b> — Etiqueta: "Ho Fang, 15 Kaoying Street, Shanghai"</div>
+<div class="ev"><b>Cuadros de Miles Shipley</b> — Cuadros completamente negros = portales dimensionales trampa (uno destruido por Lionel Blackwood)</div>
+</div></div>
+</div>
+<div class="panel"><div class="ph gold">Safe de Gavigan + Sesión 15</div><div class="pb" style="padding:0">
+<div class="ev"><b>Telegrama de Henry Clive (6 Nov 1924):</b> "Todo como planeado. Todo va bien en Misr House." Sobre excavación en Giza (probablemente Micerino).</div>
+<div class="ev"><b>Fotografía:</b> Casa colonial ~1840, obeliscos ornamentales. Reverso: "Misr House".</div>
+<div class="ev"><b>Pasaportes falsos</b> (mujer = ¿Zahra Shafik?), 2000 libras, revólver, documentos inmobiliarios.</div>
+<div class="ev"><b>Saqqara report (Penhew library):</b> Informe Howard Carter sobre incidente en Saqqara. Menciona al "Faraón Negro".</div>
+<div class="ev"><b>Noticias Cristopher (ses. 15):</b> Hilton Adams <b class="ok">LIBRE ✅</b>. Edward Flinders <b class="ok">DESPERTÓ ✅</b>. Erica Carlyle vendió libros Carlyle → Henry Yeoward (Londres).</div>
+</div></div>
+
+<div class="stitle">Revelaciones Sesión 19 (Última sesión jugada)</div>
+<div class="callout red">
+<b>Marshall bajo Send Dream reveló:</b><br>
+— En China hay una <b>ojiva/cohete</b> que Sir Aubrey Penhew está construyendo.<br>
+— Dora Flinders es <b>"la elegida"</b> — debe ir a Kenia, a la Montaña del Viento Negro. Ritual pendiente.<br>
+— <b>Carl Stanford</b> (Logia del Crepúsculo Plateado) es un saboteador del plan de Gavigan.<br>
+— <b>Buscar a M'Weru y Taan Kaurd en Kenia.</b><br><br>
+<b>Sueño profético de Dora Flinders:</b> Gran Pirámide de Giza. Padres como momias. Papiro: "Edward = Nefren-Ka, Leyla = Nitocris". Mujer embarazada con tentáculos. Anubis señala pirámide con esquinas iluminadas.<br><br>
+<b>Michael reveló:</b> Misión de Londres completada. Todo enviado a China. Penhew iba al ritual del 14 Feb en Misr House.
+</div>
+<div class="callout"><b>⚠️ Aún sin resolver:</b> Expediente de Carlyle (<i>sueños de Roger</i>) — <b>AÚN SIN LEER</b> después de 15 sesiones. Henry Yeoward (libros Carlyle, Londres) — sin visitar. Capitán Silas March — reaparece ses. 20, barco dañado.</div>
+
+<div class="stitle">Sesión 20 — Fin de Inglaterra (12 Feb 1925)</div>
+<div class="callout red"><b style="color:#ff6666">⚰ LIONEL HA MUERTO.</b> Nyarlathotep lo poseyó a través de Sir Reginald. Atacó a Phineas McKalan con su espada (lo apuñala en el pecho). Milunka Saric lo noquea con culata. Muere de sus heridas. <b>Funeral vikingo en el mar abierto.</b> Su tabla ardiendo se alejó hacia el atardecer.</div>
+<div class="cols c2">
+<div class="panel"><div class="ph red">Ses. 20 — Eventos</div><div class="pb" style="padding:0">
+<div class="ev"><b>Retrato hablado:</b> Gavigan (antes de morir) dejó preparado un retrato hablado de los investigadores como <b>terroristas</b>. Toque de queda + cierre de muelles y fronteras.</div>
+<div class="ev"><b>Sonidos reptilianos en la cabeza de Phineas McKalan:</b> Al escapar de la casa de Shipley. Probable efecto residual del polvo de Bertha (Serpent Person). ¿Intento de rastreo?</div>
+<div class="ev"><b>Posesión doble:</b> Nyarlathotep poseyó a Sir Reginald ("Son mis amigos. Sabes lo que tienes que hacer.") → Lionel Blackwood ataca a Phineas McKalan. Luego poseyó a Hiroku Ryōshiz → ataca a Milunka Saric. Milunka Saric los noquea a ambos.</div>
+<div class="ev"><b>Dora Flinders:</b> Activó hechizo de protección + cetros → los necromorfos no podían entrar. Nyarlathotep se sorprendió y dijo "Esto se acaba."</div>
+<div class="ev"><b>Negociación Phineas McKalan:</b> Invocó a Nyarlathotep para hablar. Visión: iglesia, madre con ojos de obsidiana, Michael sangrando, Cristo = Nyarlathotep. Phineas McKalan se dibuja una cruz en la frente con sangre. Fe en crisis. Resultado: "Nos vemos en el siguiente round." → <b>Necromorfos caen muertos. Tregua temporal.</b></div>
+<div class="ev"><b>Revelación clave:</b> Nyarlathotep admitió que Dora Flinders "lo dejó sin poder y tuvo que huir a <b>Egipto</b>." Confirma que el Velo de Anubis y los cetros son armas efectivas.</div>
+<div class="ev"><b>Escape:</b> Muelle privado de Reginald → barco → bahía → SS Silas March (barco dañado pero funcional). Barcos policiales convencidos por Reginald. Mar abierto: <b>funeral vikingo de Lionel Blackwood.</b></div>
+</div></div>
+<div class="panel"><div class="ph blue">Estado Actual del Grupo (Post-Ses. 20)</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Phineas McKalan</div><div class="nr">Fotógrafo</div><ul class="nd"><li>Apuñalado en el pecho por Lionel Blackwood poseído. Recuperado por Michael.</li><li>Crisis de fe — Nyarlathotep le apareció como Cristo.</li><li>Lleva videocámara de Reginald.</li></ul></div><span class="st sj">HERIDO</span></div>
+<div class="npc"><div><div class="nn" style="text-decoration:line-through">Lionel Blackwood</div><div class="nr">Actor · Veterano Perú</div><ul class="nd"><li>Poseído por Nyarlathotep. Atacó y apuñaló a Phineas McKalan.</li><li>Noqueado por Milunka Saric. Murió de heridas (abdomen ses. 18 + posesión).</li><li>Funeral vikingo en el mar abierto, 12 feb 1925.</li></ul></div><span class="st sd">MUERTO ⚰</span></div>
+<div class="npc"><div><div class="nn">Milunka Saric</div><div class="nr">Veterana Perú · Espía</div><ul class="nd"><li>Funcional. La más letal del grupo. Noqueó a dos poseídos en segundos.</li></ul></div><span class="st sa">ACTIVA</span></div>
+<div class="npc"><div><div class="nn">Hiroku Ryōshiz</div><div class="nr">Médico · Veterano Perú</div><ul class="nd"><li>Herido (piernas cortadas por Silas N'Kwane ses. 18). Poseído brevemente ses. 20 → noqueado por Milunka Saric.</li></ul></div><span class="st sj">HERIDO</span></div>
+<div class="npc"><div><div class="nn">Dora Flinders</div><div class="nr">Experta artefactos · Hija Flinders</div><ul class="nd"><li>Funcional. Clave defensiva del grupo (artefactos + hechizos). Velo de Anubis.</li></ul></div><span class="st sa">ACTIVA</span></div>
+<div class="npc"><div><div class="nn">Michael McHallan</div><div class="nr">Hermano dimensional de Phineas McKalan · Acompañante temporal</div><ul class="nd"><li>Asustado. Intentó curar a Phineas McKalan. Será enviado a América.</li></ul></div><span class="st su">ACOMPAÑANTE</span></div>
+<div class="npc"><div><div class="nn">Capitán Silas March</div><div class="nr">SS Venture · Barco dañado</div><ul class="nd"><li>Reaparece. Estaba en la bahía. Barco dañado de la batalla naval — necesita reparación antes de viaje largo.</li><li>El grupo está a bordo. Rumbo: reparación, luego EGIPTO.</li></ul></div><span class="st sa">CON EL GRUPO</span></div>
+</div></div>
+</div>
+<div class="callout red"><b>Situación post-ses.20:</b> Fugitivos en Inglaterra. A bordo del barco de Silas March (dañado). Tregua temporal. Destino: EGIPTO.</div>
+
+<div class="stitle">Papeles Carlyle — América (Handouts en mano)</div>
+<div class="cols c2">
+<div class="panel"><div class="ph gold">CP América #10 — Nota Final de Elías</div><div class="pb">
+<div class="callout" style="margin:0"><i>"Greetings from beyond the grave! By now you know that all I've really left you is a whole heap of trouble... Carlton and Jonah can fill in more of the details for you — I've left some of my papers and notes with them, which should help you work out which hornets' nests you need to poke next. I trust you to bring my killers to justice."</i></div>
+<div class="ev" style="margin-top:6px"><b>De:</b> Jackson Elías (testamento) · <b>Para:</b> el grupo · Entregada por Carlton Ramsey y Jonah Kensington.</div>
+</div></div>
+<div class="panel"><div class="ph gold">CP América #12 — Notas de Nairobi de Jackson Elías</div><div class="pb" style="padding:0">
+<div class="ev"><b>Set 1:</b> Elías visita autoridades y tribus en Kenia. Encuentra a Roger Corydon (Subsecretario Colonial) — nada concluyente. Descarta la historia oficial de la masacre.</div>
+<div class="ev"><b>Set 2:</b> Visita al lugar de la masacre. La tierra está completamente yerma. Todas las tribus evitan la zona — <i>"maldita por el Dios del Viento Negro, cuyo hogar es la cima de la montaña cercana."</i></div>
+<div class="ev"><b>Set 3:</b> Entrevista con Johnstone Kenyatta — los asesinatos de Carlyle los llevó a cabo el <b>Culto de la Lengua Sangrienta</b>, basado en las montañas. La gran sacerdotisa <i>"es parte de la Montaña del Viento Negro."</i> Las tribus temen y odian al culto. <i>"La magia tribal no ofrece protección contra el culto, y el dios del culto no es de África."</i></div>
+<div class="ev"><b>Set 4:</b> Múltiples fuentes confirman la existencia del culto. Niños robados para sacrificio. Criaturas con grandes alas descienden de la Montaña y se llevan personas. Contactos listados: <b>Sam Mariga</b> (estación ferroviaria), <b>Neville Jermyn</b>, <b>Dr. Starret</b>, <b>Lt. Selkirk</b>, <b>Col. Endicott.</b></div>
+<div class="ev"><b>Set 5:</b> La parte cairota del itinerario de Carlyle debe examinarse — <i>"la razón que motivó el desvío keniano de Carlyle está en el Nilo."</i></div>
+<div class="ev"><b>Set 6:</b> Entrevista con Lt. Selkirk — cuerpos notablemente preservados para el tiempo que llevaban al aire libre. Víctimas despedazadas por animales. <b style="color:#ff9900">"NO SE ENCONTRARON CAUCÁSICOS entre los muertos — solo los cadáveres de los porteadores kenianos estaban dispersos en la llanura yerma, a pesar de lo declarado en el sumario."</b></div>
+<div class="ev"><b>Set 7:</b> <b>"Nails" Nelson</b> en el Victoria Bar de Nairobi — Nelson vio a <b>JACK BRADY VIVO en Hong Kong</b>, menos de dos años antes de que Elías estuviera en Kenia (mucho después de que Brady fuera declarado muerto). Brady estaba <i>"amistoso, aunque reservado y taciturno."</i></div>
+</div></div>
+</div>
+
+<div class="stitle">Papeles Carlyle — Inglaterra (Handouts en mano)</div>
+<div class="cols c2">
+<div class="panel"><div class="ph gold">CP Inglaterra #12 — Entradas del Libro Mayor (Penhew Foundation)</div><div class="pb" style="padding:0">
+<div class="ev"><span class="cid">23 May 1924</span> — Materiales fabricados y piezas (prototipos) → <b>"Víbora Pálida"</b> c/o Ho Fang Import/Export, Shanghái.</div>
+<div class="ev"><span class="cid">24 Jun 1924</span> — Esquemas técnicos y planos de <b>"Víbora Pálida"</b> → Henson Manufacturing, Derby.</div>
+<div class="ev"><span class="cid">15 Jul 1924</span> — Piezas de máquina antigua de Huston, Australia → Henson Manufacturing, Derby.</div>
+<div class="ev"><span class="cid">9 Ago 1924</span> — Estatuilla de 60 cm del Padre de las Serpientes, oro macizo → Huston c/o Randolph Shipping, Darwin, Australia.</div>
+<div class="ev"><span class="cid">13 Nov 1924</span> — <b>"Diario Rojo de Anselm de Montfort"</b> → Omar al-Shakti, El Cairo, Egipto.</div>
+<div class="ev"><span class="cid">4 Dic 1924</span> — Cartas astronómicas + gran estatua (1,8 m) de la Lengua Sangrienta → Ahja Singh, Puerto de Kilindini, Mombasa, Kenia.</div>
+<div class="ev" style="margin-top:4px;border-top:1px solid #333;padding-top:4px"><b>Nota:</b> Confirma que <b>"Víbora Pálida" = Sir Aubrey Penhew</b> (envia y recibe bajo ese alias). La red de distribución de componentes para la ojiva pasa por Henson Manufacturing (Derby) y Randolph Shipping (Darwin).</div>
+</div></div>
+<div class="panel"><div class="ph gold">CP Inglaterra #13 — Carta Inacabada (encontrada en Misr House)</div><div class="pb">
+<div class="callout" style="margin:0"><i>"Para la atención de Víbora Pálida. Elías ha sido eliminado por nuestros amigos en Nueva York. Ahora debemos ocuparnos de nuestro otro problema, concretamente Jack Brady. Entiendo que puede estar en Shanghái y le pido que dirija sus recursos a encontrarlo. Es estupefaciente que este hombre problemático nos haya eludido tanto tiempo. Podría convertirse en un obstáculo para nuestro Gran Plan. Si lo desea, yo [sin terminar]"</i></div>
+<div class="ev" style="margin-top:6px"><b>Escrita por:</b> <span style="color:#ffaa44">Edward Gavigan (El León)</span> → <span style="color:#ddaaff">Sir Aubrey Penhew (La Víbora Pálida)</span> · Confirma: Gavigan ordenó la muerte de Jackson Elías; Brady es buscado por el culto como amenaza al Gran Plan.</div>
+</div></div>
+</div>
+
+<div class="stitle">Sesión 21 — Tren Dimensional / Recuperación en Normandía (12 Feb – 5 Mar 1925)</div>
+<div class="callout green"><b>LIONEL RESUCITADO ✅</b> — El Yith lo revivió a cambio de los artefactos. Recuerdos intactos. Sale corriendo del camarote del capitán abrazando a todos. | <b>Fernando de la Vega</b> — académico español, compañero temporal mientras Lionel Blackwood estaba muerto. Al revivir Lionel Blackwood, el jugador volvió a su personaje original. <b>Fernando: paradero desconocido.</b> | <b>ARTEFACTOS ENTREGADOS AL YITH:</b> Velo de Anubis, Medallón de Shafik, Daga de Fernando.</div>
+<div class="cols c2">
+<div class="panel"><div class="ph purple">El Tren Dimensional — El Yith</div><div class="pb" style="padding:0">
+<div class="ev">Todos parpadean → están en un tren. Sus recuerdos de infancia se proyectan en las ventanas. Un anciano tiquetero pregunta por boletos: quedarse en los recuerdos o seguir adelante. <b>Todos eligen seguir.</b></div>
+<div class="ev"><b>El Yith ("Murloc"):</b> Uno de la Gran Raza de Yith. Preso por Nyarlathotep para transportar conocimiento a humanos. Encerrado en el <b>continente australiano.</b> Michael interdimensional lo trajo.</div>
+<div class="ev"><b>Revelación clave — Nyarlathotep NO está en la Tierra.</b> Se comunica a través de una <b>brecha en Egipto.</b> No tiene presencia física en este planeta.</div>
+<div class="ev"><b>Historia Yith:</b> Estaban en otro planeta. Nyarlathotep llegó queriendo implementar a Azathoth. Yith escaparon viajando entre dimensiones. Construyeron monolitos como protección para la Tierra. Nyarlathotep los encontró → abrió brecha en Egipto → se formó un culto → Yith huyeron.</div>
+<div class="ev"><b>La daga de Fernando:</b> Es una <b>llave</b>. "La llave liberará a Nyarlathotep" (lo que el culto cree) — pero el Yith quiere usarla para <b>sellar</b>.</div>
+<div class="ev"><b>Propuesta:</b> Activar portales/monolitos en tiempos específicos del pasado. A cambio: resucitar a Lionel Blackwood + espacio en el futuro. <b>Coste: entregar todos los artefactos dimensionales.</b></div>
+<div class="ev"><b>Advertencia final:</b> <i>"Siempre los perseguirán los <b>Perros de Tindalos</b>."</i> (Por haber viajado en el tiempo.)</div>
+</div></div>
+<div class="panel"><div class="ph orange">Activación de Monolitos en el Pasado</div><div class="pb" style="padding:0">
+<div class="ev"><b>Parada 1 — Pangea (350 millones de años):</b> Dora Flinders + Fernando. Selva antigua. Difícil respirar. Ponen artefactos en el monolito → luz se dispara. ✅</div>
+<div class="ev"><b>Parada 2 — Cuba, Pueblo Masacres:</b> Milunka Saric. Muchos muertos. Caseta con monolito. Activa. ✅</div>
+<div class="ev"><b>Parada 3 — Massachusetts, Salem:</b> Phineas McKalan + Fernando. Piras de brujería. Monolito en el centro. Activan. ✅</div>
+<div class="ev"><b>Parada 4 — Egipto, Pirámide Acodada (recién construida):</b> Dora Flinders. Escala a la punta — la punta ES el monolito. Inserta artefactos. Gira y se esconde. ✅</div>
+<div class="ev" style="margin-top:6px"><b>Extras del trato:</b> Milunka Saric saca a Lionel Blackwood de una visión → Hiroku Ryōshiz lo resucita. ✅ | Dora Flinders pide salvar a Ada → el Yith abre puerta al momento del asesinato → Dora Flinders corre, quita a Ada de la puerta, le susurra que corra. ✅ (Ada posiblemente viva ahora) | Fernando ve a sus padres antes de morir en el accidente.</div>
+</div></div>
+</div>
+
+<div class="cols c2">
+<div class="panel"><div class="ph blue">Recuperación — Normandía, Francia</div><div class="pb" style="padding:0">
+<div class="ev">Barco atraca en Normandía para reparación. Fuera de jurisdicción inglesa — no los espera la policía.</div>
+<div class="ev">Phineas McKalan, Lionel Blackwood e Hiroku Ryōshiz ingresan al hospital ("accidentes de granja").</div>
+<div class="ev">Dora Flinders escribe carta a Ada (¿está viva?)</div>
+<div class="ev"><b>Altas:</b> Phineas McKalan → 5 días (19 Feb) | Lionel Blackwood → 10 días (24 Feb) | Hiroku Ryōshiz → 15 días (1 Mar)</div>
+<div class="ev"><b>Barco listo:</b> Silas informa → 05/03/1925. Decisión: <b>partir a Egipto.</b></div>
+<div class="ev"><b>Ruta:</b> Mediterráneo → Canal de Suez → El Cairo. ~2 semanas → mediados de marzo 1925.</div>
+</div></div>
+<div class="panel"><div class="ph blue">Estado Actual del Grupo (Post-Ses. 21)</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Lionel Blackwood ✅ RESUCITADO</div><div class="nr">Actor · Veterano Perú · Regresa</div><ul class="nd"><li>Muerto ses. 20. Resucitado por el Yith ses. 21.</li><li>Recuerdos intactos de todo lo sucedido.</li><li>10 días de hospital en Normandía. Alta 24 Feb.</li></ul></div><span class="st sa">VIVO ✅</span></div>
+<div class="npc"><div><div class="nn">Fernando de la Vega</div><div class="nr">Académico español · ~30 años · Compañero temporal</div><ul class="nd"><li>Encontrado en el tren dimensional del Yith. Se unió al grupo mientras Lionel Blackwood estaba muerto.</li><li>Tocó una máscara del Perú → Nyarlathotep lo persigue desde entonces.</li><li>Padres muertos en accidente causado por sectarios.</li><li>Tenía una daga ritual egipcia — entregada al Yith como "la llave."</li><li>Al ser resucitado Lionel Blackwood por el Yith, el jugador volvió a su personaje original. <b>Fernando quedó atrás — paradero desconocido.</b> Probablemente en algún punto de la ruta (¿Normandía? ¿Mar?).</li></ul></div><span class="st su">PARADERO DESCONOCIDO</span></div>
+<div class="npc"><div><div class="nn">Milunka Saric</div><div class="nr">Veterana · Espía · Cuestiona su lugar</div><ul class="nd"><li>Afectada por Lionel Blackwood. Quería retirarse — se considera peligrosa para el grupo.</li><li>Teme repercusiones de las organizaciones (nazis/socialistas).</li></ul></div><span class="st sa">ACTIVA</span></div>
+<div class="npc"><div><div class="nn">Phineas McKalan</div><div class="nr">Fotógrafo · Crisis de fe</div><ul class="nd"><li>Herido (pecho, ses. 20). Alta hospital 19 Feb.</li><li>Continúa en honor a Lionel Blackwood.</li></ul></div><span class="st sa">ACTIVO</span></div>
+<div class="npc"><div><div class="nn">Hiroku Ryōshiz</div><div class="nr">Médico · No puede dormir</div><ul class="nd"><li>Piernas heridas (Silas N'Kwane, ses. 18). Alta 1 Mar.</li><li>Imagen de Lionel Blackwood muerto lo persigue. No puede dormir.</li></ul></div><span class="st sj">RECUPERADO</span></div>
+<div class="npc"><div><div class="nn">Dora Flinders</div><div class="nr">Experta artefactos · Sin Velo de Anubis</div><ul class="nd"><li>Funcional. Salvó a Ada en el pasado (viaje temporal).</li><li>Duda de su papel en el plan de Nyarlathotep.</li><li><b>Ya no tiene el Velo de Anubis ni el medallón.</b></li></ul></div><span class="st sa">ACTIVA</span></div>
+</div></div>
+</div>
+<div class="callout red"><b>⚠️ AMENAZA NUEVA — Perros de Tindalos:</b> El Yith advirtió que los perseguirán por haber viajado en el tiempo. Emergen de ángulos y esquinas angulares del espacio-tiempo. Amenaza permanente. | <b>⚠️ Sin artefactos defensivos:</b> El Velo de Anubis y las anclas dimensionales fueron entregadas al Yith. El grupo ya NO tiene protección contra Send Dream ni posesión. Solo les quedan los cetros (escudo físico) y el aparato de Tesla.</div>
+<div class="callout green"><b>Partida hacia Egipto: 05/03/1925.</b> Normandía → Mediterráneo → Canal de Suez → El Cairo. Llegada estimada: mediados de marzo 1925.</div>
+</div>
+
+<!-- ══════════════════════════ EGIPTO ══════════════════════════ -->
+<div id="s-egypt" class="section">
+<div class="callout red"><b>★ EGIPTO — CAPÍTULO ACTIVO (Ses. 22 — 7 Marzo 1925).</b> Grupo llegado a El Cairo. <b style="color:#ff6666">DORA DESAPARECIDA</b> tras emboscada en la estación. Milunka Saric herida grave. Hiroku Ryōshiz inconsciente (luego tratado). Grupo integrado a la Expedición Clive. Base: Hotel Shepheard's. Nyarlathotep se siente más fuerte aquí — la brecha está cerca.</div>
+
+<div class="stitle">Sesión 22 — Llegada a El Cairo (7 Marzo 1925)</div>
+<div class="cols c2">
+<div class="panel"><div class="ph red">Emboscada en la Estación</div><div class="pb" style="padding:0">
+<div class="ev">En el tren hacia El Cairo: <b>escalofrío en la nuca</b>. Sensación como con el hombre del fedora. Influencia de Nyarlathotep más poderosa a medida que se acercan.</div>
+<div class="ev">En la estación: músicos, show de danza del vientre → granos de arena empiezan a golpear al grupo → <b>flujo de arena mágico.</b></div>
+<div class="ev">Lionel Blackwood esquiva. Los demás quedan <b>atrapados en el flujo.</b> Milunka Saric se guía por el sonido de un tambor → lanza tiro → recibe <b>espadazo (herida grave).</b></div>
+<div class="ev">Phineas McKalan la encuentra y dispara 3 veces. Logra ver: las <b>belly dancers tienen armas y máscaras</b> (Brotherhood of the Black Pharaoh).</div>
+<div class="ev"><b>Hiroku Ryōshiz descubre que el SONIDO protege de la arena.</b> → Lo noquean. Phineas McKalan herido.</div>
+<div class="ev"><b style="color:#ff6666">DORA DESAPARECIDA.</b> Raptada en la emboscada junto con las tablillas egipcias que llevaba. La Cobra (posiblemente M'Weru) la tenía como objetivo específico desde el principio.</div>
+<div class="ev">3 gatos variopintos cruzaron miradas con Hiroku Ryōshiz en la estación. ¿Vigilancia de al-Shakti? ¿Conexión con Bastet?</div>
+</div></div>
+<div class="panel"><div class="ph orange">Expedición Clive — Alianza Forzada</div><div class="pb" style="padding:0">
+<div class="ev">Robert Maxwell fue contratado por la expedición desde Londres (con Harrison). Acepta por huir de las acusaciones por la muerte del Prof. Western.</div>
+<div class="ev">En la estación: mujer cetrina con cartel espera a Robert Maxwell → <b>Johanna Specht.</b> <b>Milunka Saric la reconoce — entrenaron juntas.</b></div>
+<div class="ev"><b>Agatha Broadmoor</b> también presente. <b>Phineas McKalan la reconoce.</b></div>
+<div class="ev">Acuerdo: los investigadores se unen a la expedición. Base: <b>Hotel Shepheard's.</b></div>
+<div class="ev">Johanna a Robert Maxwell: lo contrataron porque estuvo en contacto con una tablilla y un artefacto. Buscan un <b>sarcófago que contiene un ámbar</b> bajo las pirámides de Giza.</div>
+<div class="ev"><b>Robert Maxwell descifra el lugar correcto</b> para la excavación — la expedición ya excava en varios lugares, uno es el correcto.</div>
+<div class="ev">Llaman a Silas March: le comunican que Dora Flinders está perdida. Silas esperará 2-3 días gratis.</div>
+</div></div>
+</div>
+
+<div class="stitle">NPCs — Egipto (Ses. 22)</div>
+<div class="panel"><div class="ph gold">Expedición Clive</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Dr. Henry Clive</div><div class="nr">Líder de la Expedición · Arqueólogo · Penhew-patrocinado</div><ul class="nd"><li>Telegrama de Gavigan: "Todo como planeado en Misr House" (nov. 1924)</li><li><b>ENEMIGO — cultista de la Brotherhood</b> según campaña. Trabaja para al-Shakti.</li><li>Tiene poderes mágicos. Excava pirámide de Micerinos (Menkaura) en Giza.</li><li>No presente en la estación. Aún no encontrado.</li></ul></div><span class="st se">ENEMIGO OCULTO</span></div>
+<div class="npc"><div><div class="nn">Johanna Specht</div><div class="nr">Miembro Expedición Clive</div><ul class="nd"><li>Mujer cetrina. Tenía cartel esperando a Robert Maxwell en la estación.</li><li><b>Milunka Saric la reconoce — entrenaron juntas.</b> Posible conexión con organizaciones de espionaje/militares.</li><li>Contrató a Robert Maxwell deliberadamente (por su contacto con tablilla y artefacto).</li></ul></div><span class="st su">AMBIGUA</span></div>
+<div class="npc"><div><div class="nn">Agatha Broadmoor</div><div class="nr">Miembro Expedición Clive · 67 años · Psíquica · Europea asoleada</div><ul class="nd"><li>Phineas McKalan la reconoce de algún contexto previo.</li><li><b>Aliada potencial / aliada secreta</b> según campaña — quiere impedir la resurrección de Nitocris desde dentro de la expedición.</li><li>Psíquica (poderes de percepción extrasensorial).</li></ul></div><span class="st sa">ALIADA POTENCIAL</span></div>
+<div class="npc"><div><div class="nn">Martin Winfield / James Gardner</div><div class="nr">Otros miembros Expedición Clive</div><ul class="nd"><li>Mencionados en el módulo como parte de la expedición. Aún sin encontrar.</li></ul></div><span class="st su">SIN ENCONTRAR</span></div>
+<div class="npc"><div><div class="nn">Robert Maxwell</div><div class="nr">Arqueólogo · Aliado · Ahora con la Expedición Clive</div><ul class="nd"><li>Reencuentro en la estación. Lo contrataron por su contacto con tablilla/artefacto.</li><li>Proclama lealtad a sí mismo (ni al culto ni a la expedición).</li><li>Descifra el lugar correcto para la excavación.</li></ul></div><span class="st sa">ALIADO</span></div>
+</div></div>
+
+<div class="stitle">Ubicaciones — El Cairo</div>
+<div class="panel"><div class="ph blue">Lugares Conocidos</div><div class="pb" style="padding:0">
+<div class="loc"><div class="ln">Hotel Shepheard's</div><div class="ld">Hotel más famoso de El Cairo en los años 1920. Distrito europeo. Donde se hospedan extranjeros adinerados y expediciones. <b>Base actual del grupo + Expedición Clive.</b></div></div>
+<div class="loc"><div class="ln">Estación de El Cairo</div><div class="ld">Sitio de la emboscada. Belly dancers con armas y máscaras. Arena mágica. Dora Flinders desaparecida aquí. El sonido protege del flujo de arena.</div></div>
+<div class="loc"><div class="ln">Pirámidas de Giza (Micerinos/Menkaura)</div><div class="ld">Expedición Clive excava aquí buscando sarcófago con ámbar. Robert Maxwell descifró cuál de los lugares es el correcto. Dr. Clive es cultista que trabaja para al-Shakti.</div></div>
+<div class="loc"><div class="ln">Pirámide Acodada de Dashur</div><div class="ld">Visión de Anubis: "Allí encontrarás respuestas." El Yith activó el monolito en la punta (viaje temporal, ses. 21). Clave del mapa de protección global.</div></div>
+<div class="loc"><div class="ln">Barco Silas March</div><div class="ld">Amarrado en El Cairo. Esperará 2-3 días gratis. Dejó info de su hotel. Barco reparado.</div></div>
+</div></div>
+
+<div class="callout red"><b>⚠️ CONEXIONES CRÍTICAS (Ses. 22):</b><br>
+— <b>Sarcófago con ámbar bajo Giza</b> = conecta con los ámbares de toda la campaña. Probable uso en resurrección de Nitocris.<br>
+— <b>Dora Flinders = Nitocris</b> (sueño ses. 19: Leyla = Nitocris). ¿El culto la capturó para el ritual?<br>
+— <b>Dr. Clive es cultista</b> — fachada enemiga dentro de la expedición.<br>
+— <b>Johanna conoce a Milunka Saric</b> — conexión con organizaciones de espionaje.<br>
+— <b>El sonido protege de la arena mágica</b> — dato táctico valioso.
+</div>
+
+<div class="stitle">Sesión 23 — El Trono del Faraón Negro (8–9 Marzo 1925)</div>
+<div class="callout red"><b>EMERGENCIA CRÍTICA:</b> <b style="color:#ff6666">Robert Maxwell CAPTURADO/INCONSCIENTE</b> en la cámara del trono bajo la Pirámide Acodada. <b style="color:#ff4444">NEPHREN-KA (el Faraón Negro) HA EMERGIDO</b> de la piscina de brea. Nyarlathotep intenta manifestarse físicamente. <b>Johanna POSEÍDA</b> por Nyarlathotep y encerró a Robert Maxwell dentro. Perro de Tindalos primer avistamiento real.</div>
+
+<div class="cols c2">
+<div class="panel"><div class="ph red">Robert Maxwell — Pirámide Acodada de Dashur</div><div class="pb" style="padding:0">
+<div class="ev">Robert Maxwell se infiltra con Johanna + 3 excavadores + Martin. Escala la pirámide — en la punta no hay nada (artefactos ya tomados).</div>
+<div class="ev">Dentro: descifran jeroglíficos. Inscripción: <b>"El trono del Faraón Negro está bajo esta pirámide."</b> Robert Maxwell encuentra botón → Johanna lo presiona → se abre un espacio secreto. Robert Maxwell entra. Johanna cierra la puerta detrás.</div>
+<div class="ev"><b>La cámara del trono:</b> Todo de obsidiana. Salón con columnas. Trono al frente. Pisadas rodean el trono (alguien estuvo antes). <b>Mapamundi garabateado con muchos puntos</b> — <b>tres puntos rojos forman un triángulo</b> (similar al que Dora Flinders veía en visiones). Piscina de brea detrás del trono. Columnas con bolas de cristal que se iluminan con linterna.</div>
+<div class="ev">Robert Maxwell sale. Johanna herida (balas afuera). Robert Maxwell la sienta en el trono → <b>Johanna poseída por Nyarlathotep.</b> Sale y encierra a Robert Maxwell. Robert Maxwell logra interponer su arma para que la puerta no cierre completamente.</div>
+<div class="ev">Robert Maxwell enciende antorcha → bolas de cristal se encienden → todos los puntos del mapa se iluminan → luego quedan solo <b>3 puntos del triángulo.</b></div>
+<div class="ev">Burbujeo en la piscina de brea → sale un cuerpo. <b>Figura con cetros similares a los de Lionel Blackwood.</b> Camina hacia el trono. <b>Robert Maxwell sufre locura.</b> El Faraón Negro lo lleva a la piscina de brea. <b>Robert Maxwell pierde consciencia.</b></div>
+</div></div>
+<div class="panel"><div class="ph orange">Grupo Principal — Museo de El Cairo</div><div class="pb" style="padding:0">
+<div class="ev"><b>Noche anterior (cuarto de hotel):</b> Phineas McKalan se despierta — <b>pulsaciones + luz violeta titilante en arista de la habitación.</b> Hiroku Ryōshiz también lo ve. Se detiene. El reloj de la habitación se detuvo a esa hora = distorsión temporal. <b>Primer avistamiento del Perro de Tindalos.</b></div>
+<div class="ev"><b>Estación:</b> Disfrazados, recuperan maletas. <b>No hay rastro de Dora Flinders ni de su equipaje.</b></div>
+<div class="ev"><b>Museo:</b> Entran como turistas. Howard Carter en el Valle de los Reyes. <b>Ajura</b> (empleada, 40-50) se acerca y les ayuda. Phineas McKalan pregunta por Besart y Najjar → Ajura desconfía.</div>
+<div class="ev"><b>Bodega restringida:</b> Director en bodega. Phineas McKalan lo llama → el director grita y corre. Lionel Blackwood lo persigue. Detrás: <b>brecha dimensional se abre → Perro de Tindalos emerge lentamente.</b> Salen a otra bodega con <b>sellos de protección</b>. Phineas McKalan y Lionel Blackwood activan cetros.</div>
+<div class="ev"><b>Johanna:</b> Criticó a Milunka Saric por "traicionar al partido". Finalmente accede a no capturarla por ahora. Se va a la excavación.</div>
+</div></div>
+</div>
+
+<div class="panel"><div class="ph green">Ali Kafour — Director del Museo de El Cairo (ALIADO CLAVE)</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Ali Kafour</div><div class="nr">Director · Museo de El Cairo · Conoce el Mythos</div><ul class="nd"><li>Conocía a Jackson Elías — iba a darle información sobre la Expedición Carlyle</li><li>Expedición Carlyle: descubrieron algo sobre el Faraón Negro. "Fueron masacrados." (Grupo le cuenta que probablemente no fue así)</li><li>Sir Aubrey Penhew lo buscó para orientarse — buscaba algo en la <b>punta de la pirámide acodada</b></li><li><b>Omar al-Shakti:</b> poderoso hechicero, malvado. Interesado en el sarcófago de Nitocris. <b>Ya lo posee.</b></li><li>Sarcófago de Nitocris: ubicación encontrada por Expedición Carlyle. Dejaron a Clive la tarea de desenterrarlo.</li><li>Expedición Clive despidió a un <b>holandés</b> — puede tener información</li><li>Besart / Najjar: rastro en la <b>Calle de los Chacales</b></li><li><b>Viuda de un amigo</b> conserva aún un artefacto que él tenía</li><li>Perros de Tindalos: solo se manifiestan desde esquinas</li><li><b>Se ofrece a buscar a Dora Flinders.</b> Ofrece quedarse en la <b>habitación segura del museo</b> (con sellos de protección)</li></ul></div><span class="st sa">ALIADO CLAVE</span></div>
+</div></div>
+
+<div class="stitle">Estado NPCs — Egipto (Actualizado Ses. 23)</div>
+<div class="panel"><div class="ph gold">Expedición Clive — Estado Actualizado</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Nephren-Ka (El Faraón Negro)</div><div class="nr">Nyarlathotep en aspecto egipcio · Piscina de brea · EMERGIENDO</div><ul class="nd"><li>Emergió de la piscina de brea bajo la Pirámide Acodada</li><li>Figura con cetros similares a los de Lionel Blackwood (artefactos de poder)</li><li>Caminó hacia el trono. Llevó a Robert Maxwell a la piscina de brea.</li><li>La piscina de brea bajo la pirámide ES la brecha que el Yith describió</li><li>Nyarlathotep intenta manifestarse físicamente en Egipto</li></ul></div><span class="st se">EMERGIENDO ⚠️</span></div>
+<div class="npc"><div><div class="nn">Johanna Specht</div><div class="nr">Miembro Expedición Clive</div><ul class="nd"><li>Se sentó en el trono del Faraón Negro → <b>POSEÍDA por Nyarlathotep</b></li><li>Cerró a Robert Maxwell dentro de la cámara. Estado posterior desconocido.</li></ul></div><span class="st se">POSEÍDA</span></div>
+<div class="npc"><div><div class="nn">Robert Maxwell</div><div class="nr">Aliado · Arqueólogo</div><ul class="nd"><li>Capturado/inconsciente en la cámara del trono bajo la Pirámide Acodada</li><li>Nephren-Ka lo llevó a la piscina de brea. Sufrió locura.</li><li><b>Rescate urgente.</b></li></ul></div><span class="st sd">CAPTURADO ⚠️</span></div>
+<div class="npc"><div><div class="nn">Agatha Broadmoor</div><div class="nr">Miembro Expedición · Psíquica · 67 años</div><ul class="nd"><li>No invitada por Clive — llegó por su cuenta</li><li>"No hay buenas personas en esta expedición" — ella lo sabe</li><li>Gardner y Johanna también se aliaron contra Clive al descubrir sus mentiras</li></ul></div><span class="st sa">ALIADA POTENCIAL</span></div>
+<div class="npc"><div><div class="nn">Gardner</div><div class="nr">Arqueólogo · Expedición Clive</div><ul class="nd"><li>Descubrió que Clive miente. Aliado de Agatha.</li></ul></div><span class="st sa">ALIADO POTENCIAL</span></div>
+<div class="npc"><div><div class="nn">Ajura</div><div class="nr">Empleada Museo de El Cairo · 40-50 años</div><ul class="nd"><li>Puede comunicar con Howard Carter (en Valle de los Reyes)</li><li>Inicialmente desconfiada. Conectó al grupo con Ali Kafour.</li></ul></div><span class="st su">NEUTRAL</span></div>
+</div></div>
+
+<div class="stitle">Datos Tácticos y Pistas Críticas — Ses. 23</div>
+<div class="cols c2">
+<div class="panel"><div class="ph purple">Revelaciones Clave</div><div class="pb" style="padding:0">
+<div class="ev"><b>Pirámide Acodada de Dashur = Trono del Faraón Negro.</b> Confirmado. La piscina de brea bajo la cámara ES la brecha de Nyarlathotep. La visión de Anubis ("allí encontrarás respuestas") apuntaba exactamente aquí.</div>
+<div class="ev"><b>3 puntos rojos en triángulo</b> en el mapamundi del trono = las 3 ubicaciones simultáneas del Gran Plan: <b>Kenia + Australia + Shanghai.</b> Dora Flinders veía este triángulo en sus visiones. Confirmado por Robert Maxwell en ses. 26.</div>
+<div class="ev"><b>Omar al-Shakti YA POSEE el sarcófago de Nitocris.</b> La Expedición Clive era solo para desenterrarlo — ya cumplió su función. al-Shakti avanza con su plan por separado.</div>
+<div class="ev"><b>Warren Besart + Faraz Najjar:</b> rastro en la <b>Calle de los Chacales</b>.</div>
+<div class="ev"><b>Holandés despedido</b> de la Expedición Clive tiene información valiosa. Ali Kafour lo conoce.</div>
+<div class="ev"><b>Viuda de amigo de Ali Kafour</b> conserva un artefacto que él tenía.</div>
+</div></div>
+<div class="panel"><div class="ph blue">Datos Tácticos</div><div class="pb" style="padding:0">
+<div class="ev"><b>Perros de Tindalos — Solo emergen de ESQUINAS/ÁNGULOS.</b> La bodega del museo con sellos de protección los detiene. Evitar ángulos rectos como defensa.</div>
+<div class="ev"><b>El sonido protege de la arena mágica</b> (Brotherhood, ses. 22).</div>
+<div class="ev"><b>Cetros de Gavigan</b> — Phineas McKalan y Lionel Blackwood los activaron en la bodega del museo.</div>
+<div class="ev"><b>Habitación segura del museo</b> — sellos de protección. Ali Kafour ofrece usarla como refugio.</div>
+<div class="ev"><b>Reloj detenido</b> = señal de distorsión temporal / presencia de Perro de Tindalos.</div>
+<div class="ev"><b>Los pergaminos de Clive son falsos</b> (demasiado recientes). Los trabajadores fingen excavar. Martin lee poco jeroglífico.</div>
+</div></div>
+</div>
+<div class="stitle">Contactos Conocidos</div>
+<div class="panel"><div class="ph gold">Contactos en El Cairo / Egipto</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Warren Besart</div><div class="nr">Agente francés · El Cairo</div><ul class="nd"><li>Carta dirigida a Roger Carlyle encontrada en Hab. 410 (Pista #1)</li><li>Apunta a Egipto. Besart sigue en El Cairo.</li></ul></div><span class="st su">CONTACTO</span></div>
+<div class="npc"><div><div class="nn">Faraz Najjar</div><div class="nr">Comerciante · El Cairo</div><ul class="nd"><li>Mencionado como contacto en Egipto. No hay más detalles.</li></ul></div><span class="st su">CONTACTO</span></div>
+<div class="npc"><div><div class="nn">Omar al-Shakti <span class="code-badge" style="background:#3a1000;color:#ffaa44">LA HIENA</span></div><div class="nr">Líder Brotherhood · El Cairo</div><ul class="nd"><li>Verdadero poder detrás de la organización. Quería eliminar a Gavigan.</li><li>Carta a Gavigan reclamando estatuilla del Faraón Negro (disputa interna).</li><li>Shafik seguía sus órdenes y buscaba destronar a Gavigan.</li></ul></div><span class="st se">ENEMIGO</span></div>
+<div class="npc"><div><div class="nn">Dr. Henry Clive</div><div class="nr">Arqueólogo · Expedición Giza · Patrocinado por Penhew</div><ul class="nd"><li>Telegrama de Gavigan: "Todo como planeado en Misr House." (nov. 1924)</li><li>Excavación en la meseta de Giza (probablemente pirámide de Micerino).</li></ul></div><span class="st se">SOSPECHOSO</span></div>
+<div class="npc"><div><div class="nn">Tío Carter (de Dora Flinders)</div><div class="nr">Contacto familiar · El Cairo</div><ul class="nd"><li>Dirección en El Cairo proporcionada por Philippa/contactos de Dora Flinders.</li><li>No está en Londres — su casa allá disponible.</li></ul></div><span class="st su">CONTACTO</span></div>
+</div></div>
+<div class="stitle">Intel Recopilada sobre Egipto</div>
+<div class="cols c2">
+<div class="panel"><div class="ph blue">Pistas directas</div><div class="pb" style="padding:0">
+<div class="clue"><span class="cid">A</span><span class="cn">Carta Besart (#1 Hab. 410)</span><div class="cl">Apunta a El Cairo. Besart conocía a Roger Carlyle.</div></div>
+<div class="clue"><span class="cid">B</span><span class="cn">Diario Crompton (safe Carlyle Estate)</span><div class="cl">"El trono del Faraón Negro en la Pirámide Doblada [Bent Pyramid]" → Dashur.</div></div>
+<div class="clue"><span class="cid">C</span><span class="cn">Velo de Anubis — Holograma</span><div class="cl">→ <span>Saqqara, Egipto</span>. Destino marcado por el artefacto.</div></div>
+<div class="clue"><span class="cid">D</span><span class="cn">Informe Saqqara (Penhew library)</span><div class="cl">Escrito por Howard Carter. Menciona al "Faraón Negro". Fotografiado por Phineas McKalan.</div></div>
+<div class="clue"><span class="cid">E</span><span class="cn">Telegrama Henry Clive → Gavigan</span><div class="cl">"Todo como planeado en <b>Misr House</b>." Excavación Giza. Conexión culto-arqueología activa.</div></div>
+<div class="clue"><span class="cid">F</span><span class="cn">Carta Omar → Gavigan (Misr House)</span><div class="cl">Disputa: Omar quiere de vuelta la estatuilla del Faraón Negro. Tensión interna del culto.</div></div>
+</div></div>
+<div class="panel"><div class="ph blue">Visiones y revelaciones</div><div class="pb" style="padding:0">
+<div class="ev"><b>Visión de Milunka Saric (ses. 12 — posesión):</b> Catacumbas con jeroglíficos. Figuras con cabezas de animales. Figura central con máscara de chacal (Anubis) que todos adoran.</div>
+<div class="ev"><b>Visión Dora Flinders (ses. 18 — Misr House):</b> Anubis señala pirámide escalonada de <b>Dashur</b> → tumba-trono del Faraón Negro → detrás: mapamundi con puntos brillantes (monolitos). "Allí encontrarás respuestas."</div>
+<div class="ev"><b>Sueño profético Dora Flinders (ses. 19):</b> Gran Pirámide de Giza. Padres como momias. Papiro: "Edward = Nefren-Ka (Faraón Negro), Leyla = Nitocris". Mujer embarazada con tentáculos. Anubis traza pirámide en el aire con esquinas iluminadas.</div>
+<div class="ev"><b>Nefren-Ka = Neferkara = El Faraón Negro = Nyarlathotep</b> (aspecto egipcio, 4ª Dinastía). Pacto para clarividencia del futuro. Confirmado por Robert Maxwell/Western ses. 15.</div>
+<div class="ev"><b>Padres de Dora Flinders:</b> Edward = Nefren-Ka, Leyla = Nitocris → tienen roles ancestrales en el culto. Esto explica la manipulación de Gavigan sobre Leyla.</div>
+</div></div>
+</div>
+<div class="stitle">Clues Perdidas en Egipto — No Encontradas</div>
+<div class="panel"><div class="ph red">Pistas de Egipto que el grupo NO obtuvo</div><div class="pb" style="padding:0">
+<div class="clue"><span class="cid">#3</span><span class="cn">CP Egipto #3 — Cairo Bulletin: Incendio en la tienda de Najjar</span><div class="cl">El negocio de Faraz Najjar destruido por completo. Rumores: <i>"destruido por un demonio en llamas en represalia por crímenes no especificados."</i> <span style="color:#ff9900">→ Indica la ira de al-Shakti contra Najjar tras robarle los artefactos.</span></div></div>
+<div class="clue"><span class="cid">#4</span><span class="cn">CP Egipto #4 — Cairo Bulletin: Tragedia en la Mezquita de Ibn Tulun</span><div class="cl"><i>"TRAGEDIA EN LA MEZQUITA DE IBN TULUN — Cinco eruditos confirmados muertos tras el colapso del techo de su sala de estudio. Desaparecido: Nessim Efti (asociado más antiguo). Nazir Ahmed al-Dhahabi sobrevivió pero fue llevado al hospital en estado de fuerte conmoción."</i> <span style="color:#ff9900">→ Ataque del culto a los guardianes de la Corona antes de que el grupo los encontrara (o después del robo). Explica el estado atemorizado de al-Dhahabi.</span></div></div>
+<div class="clue"><span class="cid">#5</span><span class="cn">CP Egipto #5 — Recibo del Escarabajo</span><div class="cl"><i>"Mi querido Omar, El broche de escarabajo, que llegó esta mañana, es magnífico. Si se pudieran encontrar las piezas que le hacen juego, le estaría muy agradecido. A.P."</i> <span style="color:#ff9900">→ A.P. = Sir Aubrey Penhew, escribiendo a Omar al-Shakti. Confirma la relación directa Penhew–al-Shakti y el intercambio de artefactos egipcios.</span></div></div>
+</div></div>
+
+<div class="stitle">CP Egipto #1 — Declaración Completa de Warren Besart (obtenida ses. 25)</div>
+<div class="panel"><div class="ph orange">Warren Besart — Testimonio Completo (obtenido bajo efectos de drogas, ses. 25)</div><div class="pb" style="padding:0">
+<div class="ev">Fue agente de compras para Carlyle; compró artefactos a Faraz Najjar y los envió ilegalmente a la Fundación Penhew en Londres.</div>
+<div class="ev">Viajó con la expedición a Dashur. Brady vino a él diciendo que Carlyle, Hypatia, Penhew y Huston habían entrado en la Pirámide Acodada y desaparecido. Los trabajadores huyeron. Brady y Besart bebieron.</div>
+<div class="ev">A la mañana siguiente reaparecieron, <i>"emocionados por algún descubrimiento tremendo"</i>, pero sin revelar qué encontraron. <b>"Todos ellos habían cambiado de algún modo inexplicable."</b></div>
+<div class="ev">Una anciana egipcia visitó a Besart. Su hijo era uno de los excavadores. Le dijo que <i>"las almas de todos los europeos, salvo Brady y yo, se habían perdido."</i> Le indicó que los espiara en la Pirámide Colapsada de Meidum la noche antes de la luna negra.</div>
+<div class="ev">Besart fue. Vio a Carlyle y los demás con un centenar de enloquecidos realizando rituales obscenos. Criaturas extrañas emergieron de las arenas y les desgarraron la garganta, matando a todos hasta que solo quedaron los cinco europeos y un celebrante encapuchado.</div>
+<div class="ev"><b>"Algo enorme surgió de la arena, del tamaño de un elefante pero con cinco cabezas peludas separadas"</b> — devoró todos los cadáveres destrozados.</div>
+<div class="ev">Besart se desmayó. Al recuperarse, vagó por el desierto y vio <i>"más allá de cientos de esfinges oscuras, formadas en filas y filas aguardando la hora de la locura en que saltarán para devorar el mundo."</i></div>
+<div class="ev"><i>"Un hombre me encontró"</i> — cuidado durante dos años. Solo el hachís y el opio le ayudan ahora.</div>
+<div class="ev" style="border-top:1px solid #333;margin-top:4px;padding-top:4px"><b>Confirmaciones clave:</b> La expedición Carlyle <b>vendió sus almas</b> dentro de la Pirámide Acodada. Brady y Besart son los únicos europeos que <b>no</b> estaban corrompidos. El "hombre que lo encontró" puede ser un contacto pendiente de identificar.</div>
+</div></div>
+
+<div class="callout red"><b>⚠️ CONFIRMADO — Ses. 20:</b> Nyarlathotep admitió a Phineas McKalan que "huyó a Egipto." El dios mismo lo confirmó.<br><br><b>REVELACIÓN CRÍTICA — Ses. 21 (El Yith):</b> Nyarlathotep <b>NO está físicamente en la Tierra.</b> Se comunica a través de una <b>brecha en Egipto.</b> El objetivo no es "encontrar" a Nyarlathotep — es <b>cerrar la brecha.</b><br><br>La ojiva de Penhew (China), el ritual de Kenia y las respuestas de Dashur/Saqqara son piezas del Gran Plan. El mapamundi con monolitos brillantes (visión de Dora Flinders) puede revelar cómo usar la red de sellos.<br><br><b>Pirámide Acodada de Dashur:</b> El Yith activó un monolito aquí en el pasado durante el viaje temporal (ses. 21) — la punta de la pirámide ES el monolito.</div>
+</div>
+
+<!-- ══════════════════════════ KENIA ══════════════════════════ -->
+<div id="s-kenya" class="section">
+<div class="callout red"><b>★ KENIA — CAPÍTULO ACTIVO (Ses. 26 — llegada ~14 Marzo 1925).</b> Origen del Culto de la Lengua Sangrienta. <b style="color:#ff6666">Dora Flinders "cruzó el umbral" con La Cobra</b> — posiblemente aquí. M'Weru viva en la Montaña del Viento Negro. Los 3 puntos del ritual: <b>Shanghai + Australia + Kenia.</b> Johanna tiene contactos en Nairobi.</div>
+
+<div class="stitle">Sesión 26 — En Ruta a Kenia (10–14 Marzo 1925)</div>
+<div class="cols c2">
+<div class="panel"><div class="ph blue">Ruta Aérea El Cairo → Nairobi (Junkers F13)</div><div class="pb" style="padding:0">
+<div class="tl"><div class="td">Parada 1</div><div class="te"><b>Aswan</b> (Egipto) — primer reabastecimiento</div></div>
+<div class="tl"><div class="td">Parada 2</div><div class="te"><b>Wadi Halfa</b> (Sudán)</div></div>
+<div class="tl"><div class="td">Parada 3</div><div class="te"><b>Khartoum</b> (Sudán)</div></div>
+<div class="tl"><div class="td">Parada 4</div><div class="te"><b>Juba</b> (Sudán del Sur)</div></div>
+<div class="tl"><div class="td">Parada 5</div><div class="te"><b>Lago Victoria</b> — aterrizaje del hidroplano</div></div>
+<div class="tl"><div class="td">Parada 6</div><div class="te">Tren <b>Kisumu → Nairobi</b></div></div>
+<div class="tl" style="background:#001a08"><div class="td" style="color:#66ff88">~14 Mar</div><div class="te"><b>Llegada a Nairobi.</b> Hiroku Ryōshiz cura heridos durante el trayecto de 4 días.</div></div>
+</div></div>
+<div class="panel"><div class="ph blue">Estado del Grupo — Entrando a Kenia</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Phineas McKalan</div><div class="nr">Fotógrafo</div></div><span class="st sa">FUNCIONAL</span></div>
+<div class="npc"><div><div class="nn">Lionel Blackwood</div><div class="nr">Caída al Nilo — recuperándose en vuelo</div></div><span class="st sj">RECUPERÁNDOSE</span></div>
+<div class="npc"><div><div class="nn">Milunka Saric</div><div class="nr">⚠️ Thule/nazis la buscan. Atrapada entre dos organizaciones.</div></div><span class="st sa">FUNCIONAL / EN PELIGRO</span></div>
+<div class="npc"><div><div class="nn">Hiroku Ryōshiz</div><div class="nr">Médico de vuelo</div></div><span class="st sa">FUNCIONAL</span></div>
+<div class="npc"><div><div class="nn">Robert Maxwell</div><div class="nr">Arqueólogo · Miembro activo del grupo · Viaja a Kenia</div></div><span class="st sa">ACTIVO</span></div>
+<div class="npc"><div><div class="nn">Johanna Specht</div><div class="nr">Piloto. No recuerda posesión. Contactos en Nairobi. Reconsiderando lealtad a los Thule.</div><ul class="nd"><li>El grupo la convenció de que los Thule quieren cosas malvadas para el mundo.</li><li>Ya no tiene intención inmediata de entregar a Milunka Saric — pero aún no decidida del todo.</li><li>⚠️ Puede ser poseída de nuevo.</li></ul></div><span class="st su">AMBIGUA · RECONSIDERANDO</span></div>
+<div class="npc"><div><div class="nn">Dora Flinders</div><div class="nr">"Cruzó el umbral" con La Cobra. Posiblemente en Kenia.</div></div><span class="st sd">DESAPARECIDA</span></div>
+</div></div>
+</div>
+<div class="cols c2">
+<div class="panel"><div class="ph gold">Contactos / Personas</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">M'Weru</div><div class="nr">Alta Sacerdotisa · Montaña del Viento Negro · CONFIRMADA VIVA</div><ul class="nd"><li>Sacerdotisa que sedujo a Roger Carlyle en NYC (junio 1918)</li><li>Infiltró la Expedición Carlyle como "Nichonka Bunay"</li><li>Dio el tatuaje de posesión a Larkin en Nairobi</li><li>Marshall (bajo Send Dream) confirmó: M'Weru está en Kenia, en la montaña</li><li>Dijo "busca a M'Weru y Taan Kaurd en Kenia"</li></ul></div><span class="st se">ENEMIGA · ACTIVA</span></div>
+<div class="npc"><div><div class="nn">Taan Kaurd</div><div class="nr">Contacto en Kenia · Mencionado por Marshall</div><ul class="nd"><li>Sin más detalles. Mencionado junto a M'Weru como contacto local.</li></ul></div><span class="st su">DESCONOCIDO</span></div>
+<div class="npc"><div><div class="nn">Ahja Singh</div><div class="nr">Mombasa · Contacto de Emerson</div><ul class="nd"><li>Conocido por Arthur Emerson (ahora muerto). Contacto en Mombasa.</li></ul></div><span class="st su">CONTACTO</span></div>
+</div></div>
+<div class="panel"><div class="ph blue">Intel Recopilada</div><div class="pb" style="padding:0">
+<div class="ev"><b>Origen del culto:</b> Culto de la Lengua Sangrienta originario de Kenia. Rama NYC fundada en 1917 por inmigrantes kenianos para apoyar a M'Weru.</div>
+<div class="ev"><b>La Montaña del Viento Negro:</b> Sede central del culto en Kenia. M'Dari (NY) conocía su ubicación. Marshall confirmó que M'Weru y Taan Kaurd están allí.</div>
+<div class="ev"><b>Expedición Carlyle:</b> La "masacre" oficial (1919-1920) ocurrió aquí. Tribu Nandi culpada. Roger Carlyle declarado muerto.</div>
+<div class="ev"><b>Larkin:</b> Era de familia colonial keniana (constructores de ferrocarriles). Conoció a M'Weru en Nairobi. Ella le dio el tatuaje de posesión.</div>
+<div class="ev"><b>Dora Flinders = "la elegida":</b> Marshall dijo que su lugar está en Kenia, en la montaña. Ritual pendiente. Conecta con visión del "hijo de Nyarlathotep".</div>
+</div></div>
+</div>
+</div>
+
+
+<!-- ══════════════════════════ AUSTRALIA ══════════════════════════ -->
+<div id="s-australia" class="section">
+<div class="callout"><b>AUSTRALIA — Intel conocida.</b> Monolitos en el desierto. Dr. Robert Maxwell Huston (miembro Carlyle) opera aquí como agente del culto.</div>
+<div class="cols c2">
+<div class="panel"><div class="ph gold">Contactos / Personas</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Dr. Robert Maxwell Huston</div><div class="nr">Psiquiatra · Desierto australiano · Operativo del culto</div><ul class="nd"><li>Psiquiatra de Roger Carlyle. Era la conexión M'Weru → Carlyle.</li><li>Erica Carlyle lo recomendó a Roger (sin saberlo)</li><li>Unió la expedición "para continuar el tratamiento". Ahora hace rituales para Nyarlathotep.</li></ul></div><span class="st se">ENEMIGO</span></div>
+<div class="npc"><div><div class="nn">Prof. Anthony Cowles</div><div class="nr">Antropólogo · Miskatonic University · Australiano</div><ul class="nd"><li>Tiene fotos de monolitos en el desierto australiano (tomadas por Arthur MacWhirr).</li><li>Entregó notas de Jackson al grupo en Miskatonic.</li><li>Folleto de su conferencia encontrado en Hab. 410.</li></ul></div><span class="st sa">ALIADO</span></div>
+<div class="npc"><div><div class="nn">Prof. David Dodge</div><div class="nr">Sydney · Colega de Cowles</div><ul class="nd"><li>Tiene el diario de Arthur MacWhirr (fotógrafo de los monolitos).</li></ul></div><span class="st su">CONTACTO</span></div>
+</div></div>
+<div class="panel"><div class="ph blue">Intel Recopilada</div><div class="pb" style="padding:0">
+<div class="ev"><b>Monolitos en el desierto:</b> Fotografiados por Arthur MacWhirr. Cowles tiene esas fotos. Los Yith los construyeron como sellos protectores contra Nyarlathotep.</div>
+<div class="ev"><b>Randolph Shipping Company</b> (Port Darwin, Northern Territory) aparece en las facturas de Penhew Foundation. Conexión culto-Australia activa.</div>
+<div class="ev"><b>Diario MacWhirr:</b> En Sydney, con Prof. David Dodge. Puede tener información sobre los monolitos y su ubicación exacta.</div>
+<div class="ev"><b>Dr. Huston:</b> Miembro de la Expedición Carlyle. Actualmente en el desierto australiano conduciendo rituales para Nyarlathotep. Fue expediente de Carlyle — sus casos previos fueron a Adrian Ferris (terapeuta de Lionel Blackwood).</div>
+</div></div>
+</div>
+</div>
+
+<!-- ══════════════════════════ CHINA ══════════════════════════ -->
+<div id="s-china" class="section">
+<div class="callout red"><b>CHINA / SHANGHAI — Intel conocida.</b> Sir Aubrey Penhew (¿vivo?) construye una ojiva/cohete en Gray Dragon Island. La misión de Londres fue completada — todos los componentes ya están en Shanghai.</div>
+<div class="cols c2">
+<div class="panel"><div class="ph gold">Contactos / Personas</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Ho Fang <span class="code-badge" style="background:#001a3a;color:#88ccff">EL HIPOPÓTAMO</span></div><div class="nr">Culto Mujer Aletargada · 15 Kaoying Street, Shanghai</div><ul class="nd"><li>Líder del culto en Shanghai. Recibe toda la maquinaria y artefactos de Penhew.</li><li>Estatua "Bloated Woman / Mujer Aletargada" enviada desde Londres a su dirección.</li></ul></div><span class="st se">ENEMIGO</span></div>
+<div class="npc"><div><div class="nn">Sir Aubrey Penhew</div><div class="nr">¿Gray Dragon Island, Shanghai? · Oficialmente muerto en Kenia 1920</div><ul class="nd"><li>Declarado muerto pero Michael dice que iba al ritual del 14 Feb en Misr House.</li><li>Marshall reveló: Penhew construye una <b>ojiva/cohete</b> en China.</li><li>Componentes de Henson Manufacturing (Derby) ya enviados vía Ivory Wind.</li></ul></div><span class="st se">POSIBLEMENTE VIVO</span></div>
+<div class="npc"><div><div class="nn">Jack "Brass" Brady</div><div class="nr">Guardaespaldas · Carlyle Expedition · Última ubicación: Stumbling Tiger Bar</div><ul class="nd"><li>Ex-Marine. Ficha de bronce sobre el corazón ("The Eye", de su madre).</li><li>Elías lo conoció en Shanghai — Brady tiene información vital sobre la expedición.</li><li><b>"La Víbora"</b> quiere capturarlo (nota en Misr House).</li></ul></div><span class="st su">¿VIVO?</span></div>
+<div class="npc"><div><div class="nn">Capitán Lars Torvak</div><div class="nr">Ivory Wind · Noruego</div><ul class="nd"><li>Transportó carga de Penhew (motores industriales, estatua) a Ho Fang. No es cultista — solo cobrado.</li></ul></div><span class="st su">NEUTRAL</span></div>
+</div></div>
+<div class="panel"><div class="ph blue">Intel Recopilada</div><div class="pb" style="padding:0">
+<div class="ev"><b>Stumbling Tiger Bar:</b> Cerillas encontradas en Hab. 410. Elías conoció a Jack Brady aquí.</div>
+<div class="ev"><b>Dark Mistress:</b> Yate fotografiado en el río Whangpoo (nombre parcial "DAR..."). Conexión con la expedición o el culto.</div>
+<div class="ev"><b>La ojiva:</b> Marshall confirmó que en China hay una cabeza de cohete/misil que Penhew está construyendo. Parte del Gran Plan de Nyarlathotep.</div>
+<div class="ev"><b>Componentes ya enviados:</b> Henson Manufacturing (Derby, Frank Marshall) fabricó las piezas → Puneet Chaudhary (Limehouse, Queen Street) las almacenó → Ivory Wind (Lars Torvak) las transportó → Ho Fang (Shanghai) las recibió.</div>
+<div class="ev"><b>Misión Londres completada</b> (Michael, ses. 19): todo fue enviado a China. La maquinaria está allá.</div>
+<div class="ev"><b>Capitán Silas March</b> dijo que iba a China luego de Australia. Desapareció. ¿Está en Shanghai?</div>
+</div></div>
+</div>
+</div>
+
+<!-- ══════════════════════════ ARTEFACTOS ══════════════════════════ -->
+<div id="s-art" class="section">
+<div class="stitle">Inventario — Artefactos y Objetos Clave</div>
+<div class="cols c2">
+<div class="panel"><div class="ph purple">Artefactos Mágicos</div><div class="pb" style="padding:0">
+<div class="art"><div class="an" style="color:#66ff88">Velo de Anubis / La Moneda ✅ RECUPERADO (Ses. 24)</div><div class="ad"><b>Historia completa del mismo artefacto:</b> (1) El grupo lo usó para desterrar la criatura de la granja (ses. 9). (2) Lo entregaron al Yith (ses. 21) quien lo usó para activar el monolito en la <b>Pirámide Acodada de Dashur</b> hace 350 millones de años. (3) El artefacto quedó sellado dentro de la pirámide durante siglos. (4) La <b>Expedición Carlyle</b> lo retiró de la pirámide acodada (igual que los conquistadores con el Golden Ward en Perú). (5) El artefacto llegó a manos de Odion → lo heredó su esposa <b>Nuri.</b> (6) <b style="color:#66ff88">Lionel Blackwood e Hiroku Ryōshiz lo recuperaron de Nuri (ses. 24).</b><br>Ancla dimensional. Protección. Hologramas de Saqqara, Perú, Portugal. <b>Con el grupo.</b><br><b>Conexión con el Ojo de Luz y Oscuridad:</b> El Keeper modificó levemente la campaña. La parte de Nuri (este Velo) equivale a la primera mitad del Ojo. <b>Jack Brady (Shanghai)</b> entregará una parte adicional que se conectará con el Velo para completar el sello.</div></div>
+<div class="art"><div class="an" style="color:#ff6666;text-decoration:line-through">Medallón de Shafik</div><div class="ad" style="color:#cc4444"><b>❌ ENTREGADO AL YITH (Ses. 21).</b> Segunda ancla dimensional. Ya no disponible.</div></div>
+<div class="art"><div class="an" style="color:#ff6666;text-decoration:line-through">Daga Ritual Egipcia (Fernando)</div><div class="ad" style="color:#cc4444"><b>❌ ENTREGADA AL YITH (Ses. 21) — era "la llave".</b> Fernando la tenía. Usada para sellar la brecha, no para liberar a Nyarlathotep como el culto cree.</div></div>
+<div class="art"><div class="an">Cetro Espejo + Cetro Ankh Invertido</div><div class="ad">De Zahra Shafik. Combinados: escudo mágico (3d8). Solos no funcionan. Recuperados ses. 17.</div></div>
+<div class="art"><div class="an">Cetros de Gavigan (×2, ambos recuperados)</div><div class="ad">Combinados: escudo mágico + capacidad de prever ataques mágicos. Phineas McKalan los quitó ses. 18. ✅</div></div>
+<div class="art"><div class="an">Artefacto de Tesla</div><div class="ad">Emite luz cegadora que repele Hunting Horrors (Apophis) y otras criaturas. Efecto inesperado de sus experimentos. En posesión del grupo.</div></div>
+<div class="art"><div class="an">Busto del Faraón Negro</div><div class="ad">Recuperado en Misr House ses. 18. Conecta con la visión de Dashur de Dora Flinders.</div></div>
+<div class="art"><div class="an" style="color:#66ff88">Junkers F13 — Hidroplano (Ses. 25)</div><div class="ad">Disponible en los muelles del Nilo, El Cairo. Era de Johanna Specht (para escapar con Gardner y Agatha). Piloto contratado. Movilidad rápida hacia cualquier destino: Kenia, Australia, China, etc.</div></div>
+<div class="art"><div class="an" style="color:#66ff88">Tablilla Dorada — El DUAT (Ses. 25)</div><div class="ad">Robada por James Gardner de la Expedición Clive. Revela: "el rostro de los 4 Anubis mostrará las entradas al DUAT, la ciudad eterna." Necesita 4 Velos de Anubis para acceder a la ciudad subterránea bajo Giza. Fotografiada por Phineas McKalan.</div></div>
+<div class="art"><div class="an" style="color:#66ff88">Amuleto de Najjar (Ses. 24)</div><div class="ad">Robado a Faraz Najjar sin que se diera cuenta (actuación/engaño). Propiedades desconocidas.</div></div>
+</div></div>
+<div class="panel"><div class="ph gold">Tomos y Documentos</div><div class="pb" style="padding:0">
+<div class="art"><div class="an">Africa's Dark Sects (Nigel Blackwell)</div><div class="ad">Tomo del Mythos. Recuperado Ju-Ju House ses. 11. <b>LEÍDO (Milunka Saric/Hiroku Ryōshiz).</b> Describe manifestación Lengua Sangrienta (apéndice rojo como cara) y creación de Ciimba con ámbar.</div></div>
+<div class="art"><div class="an">The Hungry Dead (libro inédito Jackson)</div><div class="ad"><b>LEÍDO por Lionel Blackwood en el barco.</b> Describe realidad alterna de los eventos de Perú. Dedicatoria: "A Trevor (ahijado) y su madre Dora Flinders". Dora Flinders y Phineas McKalan aparecen aunque no estuvieron en Perú.</div></div>
+<div class="art"><div class="an">Expediente de Roger Carlyle (Carlyle Papers América #16)</div><div class="ad"><b style="color:#66ff88">LEÍDO.</b> Notas de Huston sobre Roger Carlyle. Contenido clave: Primera sesión ene. 1918 — Roger tiene sueño recurrente: voz que lo llama por su segundo nombre "Vane", hombre alto y oscuro con ankh invertido en la frente, palma izquierda = cara de Roger, palma derecha = pirámide extraña. El hombre junta las manos → Roger flota → monstruos circundando bola de energía amarilla → "Y hazte dios conmigo." Sep. 1918: Roger obsesionado con <b>M'Weru ("Anastasia, Mi Sacerdotisa")</b> — rival de la autoridad de Huston. Dic. 1918: Huston amenazado con exposición si no acompaña la expedición.</div></div>
+<div class="art"><div class="an">Notas de Jackson Elías — Lect. Prof. Cowles (Carlyle Papers América #15)</div><div class="ad"><b style="color:#66ff88">LEÍDO.</b> Conferencia de Cowles en NYU. Puntos clave: (1) <b>Culto del Murciélago</b> — "Padre de Todos los Murciélagos" = culto de sacrificios en Australia (extinción hace siglos). Víctimas golpeadas con dientes de murciélago envenenados; líderes tomaban forma de serpientes aladas. (2) <b>Ciclo de canciones aborigen</b> — seres enormes construyeron "muros durmientes" y cuevas en el oeste de Australia; vientos vivientes los destruyeron → abrió el camino al Padre de los Murciélagos. (3) <b>Fotos de monolitos</b> de Arthur MacWhirr (Port Hedland, Australia) — su diario registra ataques aborígenes con cientos de pequeñas perforaciones (similar al culto del murciélago). (4) <b>Arafura Sea tale</b>: "Sand Bat" (Padre de Murciélagos) atrapado por Serpiente Arcoíris en lugar acuático — no puede regresar a molestar a la gente.</div></div>
+<div class="art"><div class="an" style="color:#66ff88">Ámbar con Artrópodo de Nyarlathotep (ABIERTA)</div><div class="ad">Caja egipcia — <b style="color:#66ff88">YA ABIERTA.</b> Contenía el <b>ámbar con un artrópodo de Nyarlathotep</b> — criatura de otro planeta, relacionada con los experimentos de Herbert West y Rupert Merryweather. Significado completo pendiente de comprender.</div></div>
+<div class="art"><div class="an">Tablillas (múltiples)</div><div class="ad">Tablilla del León (invocar Apophis con Velo). Tablilla Leonera (de Shafik). Tablilla posición pirámide Perú. Tablilla destierro (usada ✅). Tablilla instrucciones Velo (descifrada por Dora Flinders).</div></div>
+</div></div>
+</div>
+<div class="stitle">Hechizos Disponibles (5 Pergaminos de Gavigan)</div>
+<div class="panel"><div class="ph purple">Pergaminos — Referencia Rápida</div><div class="pb" style="padding:0">
+<div class="spell"><div class="sn">Llamar a Apophis / Summon Hunting Horror</div><div class="sc2"><b>Coste:</b> 10 PM + 1d4 Cordura &nbsp;|&nbsp; <b>Solo de noche/oscuridad</b> &nbsp;|&nbsp; <b>Tiempo:</b> 2d10×5 min (~50 min) &nbsp;|&nbsp; <b>Efecto:</b> Invoca un Hunting Horror. Queda libre al invocar — tirada de poder para controlarlo. Acepta una orden. &nbsp;|&nbsp; <b>Nota:</b> Se activa presionando botón del artefacto. Tesla lo repele con luz.</div></div>
+<div class="spell"><div class="sn">Conjurar Nas-Nas / Bind Dimensional Shambler</div><div class="sc2"><b>Coste:</b> 10 PM + 1d4 Cordura &nbsp;|&nbsp; <b>Solo de noche/oscuridad</b> &nbsp;|&nbsp; <b>Efecto:</b> Invoca servidor de Anubis. Mecánica similar a Apophis. Debe controlarse con tirada de poder.</div></div>
+<div class="spell"><div class="sn">Expulsión Atarsamain / Dread Curse of Azathoth</div><div class="sc2"><b>Coste:</b> 4 PM + 1d6 Cordura &nbsp;|&nbsp; <b>Efecto:</b> Absorbe energía/poder de la víctima susurrando su nombre. Quita 3d6 de poder. Tirada de poder primero. &nbsp;|&nbsp; <b>Nota:</b> Dora Flinders lo usó en Shafik.</div></div>
+<div class="spell"><div class="sn">Susurros Shaitang / Send Dream</div><div class="sc2"><b>Coste:</b> 5 PM + 1 Cordura &nbsp;|&nbsp; <b>Alcance:</b> 32 km (víctima dormida) &nbsp;|&nbsp; <b>Efecto:</b> Invade la mente del objetivo con imagen horrorosa. 1d4 Cordura de daño. &nbsp;|&nbsp; <b>Nota:</b> El mismo hechizo que usaba Gavigan contra el grupo. Dora Flinders lo usó en Marshall.</div></div>
+<div class="spell"><div class="sn">Convocar Byakhee / Summon Byakhee</div><div class="sc2"><b>Coste:</b> Desconocido &nbsp;|&nbsp; <b>Texto:</b> En griego.</div></div>
+</div></div>
+<div class="stitle">Documentos / Evidencias</div>
+<div class="panel"><div class="ph grey">Papeles y Fotos</div><div class="pb" style="padding:0">
+<div class="art"><div class="an">Documentos de Misr House</div><div class="ad">Nota de "La Víbora" buscando a Jack Brady. Carta de Omar al-Shakti a Gavigan (estatuilla Faraón Negro). Bitácora de objetos distribuidos (piezas fabricadas para cohete). Fotografiado todo por Phineas McKalan.</div></div>
+<div class="art"><div class="an">Diarios y Telegramas de Larkin</div><div class="ad">De la mansión en Arkham. Menciona M'Weru, "Lince"→"Chacal", negativa a negocios familiares.</div></div>
+<div class="art"><div class="an">Frasco verde-azul (suero Gavigan)</div><div class="ad">Similar al de Ju-Ju House y experimentos Herbert West. ¿Reanimación?</div></div>
+<div class="art"><div class="an">Restos de la criatura de Larkin</div><div class="ad">En bolsa de Phineas McKalan. Fragmento de Nyarlathotep deteriorado.</div></div>
+</div></div>
+</div>
+
+<!-- ══════════════════════════ MISIONES ══════════════════════════ -->
+<div id="s-mis" class="section">
+<div class="callout"><b>CAPÍTULO EGIPTO CERRADO (Ses. 26) — Grupo en ruta a Kenia.</b> Ver tab ★ Kenia para el estado actual.</div>
+
+<div class="stitle">Sesión 26 — Escape de El Cairo (10 Marzo 1925)</div>
+<div class="callout red"><b>Gardner RECAPTURADO</b> en los muelles antes de subir al avión. Escape caótico bajo tormenta de arena y tiros. Lionel Blackwood y Robert Maxwell cayeron al Nilo — rescatados mutuamente. <b>Capítulo Egipto cerrado.</b> En ruta a Nairobi (llegada ~14 marzo).</div>
+<div class="cols c2">
+<div class="panel"><div class="ph red">Escape del Hidroplano — Muelles del Nilo</div><div class="pb" style="padding:0">
+<div class="ev">Multitud, policías, felucas. Piloto inspeccionando. Policías se percatan del grupo. Hombre nervioso confirma: <b>Gardner ya fue capturado</b> por el culto ⚠️</div>
+<div class="ev">Johanna aparece — dice que <b>solo ella puede pilotear.</b> No deja subir al piloto contratado. Falta cargar bidón de gasolina.</div>
+<div class="ev"><b>Ataque:</b> 3 carros, hombres armados de felucas. Phineas McKalan grita a la policía. Tormenta de arena (tambores) tapa la visión.</div>
+<div class="ev">Secuencia caótica: Piloto intenta huir → Hiroku Ryōshiz forcejea. Lionel Blackwood ayuda → <span class="dead">piloto lo lanza al agua.</span> Robert Maxwell usa bidón de gasolina como arma. Milunka Saric maniobra el avión. Robert Maxwell lanzado al agua. Hiroku Ryōshiz lanza cuerda a Lionel Blackwood → sube. Robert Maxwell se hunde → Hiroku Ryōshiz baja con otra cuerda → lo sacan. Milunka Saric entorpece a Johanna → avión golpea el agua. <b>Segundo intento → despega.</b></div>
+<div class="ev">En el aire: ven tormenta de arena y <b>figura ominosa observando desde la distancia</b> (¿Nyarlathotep? ¿al-Shakti?).</div>
+<div class="ev">Johanna lamenta a Gardner y Agatha. Robert Maxwell lamenta no haber explorado el DUAT.</div>
+</div></div>
+<div class="panel"><div class="ph orange">Conversación con Johanna + Decisión</div><div class="pb" style="padding:0">
+<div class="ev"><b>Johanna no recuerda la posesión</b> — despertó "en la calle" sin saber cómo llegó. No recuerda nada de la cámara del trono. Robert Maxwell le cuenta "su versión." Johanna cree todo.</div>
+<div class="ev">Pregunta: <i>"¿En las pirámides hay una puerta?"</i></div>
+<div class="ev"><b>Los Thule (nazis ocultistas)</b> — Johanna los confirma. Quieren el libro y la puerta para tener ventaja en una guerra futura. Es una <b>tercera facción</b> (además de Brotherhood y los investigadores). Milunka Saric está atrapada entre ambas organizaciones.</div>
+<div class="ev">Johanna advierte: <b>ocultar a Milunka Saric traerá problemas con los nazis.</b></div>
+<div class="ev"><b>Decisión: KENIA.</b> Robert Maxwell recuerda: "La Cobra y Dora Flinders cruzaron el umbral." Los 3 puntos del ritual: <b>Shanghai, Australia y Kenia.</b> Johanna acepta llevarlos a Nairobi — tiene contactos allí. Condición: Robert Maxwell se recupera de fracturas, ella solo pilotea.</div>
+</div></div>
+</div>
+
+<div class="panel"><div class="ph gold">Logros y Pendientes — Capítulo Egipto</div><div class="pb">
+<div class="cols c2">
+<div>
+<div class="ev"><span class="ok">✅ Alianza con Ali Kafour (director museo, aliado clave)</span></div>
+<div class="ev"><span class="ok">✅ Encuentro con Faraz Najjar (info Omar, mezquita, Nuri)</span></div>
+<div class="ev"><span class="ok">✅ Trono del Faraón Negro descubierto (pirámide acodada)</span></div>
+<div class="ev"><span class="ok">✅ Tablilla dorada del DUAT recuperada</span></div>
+<div class="ev"><span class="ok">✅ Encuentro con Warren Besart (confirma Carlyle + pirámide)</span></div>
+<div class="ev"><span class="ok">✅ Alineación hasta enero 1926 confirmada</span></div>
+<div class="ev"><span class="ok">✅ Cómo destruir Nitocris confirmado (&gt;2000°C)</span></div>
+<div class="ev"><span class="ok">✅ Velo de Anubis recuperado (Nuri)</span></div>
+<div class="ev"><span class="ok">✅ Escape con vida</span></div>
+</div>
+<div>
+<div class="ev"><span class="dead">❌ Dora Flinders sigue desaparecida ("cruzó el umbral")</span></div>
+<div class="ev"><span class="dead">❌ Gardner recapturado por el culto</span></div>
+<div class="ev"><span class="dead">❌ Agatha probablemente muerta (sacrificada)</span></div>
+<div class="ev"><span class="dead">❌ Nitocris <b>RESUCITADA</b> (jugadores no entraron bajo las pirámides; ritual completado por al-Shakti)</span></div>
+<div class="ev"><span class="dead">❌ Omar al-Shakti sin confrontar</span></div>
+<div class="ev"><span class="dead">❌ Ciudad subterránea DUAT sin explorar</span></div>
+<div class="ev"><span class="dead">❌ Sin noticias de Arkham</span></div>
+</div>
+</div>
+</div></div>
+
+<div class="callout red"><b>ESTADO ACTUAL — Post-Sesión 26 (~14 Marzo 1925):</b> En ruta a Nairobi / Kenia. <b style="color:#ff6666">Dora Flinders con La Cobra</b> — posiblemente en Kenia. <b style="color:#ff6666">Gardner recapturado.</b> Robert Maxwell herido (fracturas). Milunka Saric en peligro (Thule/nazis). Johanna pilota — no recuerda posesión (⚠️ puede ser poseída de nuevo). <b>3 puntos rituales: Shanghai + Australia + Kenia.</b> Alineación hasta enero 1926.</div>
+
+<div class="stitle">Sesión 25 — El DUAT y Besart (9–10 Marzo 1925)</div>
+<div class="cols c2">
+<div class="panel"><div class="ph red">Noche de Giza — Rescate de Gardner</div><div class="pb" style="padding:0">
+<div class="ev">Zona de las pirámides. Gritos: <i>"¡AYÚDAME! ¡Me quieren matar! ¡Me quieren comer!"</i> — hombre perseguido por hienas.</div>
+<div class="ev">Taxista quiere huir → Robert Maxwell lo noquea. Lionel Blackwood toma el volante. Conduce hacia la víctima (pirámide de Keops). Maniobra épica de escape.</div>
+<div class="ev">Hienas saltan sobre Robert Maxwell. <b>Tormenta de arena + tambores</b> detrás de la pirámide — <b>los tambores controlan la arena.</b> Ropa/lentes de desierto ayudan. Phineas McKalan hiere a un tamborero → <b>la tormenta disminuye.</b></div>
+<div class="ev">Phineas McKalan y Robert Maxwell matan 2 hienas. Cultista ataca a Lionel Blackwood → Milunka Saric lo ayuda. Montículo de arena contra el carro → Lionel Blackwood maniobra y escapa. Todos al museo.</div>
+<div class="ev"><b>James Gardner</b> se identifica: arqueólogo Expedición Clive. A él y a Agatha los iban a sacrificar. <i>"Si el ritual se ejecutó esa noche, Agatha probablemente está muerta."</i></div>
+</div></div>
+<div class="panel"><div class="ph gold">Tablilla Dorada — El DUAT</div><div class="pb" style="padding:0">
+<div class="ev">Gardner robó la tablilla de la expedición. Robert Maxwell la interpreta:</div>
+<div class="ev" style="border-left:2px solid #d4a017;padding-left:8px;font-style:italic;color:#d4a017"><i>"En el evento cercano de ascenso de Nyarlathotep, las estrellas muestran el camino. Así como arriba, es abajo. El rostro de los 4 Anubis mostrará las entradas al DUAT, la ciudad eterna."</i></div>
+<div class="ev"><b>Interpretación (Lionel Blackwood):</b> Los "4 Anubis" = probablemente 4 artefactos tipo Velo de Anubis. Indica entradas a una <b>ciudad subterránea bajo las pirámides de Giza</b> (el DUAT = inframundo egipcio).</div>
+<div class="ev"><b>"Así como arriba, es abajo"</b> = la disposición de las pirámides refleja algo subterráneo. Phineas McKalan fotografia la tablilla.</div>
+<div class="ev"><b>Astrónomo Malik</b> (llega 7am): la alineación planetaria estará vigente <b>hasta enero de 1926.</b> El Gran Plan tiene una ventana de ~10 meses — no es un evento de una sola noche.</div>
+<div class="ev"><b>Cómo destruir a Nitocris</b> (libro investigado por Phineas McKalan): separar a Nitocris de su corona + destruir el cuerpo O la corona con temperatura <b>mayor a 2000°C.</b></div>
+</div></div>
+</div>
+<div class="cols c2">
+<div class="panel"><div class="ph red">Cultista Capturado + Avión</div><div class="pb" style="padding:0">
+<div class="ev">Robert Maxwell interroga al cultista capturado en Giza:</div>
+<div class="ev"><b>"Nitocris ocupará el puesto de la lagartija"</b> (¿Shafik? ¿Bertha Shipley?). Nitocris + La Hiena tienen <b>miles de años de experiencia.</b></div>
+<div class="ev"><b>"Dora Flinders y La Cobra cruzaron el umbral."</b> Phineas McKalan teoriza: Kenia, China, Egipto y probablemente Australia son los puntos de cruce.</div>
+<div class="ev">Robert Maxwell lo asesina dándole a beber el <b>líquido negro de la fuente del trono</b> (la muestra que tomó). Confirma que el líquido es letal.</div>
+<div class="ev"><b>Avión:</b> Gardner revela que Johanna tenía un <b>Junkers F13 (hidroplano)</b> listo en los muelles del Nilo. Para sacar a él y Agatha. Contratan un piloto en el aeródromo.</div>
+<div class="ev"><b>Cristopher (NY):</b> Sin noticias de Arkham. <b>Terriblemente preocupados</b> (Philippa, Edward Flinders, madre de Phineas McKalan).</div>
+</div></div>
+<div class="panel"><div class="ph orange">Warren Besart — El ladrón francés</div><div class="pb" style="padding:0">
+<div class="ev">Embajada francesa → empleada reconoce a Lionel Blackwood (actor) y ayuda. Distrito → tienda de ropa. Empleado no colabora → Phineas McKalan muestra arma → indica puerta trasera.</div>
+<div class="ev"><b>Besart:</b> hombre en muy mal estado, parece drogado. Hiroku Ryōshiz intenta cortar el efecto de las drogas.</div>
+<div class="ev"><b>Besart revela:</b> Abogado lo contactó hace 5-6 años → agente de compras para Carlyle. Compró artefactos a Faraz Najjar → los envió ilegalmente a Londres (Fundación Penhew).</div>
+<div class="ev">La Expedición Carlyle entró a la pirámide acodada. A la mañana siguiente, Carlyle y los demás reaparecieron. <b>Sir Aubrey mantuvo en secreto</b> lo que pasó dentro.</div>
+<div class="ev">Esposa de un excavador le contó: todos habían <b>vendido su alma a un dios negativo.</b> Le dio hora/lugar para espiar rituales.</div>
+<div class="ev"><b>Lo que vio:</b> desierto convertido en campo de huesos y monstruos. <b>Miles murieron. Devorados por una quimera.</b> Desde entonces: pesadillas durante años. Drogado para sobrevivir.</div>
+</div></div>
+</div>
+
+<div class="stitle">NPCs Actualizados — Ses. 25</div>
+<div class="panel"><div class="ph gold">Estado NPCs Egipto</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">James Gardner</div><div class="nr">Arqueólogo · Expedición Clive · RESCATADO</div><ul class="nd"><li>Escapó del sacrificio en Giza. Robó la tablilla dorada del DUAT.</li><li>Clive lo trajo porque Nyarlathotep lo ordenó (sin revelar por qué).</li><li>Estudia lo oculto y el inconsciente colectivo.</li><li>Tiene el avión Junkers F13 en los muelles del Nilo (de Johanna).</li></ul></div><span class="st sa">ALIADO</span></div>
+<div class="npc"><div><div class="nn">Malik</div><div class="nr">Astrónomo · Amigo de Ali Kafour</div><ul class="nd"><li>Confirma: alineación planetaria vigente <b>hasta enero de 1926.</b></li><li>El Gran Plan tiene una ventana de ~10 meses.</li></ul></div><span class="st sa">CONTACTO</span></div>
+<div class="npc"><div><div class="nn">Warren Besart</div><div class="nr">Agente francés · El Cairo · Drogado/Traumatizado</div><ul class="nd"><li>Agente de compras para Carlyle. Compró artefactos a Najjar → envío ilegal a Penhew Foundation Londres.</li><li>Fue a la pirámide acodada con la expedición. Vio el ritual de Nyarlathotep.</li><li>Drogado y atormentado desde entonces. Hiroku Ryōshiz intentó cortar el efecto.</li><li>Sir Aubrey mantuvo en secreto lo que pasó dentro de la pirámide.</li></ul></div><span class="st sj">ENCONTRADO / MAL ESTADO</span></div>
+<div class="npc"><div><div class="nn">Agatha Broadmoor</div><div class="nr">Expedición Clive · Psíquica</div><ul class="nd"><li>Gardner dice: "si el ritual se ejecutó esa noche, Agatha probablemente está muerta."</li></ul></div><span class="st sd">PROBABLEMENTE MUERTA</span></div>
+</div></div>
+
+<div class="stitle">Intel Clave — Ses. 25</div>
+<div class="cols c2">
+<div class="panel"><div class="ph purple">Revelaciones Críticas</div><div class="pb" style="padding:0">
+<div class="ev"><b>DUAT = ciudad subterránea bajo Giza.</b> Necesita "4 Anubis" para acceder. El Velo de Anubis (recuperado de Nuri) podría ser uno de esos artefactos.</div>
+<div class="ev"><b>Alineación hasta enero 1926:</b> El Gran Plan no es una sola noche. El culto tiene hasta enero para completarlo. No hay desesperación inmediata — pero tampoco se puede esperar.</div>
+<div class="ev"><b>"Dora Flinders y La Cobra cruzaron el umbral":</b> Dora Flinders está en otra dimensión/plano. Los puntos de cruce pueden ser Kenia, China, Egipto o Australia.</div>
+<div class="ev"><b>Cómo destruir a Nitocris:</b> (1) Separar del collar, (2) Temperatura &gt;2000°C para destruir el cuerpo O la corona.</div>
+<div class="ev"><b>Expedición Carlyle en la pirámide acodada:</b> Entraron y algo les pasó (Besart). Sir Aubrey mantuvo el secreto. Confirmado que "vendieron sus almas."</div>
+<div class="ev"><b>Sin noticias de Arkham (Cristopher):</b> ¿Ataque del culto contra Philippa/Edward/madre de Phineas McKalan?</div>
+</div></div>
+<div class="panel"><div class="ph blue">Datos Tácticos</div><div class="pb" style="padding:0">
+<div class="ev"><b>⚔ Los tambores controlan la arena mágica.</b> Herir al tamborero = debilita la tormenta. Prioridad táctica: eliminar tamboreros primero.</div>
+<div class="ev"><b>✈ Junkers F13 (hidroplano)</b> disponible en muelles del Nilo. Piloto contratado. Movilidad rápida a cualquier destino.</div>
+<div class="ev"><b>💀 El líquido negro del trono es letal</b> — Robert Maxwell lo usó para matar al cultista.</div>
+<div class="ev"><b>🐱 Los gatos espían para al-Shakti.</b> Confirmado por Najjar. Evitar hablar información sensible cerca de gatos.</div>
+<div class="ev"><b>🏛 Habitación segura del museo</b> (sellos de protección) protege de Perros de Tindalos.</div>
+</div></div>
+</div>
+
+<div class="stitle">Sesión 24 — La Corona y la Esfinge (9–10 Marzo 1925)</div>
+<div class="cols c2">
+<div class="panel"><div class="ph orange">Robert Maxwell — Hospital y Visión del Faraón Negro</div><div class="pb" style="padding:0">
+<div class="ev">Despierta en camilla. Johanna allí (herida pero extrañamente bien). <b>Robert Maxwell se siente 5 años más viejo.</b></div>
+<div class="ev"><b>Lo que le hicieron:</b> Al-Shakti ordenó llevarlo a la <b>cima de la Pirámide de Keops</b>, donde cultistas lo torturaron en un "ring de boxeo" — usan la cima de la pirámide como arena de combate y tortura de víctimas. Luego lo dejaron en la arena del desierto como <b>mensajero:</b> Nephren-Ka quiere que el grupo se una al culto — han demostrado ser oponentes dignos. Un <b>nómada en camello</b> lo encontró y lo llevó al hospital.</div>
+<div class="ev"><b>Visión en la bóveda:</b> Entra al pozo de sustancia negra → desierto de arena negra. Camina con Nephren-Ka en forma humana hacia una piedra → puerta dimensional → <b>bóveda con pilares de 30-50m. Dos tronos.</b> Nephren-Ka en uno, le pide a Robert Maxwell sentarse en el otro. Bóveda llena de cultistas.</div>
+<div class="ev"><b>Revelación de La Hiena (Omar al-Shakti):</b> "Ya encontraron su corona. Mañana la obtendrán." Los <b>4 puntos focales están listos.</b> "La Cobra" se encarga del <b>"retoño"</b> (¿Dora Flinders? ¿el hijo de Nyarlathotep?). Cultistas suben sarcófago = Nitocris.</div>
+<div class="ev">Nephren-Ka: <i>"Los investigadores no podrán detenerme. Elegiré reemplazos para los sacerdotes asesinados."</i> Le pide a La Hiena que le dé una lección a Robert Maxwell.</div>
+<div class="ev">Johanna revela su misión: avisar a los Thule del paradero de Milunka Saric. → <b>El grupo la convenció de que los Thule son malas personas</b> que quieren cosas malvadas para el mundo. Johanna está reconsiderando actuar contra Milunka Saric, aunque aún no decidida del todo.</div>
+<div class="ev">Robert Maxwell escapa del hospital para advertirnos. Nos encuentra en el hotel y cuenta todo.</div>
+<div class="ev"><b>Phineas McKalan — visión recurrente:</b> Nyarlathotep le dice <i>"Ya está caminando."</i> Confirmación de que Nephren-Ka está físicamente manifestado.</div>
+</div></div>
+<div class="panel"><div class="ph gold">Faraz Najjar + Nuri + Mezquita Ibn Tulun</div><div class="pb" style="padding:0">
+<div class="ev"><b>Pedido a Ali Kafour:</b> Conseguir dinamita.</div>
+<div class="ev"><b>Calle de las Vasijas (antes "de los Chacales"):</b> Najjar encontrado. Huye al vernos → lo sobornamos. Los <b>gatos espían para Omar al-Shakti</b> (confirmado). Cita: Mezquita de Hussein, 7am del día siguiente.</div>
+<div class="ev"><b>Najjar revela:</b> Vendió artefactos a Carlyle hace 6 años — pergamino (cómo entrar a tumba del Faraón Negro), un busto, y un <b>tambor mágico</b> (¿el que atacó al grupo en la estación?). Los robó a Omar. Omar tomó represalias. Le da la <b>ubicación y descripción de la casa de Omar al-Shakti.</b> La Mezquita de Ibn Tulun: los secuaces de Omar buscan algo allí. Nuri = viuda con artefacto.</div>
+<div class="ev">Le <b>robamos un amuleto</b> (actuación/engaño) sin que se dé cuenta.</div>
+<div class="ev"><b>Mezquita de Ibn Tulun:</b> Ahmed al-Dhahabi (nassir/nazir) recibe al grupo. Enemigo de Omar — terror al oír su nombre. Llama a Nessim Efti. Bodega → escaleras → <b>cámara con 6 ancianos armados con cimitarras.</b> Nos muestran la Corona: <b>gema con un parásito dentro. Aparentemente indestructible.</b></div>
+<div class="ev"><b>Nuri (viuda de Odion):</b> Lionel Blackwood e Hiroku Ryōshiz la encuentran. <b style="color:#66ff88">Entrega el Velo de Anubis ✅.</b> Su hijo Ubaef trabajó para la Expedición Carlyle.</div>
+<div class="ev"><b>Al volver:</b> Los 6 ancianos guardianes <span style="color:#ff6666">ASESINADOS por Apophis</span> enviado por la Brotherhood. <b>La Corona fue robada.</b> al-Shakti ahora tiene los 3 artefactos (Corona + Collar + Girdle) → puede resucitar a Nitocris.</div>
+<div class="ev"><b>Hiroku Ryōshiz cerca de Giza:</b> ve movimiento de luces cerca de la Esfinge. Ritual posiblemente en curso.</div>
+<div class="ev"><b>Decisión inicial:</b> Invocar Apophis (Milunka Saric) para recuperar la corona → <b>finalmente no ejecutado.</b> Los jugadores decidieron no hacerlo. En taxi hacia Giza.</div>
+</div></div>
+</div>
+
+<div class="stitle">Nombres en Clave — Actualizado Ses. 24</div>
+<div class="panel"><div class="ph red">Red Global — Estado Actualizado</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#5a2000;color:#ffcc88">EL ESCORPIÓN</span> Mukunga M'Dari — NYC</div></div><span class="st sd">MUERTO ✅</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#3a3a00;color:#ffee88">EL LEÓN</span> Edward Gavigan — Londres</div></div><span class="st sd">MUERTO ✅</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#3a0030;color:#ffaaee">LA LEONA</span> Zahra Shafik — Londres</div></div><span class="st sd">MUERTA ✅</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#002a10;color:#88ffaa">EL BABUINO</span> Frank Marshall — Derby</div></div><span class="st sd">MUERTO ✅</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#1a1a00;color:#eeee44">EL CERDO</span> Miles Shipley — Londres</div></div><span class="st sd">MUERTO ✅</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#3a1000;color:#ffaa44">LA HIENA</span> Omar al-Shakti — El Cairo</div><div class="nr">Líder Brotherhood Egipto. Tiene los 3 artefactos de Nitocris (Corona+Collar+Girdle). 4 puntos focales listos (Egipto + los 3 del triángulo). Casa localizada por Najjar.</div></div><span class="st se">ACTIVO ⚠️</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#001a3a;color:#88ccff">EL HIPOPÓTAMO</span> Ho Fang — Shanghai · 15 Kaoying St.</div></div><span class="st se">ACTIVO</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#1a001a;color:#ddaaff">LA VÍBORA</span> Sir Aubrey Penhew — China · Gray Dragon Island</div></div><span class="st se">POSIBLEMENTE VIVO</span></div>
+<div class="npc"><div><div class="nn"><span class="code-badge" style="background:#002a20;color:#88ffcc">LA COBRA</span> Desconocida</div><div class="nr">Nuevo nombre en clave (ses. 24). Se encarga del <b>"retoño"</b>. ¿Tiene a Dora Flinders? ¿Relacionada con la visión del hijo de Nyarlathotep (ses. 15)?</div></div><span class="st su">DESCONOCIDA — TIENE EL RETOÑO</span></div>
+</div></div>
+
+<div class="stitle">NPCs Nuevos — Ses. 24</div>
+<div class="panel"><div class="ph gold">NPCs Egipto Ses. 24</div><div class="pb" style="padding:0">
+<div class="npc"><div><div class="nn">Faraz Najjar</div><div class="nr">Comerciante · Calle de las Vasijas · El Cairo</div><ul class="nd"><li>Vendió artefactos a Carlyle hace 6 años (pergamino tumba, busto, tambor mágico) — los robó a Omar al-Shakti</li><li>Omar tomó represalias — Najjar vive con miedo, "maldito"</li><li>Dio ubicación y descripción de la casa de Omar al-Shakti</li><li>Los gatos espían para Omar — confirmado</li><li>El grupo le robó un amuleto sin que se diera cuenta</li></ul></div><span class="st su">CONTACTO (ASUSTADO)</span></div>
+<div class="npc"><div><div class="nn">Ahmed al-Dhahabi</div><div class="nr">Nassir/Nazir · Mezquita de Ibn Tulun</div><ul class="nd"><li>Guardián de la Corona de Nitocris. Enemigo de Omar — terror al oír su nombre.</li><li>Llamó a Nessim Efti. Mostró la Corona al grupo.</li><li>⚠️ Los 6 ancianos bajo su mando fueron asesinados por Apophis.</li></ul></div><span class="st su">ALIADO (COMPROMETIDO)</span></div>
+<div class="npc"><div><div class="nn">Nessim Efti</div><div class="nr">Guerrero guardián · Mezquita de Ibn Tulun</div><ul class="nd"><li>Llamado por Ahmed al-Dhahabi. Guerrero protector de la Corona.</li></ul></div><span class="st su">ALIADO</span></div>
+<div class="npc"><div><div class="nn">Nuri</div><div class="nr">Viuda de Odion · Tiene el Velo de Anubis</div><ul class="nd"><li>Viuda del amigo de Ali Kafour. Su hijo Ubaef trabajó para la Expedición Carlyle.</li><li><b style="color:#66ff88">Entregó el Velo de Anubis a Lionel Blackwood e Hiroku Ryōshiz. ✅</b></li><li>Odion dejó el artefacto a su esposa antes de morir.</li></ul></div><span class="st sa">ALIADA</span></div>
+<div class="npc"><div><div class="nn">Johanna Specht</div><div class="nr">Expedición Clive · Piloto Junkers F13</div><ul class="nd"><li>Tenía como misión avisar a los Thule del paradero de Milunka Saric.</li><li>El grupo la convenció de que los Thule son malas personas que quieren cosas malvadas para el mundo.</li><li><b>Ahora está reconsiderando su lealtad a los Thule.</b> Todavía no decidida del todo.</li><li>No recuerda la posesión. Puede ser poseída de nuevo en cualquier momento.</li></ul></div><span class="st su">RECONSIDERANDO LEALTAD</span></div>
+</div></div>
+<div class="panel"><div class="ph red">Prioridades</div><div class="pb" style="padding:0">
+<div class="ms"><span class="mp pok">COMPLETADO ✅</span><div class="mt"><b>Robert Maxwell sobrevivió — torturado en cima de Keops, dejado en el desierto como mensajero</b><small>Al-Shakti lo llevó a la cima de la Pirámide de Keops (ring de boxeo/tortura cultista). Lo dejaron en la arena como mensaje: Nephren-Ka los invita a unirse al culto — son oponentes dignos. Un nómada en camello lo encontró y lo llevó al hospital. Escapó del hospital para advertir al grupo.</small></div></div>
+<div class="ms"><span class="mp pok">CONFIRMADO</span><div class="mt"><b>Nitocris RESUCITADA — ritual completado bajo la Esfinge</b><small>Los jugadores no se adentraron bajo las pirámides. al-Shakti completó el ritual con los 3 artefactos (Corona + Collar + Girdle). <b>Nitocris está activa</b> con miles de años de experiencia, lidera Brotherhood en Egipto.</small></div></div>
+<div class="ms"><span class="mp pcrit">CRÍTICA ★0</span><div class="mt"><b>Encontrar a Dora Flinders — "Cruzó el umbral" con La Cobra</b><small>Cultista (ses. 25): "Dora Flinders y La Cobra cruzaron el umbral." Posiblemente en Kenia (Mountain of the Black Wind). Robert Maxwell (ses. 26): "La Cobra y Dora Flinders cruzaron el umbral" — 3 puntos de ritual = Shanghai, Australia, Kenia. Marshall (ses. 19): Dora Flinders debe ir a Kenia, a la montaña.</small></div></div>
+<div class="ms"><span class="mp pcrit">CRÍTICA ★1</span><div class="mt"><b>Detener la manifestación de Nephren-Ka</b><small>El Faraón Negro emergió de la piscina de brea bajo la Pirámide Acodada. La piscina ES la brecha de Nyarlathotep. Si completa la manifestación, Nyarlathotep tendrá presencia física en la Tierra. Los 3 puntos del triángulo = <b>Kenia + Australia + Shanghai.</b></small></div></div>
+<div class="ms"><span class="mp pcrit">CRÍTICA ★2</span><div class="mt"><b>Cerrar la brecha de Nyarlathotep — Piscina de brea bajo Pirámide Acodada</b><small>El Yith: Nyarlathotep se comunica desde una brecha en Egipto. CONFIRMADO: la piscina de brea bajo la cámara del trono ES la brecha. Nephren-Ka emergió de ella. Cerrarla = cortar la conexión. Omar al-Shakti (La Hiena) coordina. Besart + Najjar en Calle de los Chacales. Tío Carter de Dora Flinders.</small></div></div>
+<div class="ms"><span class="mp pcrit">CRÍTICA</span><div class="mt"><b>Ir a Kenia — Montaña del Viento Negro</b><small>Dora Flinders es "la elegida" (Marshall bajo Send Dream). M'Weru y Taan Kaurd allí. Ritual pendiente. Conecta con visión del "hijo de Nyarlathotep" y sueño Nefren-Ka/Nitocris.</small></div></div>
+<div class="ms"><span class="mp pcrit">CRÍTICA</span><div class="mt"><b>Ir a Shanghai — Detener la Ojiva de Penhew</b><small>Sir Aubrey Penhew posiblemente vivo construyendo un cohete en Gray Dragon Island. Todos los componentes de Henson ya fueron enviados. Ho Fang coordina en 15 Kaoying Street. Jack Brady (La Víbora lo busca) puede ser testigo clave.</small></div></div>
+<div class="ms"><span class="mp pcrit">CRÍTICA</span><div class="mt"><b>Acceder al DUAT — Ciudad subterránea bajo Giza</b><small>Tablilla dorada (ses. 25): necesita "4 Anubis" para acceder. El grupo tiene 1 Velo de Anubis. Pueden necesitar los otros 3 (entregados al Yith ses. 21, o buscar los de Shafik/Gavigan ya usados). Ciudad eterna = ubicación del ritual final. "Así como arriba, es abajo."</small></div></div>
+<div class="ms"><span class="mp phi">ALTA</span><div class="mt"><b>Destruir a Nitocris</b><small>Confirmado: fue resucitada (ritual completado, ses. 24). Método: (1) Separar de la corona, (2) temperatura &gt;2000°C para destruir el cuerpo O la corona. Alternativa: destruir el collar también.</small></div></div>
+<div class="ms"><span class="mp pmed">MEDIA</span><div class="mt"><b>Usar el Junkers F13 (hidroplano) — Muelles del Nilo</b><small>Disponible. Piloto contratado. Movilidad rápida: El Cairo → Kenia / cualquier destino. De Johanna Specht.</small></div></div>
+<div class="ms"><span class="mp pmed">MEDIA</span><div class="mt"><b>Investigar Arkham — Sin noticias de Cristopher</b><small>Terriblemente preocupados. Philippa, Edward Flinders, madre de Phineas McKalan. ¿Ataque del culto?</small></div></div>
+<div class="ms"><span class="mp phi">ALTA</span><div class="mt"><b>Ir a la Calle de los Chacales — Besart / Faraz Najjar</b><small>Ali Kafour (ses. 23): Besart y Najjar tienen su rastro aquí. Acompañaron a la Expedición Carlyle. Besart = contacto desde la carta de Hab. 410.</small></div></div>
+<div class="ms"><span class="mp phi">ALTA</span><div class="mt"><b>Contactar al holandés despedido de la Expedición Clive</b><small>Ali Kafour lo conoce. Fue despedido — puede tener información sobre las actividades reales de Clive.</small></div></div>
+<div class="ms"><span class="mp pmed">MEDIA</span><div class="mt"><b>Visitar a la viuda del amigo de Ali Kafour</b><small>Conserva un artefacto que su amigo tenía. Ali Kafour la conoce.</small></div></div>
+<div class="ms"><span class="mp phi">ALTA</span><div class="mt"><b>Leer el Expediente de Roger Carlyle</b><small>Robado de Adrian Ferris ses. 6. Contiene carta sobre los SUEÑOS de Roger. El Dr. Huston era su terapeuta. AÚN SIN LEER después de 14 sesiones.</small></div></div>
+<div class="ms"><span class="mp phi">ALTA</span><div class="mt"><b>Henry Yeoward (Londres) — Libros Carlyle</b><small>Erica Carlyle vendió los libros Mythos de Roger. Yeoward los compró. Vive en Londres. NUNCA VISITADO.</small></div></div>
+<div class="ms"><span class="mp pmed">MEDIA</span><div class="mt"><b>Enviar a Michael a América</b><small>Phineas McKalan se encarga. Cristopher lo vigila en NY.</small></div></div>
+<div class="ms"><span class="mp pmed">MEDIA</span><div class="mt"><b>Localizar al Capitán Silas March</b><small>Desapareció del hotel tras la batalla naval ses. 18. Tenía información útil. Dijo que iba a China y Australia.</small></div></div>
+<div class="ms"><span class="mp pmed">MEDIA</span><div class="mt"><b>Frank Marshall — Información pendiente</b><small>MUERTO ses. 19. Reveló: ojiva en China, M'Weru en Kenia, Carl Stanford. Henson Manufacturing (Derby) aún activa aunque él haya muerto.</small></div></div>
+<div class="ms"><span class="mp plo">BAJA</span><div class="mt"><b>Inspector Barrington (Scotland Yard)</b><small>Nunca se le dio evidencia formal. Tiene tarjeta de contacto.</small></div></div>
+<div class="ms"><span class="mp plo">BAJA</span><div class="mt"><b>Carl Stanford / Logia del Crepúsculo Plateado</b><small>Mencionado por Marshall como saboteador del plan de Gavigan. ¿Aliado potencial?</small></div></div>
+<div class="ms"><span class="mp pok">COMPLETADO ✅</span><div class="mt"><b>Gavigan eliminado / Penhew Foundation Londres descabezada</b></div></div>
+<div class="ms"><span class="mp pok">COMPLETADO ✅</span><div class="mt"><b>Hilton Adams liberado</b><small>Evidencia de Robson enviada a Rebecca Shosenburg.</small></div></div>
+<div class="ms"><span class="mp pok">COMPLETADO ✅</span><div class="mt"><b>Madre de Phineas McKalan rescatada</b><small>Ahora en Arkham con Philippa y Edward Flinders.</small></div></div>
+</div></div>
+<div class="stitle">Gran Plan — Lo que sabemos</div>
+<div class="panel"><div class="ph purple">El Gran Plan de Nyarlathotep</div><div class="pb" style="padding:0">
+<div class="ev"><b>Los monolitos:</b> Construidos por la Gran Raza Yith como sellos protectores contra Nyarlathotep. Dispersos globalmente. Se activan con objetos como el Velo de Anubis.</div>
+<div class="ev"><b>Objetivo del culto:</b> Abrir los sellos (monolitos) para destruir el planeta. "El Gran Plan."</div>
+<div class="ev"><b>La ojiva:</b> Penhew construye un cohete/dispositivo en Gray Dragon Island (Shanghai). Componentes de Derby ya enviados.</div>
+<div class="ev"><b>Dora Flinders = "la elegida":</b> Para un ritual en Kenia. Conecta con visión del "hijo de Nyarlathotep" y el sueño de Nitocris.</div>
+<div class="ev"><b>380.76:</b> Número que Nyarlathotep dijo a Hiroku Ryōshiz que "va a destruir". No tiene relevancia establecida en la campaña — posiblemente elemento atmosférico o a definir.</div>
+<div class="ev"><b>Michael McHallan (Yith):</b> "Los investigadores murieron en otra línea temporal. La Gran Raza los envió de vuelta para salvarlos." Los Yith intentan proteger la Tierra interviniendo en otras dimensiones.</div>
+<div class="ev"><b>⚠️ Posesión de aliados (ses. 20):</b> Nyarlathotep puede poseer a personas cercanas al grupo sin previo aviso (Reginald → Lionel Blackwood, Hiroku Ryōshiz). Nadie está a salvo de su control mental. El hechizo de protección de Dora Flinders detiene necromorfos pero no al dios directamente.</div>
+<div class="ev"><b>Tregua temporal (ses. 20):</b> Phineas McKalan negoció con Nyarlathotep. "Nos vemos en el siguiente round." La tregua es real pero transitoria.</div>
+<div class="ev"><b>Cronómetros marinos sincronizados (Ju-Ju House, Egipto, China):</b> Cuando se envíe una señal de sincronía a través de estos tres cronómetros, el gran ritual global se ejecutará simultáneamente. Los jugadores no lo saben aún.</div>
+<div class="ev"><b>Nyarlathotep NO está en la Tierra (ses. 21 — Yith):</b> Se comunica a través de una <b>brecha en Egipto.</b> No tiene presencia física. El objetivo es cerrar esa brecha, no enfrentarlo directamente.</div>
+<div class="ev"><b>Perros de Tindalos (ses. 21):</b> Nueva amenaza permanente. El grupo viajó en el tiempo → los Perros los perseguirán. Emergen de ángulos y esquinas angulares. No pueden evitarse — solo prevenirse evitando ángulos.</div>
+<div class="ev"><b>Monolitos activados (ses. 21):</b> 4 monolitos activados en el pasado: Pangea (350M años), Cuba, Salem, Pirámide Acodada de Dashur. La red de protección de los Yith está parcialmente reforzada.</div>
+<div class="ev"><b>La daga era "la llave" (ses. 21):</b> El culto cree que "libera" a Nyarlathotep — pero el Yith la quería para <b>sellar</b> la brecha. Ya entregada al Yith.</div>
+<div class="ev"><b>"4 puntos focales listos" (ses. 24 — al-Shakti):</b> al-Shakti dijo que sus 4 puntos focales están listos. Nota: los <b>3 puntos del ritual</b> son Kenia + Australia + Shanghai. El cuarto punto podría referirse a Egipto como sede del ritual de Nitocris (separado del triángulo). al-Shakti ya tiene los 3 artefactos de Nitocris (Corona + Collar + Girdle).</div>
+<div class="ev"><b>"La Cobra" tiene el retoño (ses. 24):</b> Nuevo nombre en clave. Se encarga de "el retoño" (posiblemente Dora Flinders, embarazada del hijo de Nyarlathotep — visión ses. 15). Conecta con la desaparición de Dora Flinders.</div>
+<div class="ev"><b>Nephren-Ka ya está caminando (ses. 24):</b> Phineas McKalan recibe visión de Nyarlathotep. El Faraón Negro se ha manifestado físicamente. Robert Maxwell lo vio en la bóveda con cultistas y el sarcófago de Nitocris.</div>
+<div class="ev"><b>Los gatos espían para Omar al-Shakti (ses. 24 — Najjar):</b> Confirmado. Los gatos que Hiroku Ryōshiz notó desde la llegada son espías de al-Shakti.</div>
+<div class="ev"><b>Velo de Anubis recuperado (ses. 24):</b> Odion (amigo de Ali Kafour, trabajó con la Expedición Carlyle) lo tenía — lo dejó a su esposa Nuri. Lionel Blackwood e Hiroku Ryōshiz lo recuperaron.</div>
+<div class="ev"><b>3 puntos del ritual (ses. 26 — Robert Maxwell):</b> Shanghai + Australia + <b>Kenia.</b> Son las 3 ubicaciones simultáneas del Gran Plan que deben ejecutarse. El triángulo de 3 puntos rojos visto por Robert Maxwell en la cámara del trono probablemente representa estas 3 localizaciones.</div>
+<div class="ev"><b>Thule/Nazis (ses. 26 — Johanna):</b> Tercera facción confirmada. Quieren el libro y la puerta para ventaja en una guerra futura. Son distintos al culto de Nyarlathotep pero buscan los mismos artefactos. Milunka Saric está atrapada entre ambas organizaciones.</div>
+<div class="ev"><b>DUAT (ses. 25 — tablilla dorada de Gardner):</b> Ciudad subterránea bajo Giza. Necesita "4 Anubis" para acceder. El Velo de Anubis podría ser uno. Posible ubicación del ritual final de Nyarlathotep.</div>
+<div class="ev"><b>Alineación hasta enero 1926 (ses. 25 — Malik):</b> El Gran Plan tiene una ventana de ~10 meses. No es una sola noche — hay tiempo, pero no ilimitado.</div>
+<div class="ev"><b>Cómo destruir a Nitocris (ses. 25):</b> Separar del collar + temperatura &gt;2000°C para destruir el cuerpo O la corona. Estrategia confirmada.</div>
+<div class="ev"><b>"Dora Flinders y La Cobra cruzaron el umbral" (ses. 25 — cultista):</b> Dora Flinders está en otra dimensión/plano. Puntos de cruce posibles: Kenia, China, Egipto, Australia.</div>
+<div class="ev"><b>Expedición Carlyle en la pirámide acodada confirmada (ses. 25 — Besart):</b> Entraron y a la mañana siguiente reaparecieron. Sir Aubrey mantuvo el secreto. "Vendieron sus almas al dios negativo." Besart vio rituales: desierto de huesos y monstruos, miles devorados por una quimera.</div>
+</div></div>
+</div>
+
+<!-- ══════════════════════════ CRONOLOGÍA ══════════════════════════ -->
+<div id="s-crono" class="section">
+<div class="cols c2">
+<div>
+<div class="stitle">Perú — Marzo 1921</div>
+<div class="panel"><div class="ph gold">Timeline</div><div class="pb" style="padding:0">
+<div class="tl"><div class="td">18 Mar · 7pm</div><div class="te"><b>Bar Cordano.</b> Cena con Larkin. Jackson observa como "Jesse Hughes".</div></div>
+<div class="tl"><div class="td">18 Mar · noche</div><div class="te">Jackson revela identidad real. Advierte sobre kharisiri y De Mendoza.</div></div>
+<div class="tl"><div class="td">19 Mar · noche</div><div class="te">Harrison Jones roba <span class="ok">Máscara Dorada</span> a De Mendoza (Hotel España).</div></div>
+<div class="tl"><div class="td">19 Mar · 2pm</div><div class="te">Museo. <span class="dead">Trinidad muerta</span>. Golden Ward encontrada. Sánchez salvado.</div></div>
+<div class="tl"><div class="td">21 Mar</div><div class="te">Salida a Puno. Jeeps robados. La larva se disuelve cerca del Ward.</div></div>
+<div class="tl"><div class="td">Isla Titicaca</div><div class="te">Ataque kharisiri. <span class="dead">Nayra muere.</span> Lionel Blackwood episodio de locura. Escape en barco.</div></div>
+<div class="tl"><div class="td">Día 4</div><div class="te"><span class="ok">✅ Padre de los Gusanos sellado. Nadie murió.</span></div></div>
+</div></div>
+<div class="stitle">Nueva York — Enero 1925</div>
+<div class="panel"><div class="ph gold">Timeline</div><div class="pb" style="padding:0">
+<div class="tl"><div class="td">3 Ene 1925</div><div class="te">Radiograma de Jackson. Reunión: 15 enero en NY.</div></div>
+<div class="tl"><div class="td">15 Ene · 8pm</div><div class="te"><span class="dead">Jackson Elías muerto</span>, Hab. 410, Hotel Chelsea. 7 pistas. 1 cultista muerto, 1 escapa.</div></div>
+<div class="tl"><div class="td">15 Ene · noche</div><div class="te">Precinto 7a. Poole: 9 asesinatos previos. Hilton Adams inculpado.</div></div>
+<div class="tl"><div class="td">17 Ene · 2pm</div><div class="te">Funeral Jackson. Cypress Hills, Brooklyn. Dora Flinders aparece. Hombre negro sin identificar.</div></div>
+<div class="tl"><div class="td">17 Ene · tarde</div><div class="te">Lemming identifica símbolo → Ju-Ju House. Milunka Saric recogida por carro lujoso.</div></div>
+<div class="tl"><div class="td">17 Ene · noche</div><div class="te">Small Paradise. Encuentro Erica Carlyle. <span class="dead">Cabeza de Lemming</span> llega a casa Lionel Blackwood.</div></div>
+<div class="tl"><div class="td">18 Ene</div><div class="te"><span class="dead">Emerson muerto.</span> Cuerpo Jackson robado. Walters con libro inédito. Hiroku Ryōshiz roba expediente Carlyle. Sombra sobrenatural hiere Phineas McKalan y Cristopher.</div></div>
+<div class="tl"><div class="td">19 Ene · 4am</div><div class="te">Gregory entrega Curly. Interrogatorio: ritual 24 enero. Tren a Arkham.</div></div>
+<div class="tl"><div class="td">19 Ene · 4pm</div><div class="te">Arkham. <span class="dead">Rupert muere.</span> Criatura libre. Velo de Anubis descifrado.</div></div>
+<div class="tl"><div class="td">20 Ene</div><div class="te">Granja. <span class="dead">Pa Peters, Padre/cura, Mary McPetter muertos.</span> Lionel Blackwood enloquece. Pepper herida.</div></div>
+<div class="tl"><div class="td">20 Ene · medianoche</div><div class="te"><span class="ok">✅ Ritual destierro. Criatura desterrada.</span> Nyarlathotep habla a Milunka Saric. Edward Flinders encontrado.</div></div>
+<div class="tl"><div class="td">21 Ene</div><div class="te"><span class="dead">Larkin muerto</span> en sótano mansión (Milunka Saric). Miskatonic: monolito, hologramas Saqqara/Perú/Portugal.</div></div>
+<div class="tl"><div class="td">22 Ene · mañana</div><div class="te">Brooklyn. <span class="dead">Madre Phineas McKalan SECUESTRADA.</span> Símbolo del culto en el techo. Decisión: asaltar Ju-Ju House.</div></div>
+<div class="tl"><div class="td">22 Ene · tarde</div><div class="te"><span class="ok">Madre de Phineas McKalan rescatada ✅.</span> Jackson encontrado y destruido. <span class="dead">Robson muerto</span> (Milunka Saric, Fat Maybelle's). Hiroku Ryōshiz rescatado por Tesla.</div></div>
+<div class="tl"><div class="td">24 Ene · eclipse</div><div class="te">Visión compartida = Nyarlathotep. "Soy Nyarlathotep." Portal entre mundos.</div></div>
+</div></div>
+</div>
+<div>
+<div class="stitle">Cruce Atlántico + Londres — Feb 1925</div>
+<div class="panel"><div class="ph gold">Timeline</div><div class="pb" style="padding:0">
+<div class="tl"><div class="td">25 Ene</div><div class="te">Milunka Saric confiesa: espía socialista buscando <i>Africa's Dark Sects</i>. Plan libro falso.</div></div>
+<div class="tl"><div class="td">27 Ene · SS Venture</div><div class="te">Zarpa de NY. Cronómetro marca 60h GMT+4. Hiroku Ryōshiz y Capitán Silas ritual marino.</div></div>
+<div class="tl"><div class="td">6 Feb · noche</div><div class="te">Visión: Lanz von Liebenfels, bandera swástika, "Iä Cthulhu fhtagn". Llegada Southampton → Londres.</div></div>
+<div class="tl"><div class="td">7 Feb</div><div class="te">The Scoop (Mahoney). Penhew Foundation (Gavigan entrevista). Hiroku Ryōshiz: maquinaria en Limehouse.</div></div>
+<div class="tl"><div class="td">7 Feb · noche</div><div class="te">Asalto Penhew Foundation. Sanctum secreto. Documentos + pergaminos + tablilla + artefactos.</div></div>
+<div class="tl"><div class="td">8 Feb · madrugada</div><div class="te"><span class="dead">Ada muerta.</span> Noticia: <span class="ok">Hilton libre ✅ Edward despertó ✅</span>. Safe de Gavigan abierta.</div></div>
+<div class="tl"><div class="td">8 Feb · tarde</div><div class="te">Museo: <span class="dead">Western muerto → necromorfo.</span> Robert Maxwell se une. Ataques psíquicos Gavigan+Shafik. Velo protección activado.</div></div>
+<div class="tl"><div class="td">9 Feb · 10am</div><div class="te">Fog-spawn en el hotel (padres de la niña muertos). Niña rescatada. Barrington contactado.</div></div>
+<div class="tl"><div class="td">9 Feb · tarde</div><div class="te">Sir Reginald casa. Pergaminos descifrados. Empire Spices: Edjo noqueado.</div></div>
+<div class="tl"><div class="td">10 Feb · 3pm</div><div class="te"><span class="dead">Edjo muerto.</span> Shafik capturada, cetros y medallón recuperados. Interrogatorio: estructura global del culto, Misr House.</div></div>
+<div class="tl"><div class="td">10 Feb · noche</div><div class="te">Manicomio: Michael McHallan (Yith). Barco con Silas rumbo Essex. Ritual de niebla.</div></div>
+<div class="tl"><div class="td">11 Feb · noche</div><div class="te">Misr House. <span class="dead">Gavigan muerto ✅.</span> <span class="dead">Shafik muerta ✅.</span> <span class="dead">Silas N'Kwane muerto ✅.</span> Marshall capturado. Michael rescatado. <span class="ok">Misr House destruida ✅.</span></div></div>
+<div class="tl"><div class="td">12 Feb</div><div class="te">Interrogatorio Marshall. Send Dream (Dora Flinders): ojiva China, M'Weru Kenia, Carl Stanford. <span class="dead">Marshall muerto</span> (Milunka Saric). <span class="dead">Shipley muerto.</span> <span class="dead">Bertha Shipley muerta</span> (Serpent Person). Casa Shipley incendiada.</div></div>
+<div class="tl"><div class="td">12 Feb · mañana</div><div class="te">Escape de la casa de Shipley. Cuadros de portales destruidos. Toque de queda declarado. Gavigan preparó retrato hablado — <b>fugitivos en Inglaterra.</b> Sonidos reptilianos en cabeza de Phineas McKalan.</div></div>
+<div class="tl"><div class="td">12 Feb · tarde</div><div class="te">Casa Sir Reginald. Nyarlathotep poseyó a Reginald → Lionel Blackwood ataca a Phineas McKalan (espada en pecho). Nyarlathotep poseyó a Hiroku Ryōshiz → ataca a Milunka Saric. Milunka Saric noquea a ambos. Dora Flinders activa protección → necromorfos no entran (2 horas).</div></div>
+<div class="tl"><div class="td">12 Feb · tarde</div><div class="te"><span class="dead">LIONEL MUERE.</span> ⚰ Dora Flinders intenta curarlo — falla. Phineas McKalan invoca a Nyarlathotep para negociar. Nyarlathotep admite que Dora Flinders lo dejó sin poder y que <b>huyó a Egipto.</b> "Nos vemos en el siguiente round." Necromorfos caen. Tregua.</div></div>
+<div class="tl"><div class="td">12 Feb · noche</div><div class="te">Escape por muelle privado de Reginald. Barcos policiales convencidos. Encuentran a Silas March en la bahía. A bordo.</div></div>
+<div class="tl"><div class="td">12 Feb · mar</div><div class="te"><b>Funeral vikingo de Lionel Blackwood.</b> Tabla ardiendo alejándose hacia el atardecer.</div></div>
+<div class="tl"><div class="td">12 Feb · barco</div><div class="te">Tren dimensional del Yith. Fernando de la Vega encontrado. Yith revela: Nyarlathotep no está en la Tierra — brecha en Egipto. Negociación: artefactos a cambio de Lionel Blackwood + activar monolitos. <b>Todos aceptan.</b></div></div>
+<div class="tl"><div class="td">12 Feb · viajes</div><div class="te">4 monolitos activados en el pasado: Pangea (350M años), Cuba, Salem, Pirámide Acodada de Dashur. <span class="ok">✅ Lionel Blackwood resucitado.</span> <span class="ok">✅ Ada posiblemente salvada.</span> <b>Perros de Tindalos: amenaza permanente desde ahora.</b></div></div>
+<div class="tl"><div class="td">12 Feb · barco</div><div class="te">Despiertan en camarotes. Dora Flinders busca el medallón → <span class="dead">no lo encuentra.</span> Llora. Lionel Blackwood sale corriendo del camarote abrazando a todos. Artefactos: <span class="dead">Velo de Anubis, Medallón de Shafik, Daga de Fernando — ENTREGADOS AL YITH.</span></div></div>
+<div class="tl"><div class="td">12-27 Feb</div><div class="te">Normandía, Francia. Reparación del barco. Hospital: Phineas McKalan (5d), Lionel Blackwood (10d), Hiroku Ryōshiz (15d). Dora Flinders escribe carta a Ada.</div></div>
+<div class="tl"><div class="td">01 Mar</div><div class="te">Hiroku Ryōshiz dado de alta. Grupo completo. Barco casi listo.</div></div>
+<div class="tl"><div class="td">05/03/1925</div><div class="te"><b>PARTIDA HACIA EGIPTO.</b> Normandía → Mediterráneo → Canal de Suez.</div></div>
+<div class="tl"><div class="td">07/03/1925</div><div class="te"><b>El Cairo — Llegada.</b> Escalofrío en la nuca desde el tren. Presencia de Nyarlathotep más fuerte. Estación: <span class="dead">emboscada de belly dancers con armas y máscaras.</span> Arena mágica. <span class="dead">Dora Flinders DESAPARECIDA.</span> Milunka Saric herida grave. Hiroku Ryōshiz inconsciente.</div></div>
+<div class="tl"><div class="td">07/03/1925</div><div class="te">Robert Maxwell reencuentra al grupo. Johanna Specht (conoce a Milunka Saric — entrenaron juntas). Agatha Broadmoor (Phineas McKalan la reconoce). Acuerdo: unirse a la Expedición Clive. Hotel Shepheard's.</div></div>
+<div class="tl"><div class="td">8 Mar · noche</div><div class="te">Hotel. Phineas McKalan y Hiroku Ryōshiz ven <b>luz violeta + pulsaciones desde una arista</b>. Reloj se detiene. <b>Primer avistamiento Perro de Tindalos</b> — se detiene cuando Hiroku Ryōshiz mira.</div></div>
+<div class="tl"><div class="td">8–9 Mar · día</div><div class="te">Johanna: tensión con Milunka Saric ("traición al partido"). Se va a la excavación con Robert Maxwell y Agatha. Grupo principal: estación (sin rastro de Dora Flinders), Museo de El Cairo.</div></div>
+<div class="tl"><div class="td">9 Mar · museo</div><div class="te">Bodega: <b>brecha dimensional + Perro de Tindalos emerge.</b> Cetros activados. Bodega con sellos los protege. Ali Kafour revelaciones: Besart en Calle de los Chacales, al-Shakti ya tiene el sarcófago de Nitocris, holandés despedido, viuda con artefacto. Ali ofrece habitación segura + buscar a Dora Flinders.</div></div>
+<div class="tl"><div class="td">9 Mar · Dashur</div><div class="te">Robert Maxwell escala Pirámide Acodada. Punta: vacía. Interior: cámara del trono de obsidiana, mapamundi con <b>3 puntos rojos en triángulo</b>, piscina de brea. Johanna <span class="dead">POSEÍDA al sentarse en el trono.</span> Cierra a Robert Maxwell dentro. <span class="dead">Nephren-Ka EMERGE de la piscina.</span> <span class="dead">Robert Maxwell CAPTURADO.</span></div></div>
+<div class="tl"><div class="td">9–10 Mar</div><div class="te">Robert Maxwell escapa del hospital. Najjar encontrado (Calle de las Vasijas). Cita en Mezquita de Hussein: artefactos vendidos a Carlyle, casa de Omar, Nuri con Velo. <span class="ok">✅ Velo de Anubis recuperado de Nuri.</span></div></div>
+<div class="tl"><div class="td">10 Mar · tarde</div><div class="te">Mezquita de Ibn Tulun. Ahmed al-Dhahabi. 6 ancianos, la Corona (gema con parásito, indestructible). Grupo fuera a buscar a Nuri. Al volver: <span class="dead">6 ancianos asesinados por Apophis. Corona ROBADA.</span> al-Shakti tiene los 3 artefactos de Nitocris.</div></div>
+<div class="tl"><div class="td">10 Mar · noche</div><div class="te">Phineas McKalan: visión de Nyarlathotep → <i>"Ya está caminando."</i> Hiroku Ryōshiz ve luces cerca de la Esfinge. Consideran invocar Apophis → <b>deciden no hacerlo.</b> En taxi hacia Giza.</div></div>
+<div class="tl"><div class="td">9 Mar · noche</div><div class="te">Giza. Rescate de Gardner (hienas, tormenta de arena, tambores — herir tamborero = debilita tormenta). Cultista capturado → Robert Maxwell lo interroga: "Dora Flinders y La Cobra cruzaron el umbral." Robert Maxwell lo mata con líquido negro del trono.</div></div>
+<div class="tl"><div class="td">10 Mar · 7am</div><div class="te">Museo. Tablilla dorada de Gardner: DUAT bajo Giza, "4 Anubis" para entrar. Malik: alineación hasta enero 1926. Phineas McKalan: Nitocris destruible con &gt;2000°C.</div></div>
+<div class="tl"><div class="td">10 Mar · día</div><div class="te">Cita con Najjar (Mezquita Hussein). Junkers F13 localizado en muelles del Nilo. Cristopher (NY): sin noticias de Arkham ⚠️. Embajada francesa → Besart encontrado: drogado, traumatizado. Confirma Carlyle en pirámide acodada, "vendieron sus almas", quimera devora miles.</div></div>
+<div class="tl"><div class="td">10 Mar</div><div class="te">Muelles del Nilo. <span class="dead">Gardner recapturado.</span> Johanna aparece como piloto. Ataque del culto (tormenta de arena, tiros). Lionel Blackwood cae al Nilo → Robert Maxwell lo rescata. Robert Maxwell cae → Hiroku Ryōshiz lo saca. <b>Avión despega.</b> Figura ominosa observa desde la distancia.</div></div>
+<div class="tl"><div class="td">10 Mar · aire</div><div class="te">Johanna no recuerda la posesión. Revela: <b>Thule/nazis son una tercera facción</b> — quieren el libro y la puerta. Milunka Saric en peligro. Los 3 puntos del ritual: <b>Shanghai + Australia + Kenia.</b> Decisión: Nairobi.</div></div>
+<div class="tl"><div class="td">10–14 Mar</div><div class="te">Viaje de 4 días: Aswan → Wadi Halfa → Khartoum → Juba → Lago Victoria → tren Kisumu → Nairobi. Hiroku Ryōshiz cura heridos durante el viaje.</div></div>
+<div class="tl" style="background:#1a0000"><div class="td" style="color:#ff6666">~14 Mar</div><div class="te"><b>Llegada a Nairobi, Kenia.</b> Johanna tiene contactos. Capítulo Egipto cerrado. <b>★ KENIA — CAPÍTULO ACTIVO.</b></div></div>
+</div></div>
+</div>
+</div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('s-'+id).classList.add('on');
+  event.target.classList.add('on');
+}
+function doSearch(q){
+  q=q.toLowerCase().trim();
+  const els=document.querySelectorAll('.npc,.clue,.loc,.ms,.tl,.ev,.art,.spell,.callout');
+  let n=0;
+  els.forEach(el=>{
+    el.classList.remove('hi');
+    if(q&&el.textContent.toLowerCase().includes(q)){el.classList.add('hi');n++;}
+  });
+  document.getElementById('src-count').textContent=q?(n+' resultados'):'';
+}
+</script>
+</body>
+</html>
