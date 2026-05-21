@@ -22,7 +22,7 @@ function doSearch(q){
   q=q.toLowerCase().trim();
   // Sync tag highlights with current query
   document.querySelectorAll('.stag').forEach(t=>t.classList.toggle('on',t.dataset.term===q));
-  const els=document.querySelectorAll('.npc,.clue,.loc,.ms,.tl,.ev,.art,.spell,.callout');
+  const els=document.querySelectorAll('.npc,.clue,.loc,.ms,.tl,.ev,.art,.spell,.callout,#npc-index tbody tr');
 
   if(!q){
     document.body.classList.remove('searching');
