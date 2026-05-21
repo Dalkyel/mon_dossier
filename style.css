@@ -413,6 +413,7 @@ nav h1 {
 
 /* ── Search highlight ───────────────────────────────── */
 .hi { outline: 2px solid var(--goldl) !important; outline-offset: 2px; }
+tr.hi { outline: none !important; background: rgba(212,168,67,.07) !important; }
 
 /* ── Search filter mode ─────────────────────────────── */
 /* Tabs stay intact; filtering happens within each section */
@@ -420,6 +421,8 @@ body.searching .stitle:not(.has-match) { display: none; }
 body.searching .panel:not(.has-match)  { display: none; }
 
 /* Hide all non-matching items regardless of container (panels or section-level) */
+body.searching #npc-index tbody tr:not(.hi) { display: none; }
+
 body.searching .npc:not(.hi),
 body.searching .clue:not(.hi),
 body.searching .loc:not(.hi),
@@ -431,6 +434,11 @@ body.searching .spell:not(.hi),
 body.searching .callout:not(.hi) { display: none; }
 
 /* ── Mobile ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+  #npc-index th:nth-child(4),
+  #npc-index td:nth-child(4) { display: none; }
+}
+
 @media (max-width: 480px) {
   nav h1 { display: none; }
   .tl { grid-template-columns: 80px 1fr; }
