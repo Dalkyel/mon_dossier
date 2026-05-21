@@ -35,22 +35,16 @@ body {
 }
 
 /* ── Nav ────────────────────────────────────────────── */
-#nav-wrap {
+nav {
   background: #070707;
   border-bottom: 2px solid var(--red);
   display: flex;
   align-items: stretch;
+  padding: 0 8px;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 200;
-}
-
-nav {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: stretch;
-  padding: 0 8px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -447,13 +441,18 @@ body.searching .callout:not(.hi) { display: none; }
 
 /* ── Theme toggle button ────────────────────────────── */
 #theme-btn {
-  background: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 201;
+  background: #070707;
   border: none;
+  border-left: 1px solid #1e1e1e;
+  border-bottom: 2px solid var(--red);
   cursor: pointer;
   font-size: 15px;
-  padding: 0 10px;
+  padding: 10px 12px;
   color: var(--text3);
-  flex-shrink: 0;
   line-height: 1;
   transition: color .15s;
   -webkit-tap-highlight-color: transparent;
@@ -471,7 +470,8 @@ body.light {
   --text3: #666;
 }
 
-body.light #nav-wrap          { background: #fff; }
+body.light nav                { background: #fff; }
+body.light #theme-btn         { background: #fff; border-color: #ddd; border-bottom-color: var(--red); }
 body.light #sbar,
 body.light #stags             { background: #f4f0e8; border-color: #ddd8cc; }
 body.light #srch              { background: #fff; color: #1a1a1a; border-color: #ccc; }
