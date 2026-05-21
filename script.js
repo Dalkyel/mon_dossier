@@ -24,39 +24,24 @@ function onSearchInput(v){
   _searchTimer=setTimeout(()=>doSearch(v),150);
 }
 
+var _hlEls=[];
+
 function clearHighlights(){
-  const parents=new Set();
-  document.querySelectorAll('span.hl').forEach(m=>{
-    if(m.parentNode){
-      parents.add(m.parentNode);
-      m.parentNode.replaceChild(document.createTextNode(m.textContent),m);
-    }
+  _hlEls.forEach(function(el){
+    if(el._origHtml!==undefined){el.innerHTML=el._origHtml;el._origHtml=undefined;}
   });
-  parents.forEach(p=>p.normalize());
+  _hlEls=[];
 }
 
 function highlightText(el,q){
-  if(el.nodeType===3){
-    const text=el.textContent;
-    const lower=text.toLowerCase();
-    if(!lower.includes(q)||!el.parentNode) return;
-    const parent=el.parentNode;
-    const next=el.nextSibling;
-    parent.removeChild(el);
-    let last=0,idx;
-    while((idx=lower.indexOf(q,last))!==-1){
-      if(idx>last) parent.insertBefore(document.createTextNode(text.slice(last,idx)),next);
-      const s=document.createElement('span');
-      s.className='hl';
-      s.textContent=text.slice(idx,idx+q.length);
-      parent.insertBefore(s,next);
-      last=idx+q.length;
-    }
-    if(last<text.length) parent.insertBefore(document.createTextNode(text.slice(last)),next);
-    return;
-  }
-  if(el.nodeType!==1||el.className==='hl') return;
-  [].slice.call(el.childNodes).forEach(function(child){highlightText(child,q);});
+  if(el._origHtml===undefined) el._origHtml=el.innerHTML;
+  _hlEls.push(el);
+  var escaped=q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  var re=new RegExp('('+escaped+')','gi');
+  el.innerHTML=el._origHtml.replace(/(<[^>]*>)|([^<]+)/g,function(m,tag,text){
+    if(tag) return tag;
+    return text?text.replace(re,'<span class="hl">$1</span>'):m;
+  });
 }
 
 function doSearch(q){
