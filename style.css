@@ -364,6 +364,22 @@ nav h1 {
 /* ── Search highlight ───────────────────────────────── */
 .hi { outline: 2px solid var(--goldl) !important; outline-offset: 2px; }
 
+/* ── Search filter mode ─────────────────────────────── */
+/* Tabs stay intact; filtering happens within each section */
+body.searching .stitle:not(.has-match) { display: none; }
+body.searching .panel:not(.has-match)  { display: none; }
+
+/* Hide all non-matching items regardless of container (panels or section-level) */
+body.searching .npc:not(.hi),
+body.searching .clue:not(.hi),
+body.searching .loc:not(.hi),
+body.searching .ms:not(.hi),
+body.searching .tl:not(.hi),
+body.searching .ev:not(.hi),
+body.searching .art:not(.hi),
+body.searching .spell:not(.hi),
+body.searching .callout:not(.hi) { display: none; }
+
 /* ── Mobile ─────────────────────────────────────────── */
 @media (max-width: 480px) {
   nav h1 { display: none; }
