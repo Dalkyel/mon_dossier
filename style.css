@@ -414,7 +414,7 @@ nav h1 {
 /* ── Search highlight ───────────────────────────────── */
 .hi { outline: 2px solid var(--goldl) !important; outline-offset: 2px; }
 tr.hi { outline: none !important; background: rgba(212,168,67,.07) !important; }
-mark.hl { background: rgba(212,168,67,.35); color: inherit; border-radius: 2px; padding: 0 1px; }
+span.hl { background: rgba(212,168,67,.45); color: #fff; border-radius: 2px; padding: 0 2px; }
 
 /* ── Search filter mode ─────────────────────────────── */
 /* Tabs stay intact; filtering happens within each section */
