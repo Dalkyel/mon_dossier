@@ -434,11 +434,11 @@ body.searching .art:not(.hi),
 body.searching .spell:not(.hi),
 body.searching .callout:not(.hi) { display: none; }
 
+/* ── NPC index table: scrollable on mobile, all columns visible ── */
+.pb:has(#npc-index) { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+#npc-index { min-width: 520px; }
+
 /* ── Mobile ─────────────────────────────────────────── */
-@media (max-width: 640px) {
-  #npc-index th:nth-child(4),
-  #npc-index td:nth-child(4) { display: none; }
-}
 
 @media (max-width: 480px) {
   nav h1 { display: none; }
