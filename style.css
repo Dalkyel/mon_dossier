@@ -438,6 +438,83 @@ body.searching .callout:not(.hi) { display: none; }
 .pb:has(#npc-index) { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 #npc-index { min-width: 520px; }
 
+/* ── Theme toggle button ────────────────────────────── */
+#theme-btn {
+  margin-left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 0 10px;
+  color: var(--text3);
+  flex-shrink: 0;
+  line-height: 1;
+  transition: color .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+#theme-btn:hover { color: var(--text2); }
+
+/* ── Light mode ──────────────────────────────────────── */
+body.light {
+  --bg: #f4f0e8;
+  --surface: #ffffff;
+  --surface2: #ede9df;
+  --border: #ccc8ba;
+  --text: #1a1a1a;
+  --text2: #555;
+  --text3: #999;
+}
+
+body.light nav                { background: #fff; }
+body.light #sbar,
+body.light #stags             { background: #f4f0e8; border-color: #ddd8cc; }
+body.light #srch              { background: #fff; color: #1a1a1a; border-color: #ccc; }
+body.light #srch::placeholder { color: #bbb; }
+body.light #src-count         { color: #aaa; }
+
+body.light .stag       { color: #888; border-color: #ccc; background: transparent; }
+body.light .stag:hover { color: #333; border-color: #bbb; }
+body.light .stag.on    { color: var(--goldl); border-color: var(--gold); background: rgba(201,149,42,.12); }
+body.light .stag-label { color: #bbb; }
+body.light .stag-sep   { background: #ddd; }
+
+body.light .ph.red    { background: #fce8e8; color: #8b1a1a; }
+body.light .ph.green  { background: #e6f5ec; color: #1a5c30; }
+body.light .ph.gold   { background: #fdf3d8; color: #7a5000; }
+body.light .ph.blue   { background: #e6f0fc; color: #1a3a6b; }
+body.light .ph.purple { background: #f2e8fc; color: #4a1a70; }
+body.light .ph.grey   { background: #efefef; color: #555;    }
+body.light .ph.orange { background: #fdf0e0; color: #7a2f00; }
+body.light .ph.teal   { background: #dff5f5; color: #1a5555; }
+
+body.light .nn    { color: #1a1a1a; }
+body.light .ev b  { color: #222; }
+body.light .te b  { color: #222; }
+body.light .mt    { color: #222; }
+body.light .ln    { color: #1a5080; }
+
+body.light .sa { background: #c8f5d5; color: #1a5c2e; }
+body.light .se { background: #fce8e8; color: #8b1a1a; }
+body.light .sd { background: #fce0e0; color: #8b0000; }
+body.light .sj { background: #fdebd0; color: #7a2f00; }
+body.light .sk { background: #dce8fc; color: #1a3a6b; }
+body.light .sm { background: #f8ddf0; color: #6a1a55; }
+body.light .sp { background: #fdf5c0; color: #6a5000; }
+body.light .su { background: #eeeeee; color: #666;    }
+body.light .sc { background: #d0edf5; color: #1a4455; }
+
+body.light .callout        { background: #fff8ee; color: #555; border-color: var(--orange); }
+body.light .callout.red    { background: #fff0f0; color: #8b1a1a; border-color: var(--red); }
+body.light .callout.green  { background: #edfaf2; color: #1a5c30; border-color: var(--green); }
+body.light .callout.purple { background: #f8eeff; color: #4a1a70; border-color: var(--purple); }
+body.light .callout b      { color: #111; }
+
+body.light .pcrit { background: #e8c0c0; color: #5a0000; }
+body.light .phi   { background: #f0dcc0; color: #5a2000; }
+body.light .pmed  { background: #f0eec0; color: #4a4000; }
+body.light .plo   { background: #e8e8e8; color: #555;    }
+body.light .pok   { background: #c0f0d0; color: #1a5c30; }
+
 /* ── Mobile ─────────────────────────────────────────── */
 
 @media (max-width: 480px) {
