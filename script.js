@@ -18,9 +18,43 @@ function quickSearch(el){
   doSearch(srch.value);
 }
 
+let _searchTimer;
+function onSearchInput(v){
+  clearTimeout(_searchTimer);
+  _searchTimer=setTimeout(()=>doSearch(v),150);
+}
+
+function clearHighlights(){
+  document.querySelectorAll('mark.hl').forEach(m=>m.replaceWith(m.textContent));
+}
+
+function highlightText(el,q){
+  const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  let node;
+  while(node=walker.nextNode()) nodes.push(node);
+  nodes.forEach(textNode=>{
+    const text=textNode.textContent;
+    const lower=text.toLowerCase();
+    if(!lower.includes(q)) return;
+    const frag=document.createDocumentFragment();
+    let last=0,idx;
+    while((idx=lower.indexOf(q,last))!==-1){
+      if(idx>last) frag.appendChild(document.createTextNode(text.slice(last,idx)));
+      const m=document.createElement('mark');
+      m.className='hl';
+      m.textContent=text.slice(idx,idx+q.length);
+      frag.appendChild(m);
+      last=idx+q.length;
+    }
+    if(last<text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+    textNode.parentNode.replaceChild(frag,textNode);
+  });
+}
+
 function doSearch(q){
   q=q.toLowerCase().trim();
-  // Sync tag highlights with current query
+  clearHighlights();
   document.querySelectorAll('.stag').forEach(t=>t.classList.toggle('on',t.dataset.term===q));
   const els=document.querySelectorAll('.npc,.clue,.loc,.ms,.tl,.ev,.art,.spell,.callout,#npc-index tbody tr');
 
@@ -36,15 +70,17 @@ function doSearch(q){
   let n=0;
   els.forEach(el=>{
     el.classList.remove('hi');
-    if(el.textContent.toLowerCase().includes(q)){el.classList.add('hi');n++;}
+    if(el.textContent.toLowerCase().includes(q)){
+      el.classList.add('hi');
+      highlightText(el,q);
+      n++;
+    }
   });
 
-  // Mark panels that contain at least one match
   document.querySelectorAll('.panel').forEach(p=>{
     p.classList.toggle('has-match',!!p.querySelector('.hi'));
   });
 
-  // Mark stitle elements whose following siblings contain matches
   document.querySelectorAll('.stitle').forEach(st=>{
     let sib=st.nextElementSibling,found=false;
     while(sib&&!sib.classList.contains('stitle')){
