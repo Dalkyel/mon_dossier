@@ -25,9 +25,14 @@ function onSearchInput(v){
 }
 
 function clearHighlights(){
+  const parents=new Set();
   document.querySelectorAll('span.hl').forEach(m=>{
-    m.parentNode.replaceChild(document.createTextNode(m.textContent),m);
+    if(m.parentNode){
+      parents.add(m.parentNode);
+      m.parentNode.replaceChild(document.createTextNode(m.textContent),m);
+    }
   });
+  parents.forEach(p=>p.normalize());
 }
 
 function highlightText(el,q){
