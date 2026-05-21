@@ -1,3 +1,16 @@
+// Theme toggle
+function toggleTheme(){
+  const light=document.body.classList.toggle('light');
+  document.getElementById('theme-btn').textContent=light?'🌙':'☀';
+  localStorage.setItem('dossier-theme',light?'light':'dark');
+}
+(function(){
+  if(localStorage.getItem('dossier-theme')==='light'){
+    document.body.classList.add('light');
+    document.getElementById('theme-btn').textContent='🌙';
+  }
+})();
+
 // Build data-label on sections from nav tab text (DOM is ready at this point)
 document.querySelectorAll('.tab').forEach(tab=>{
   const m=tab.getAttribute('onclick')&&tab.getAttribute('onclick').match(/show\('(\w+)'\)/);
