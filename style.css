@@ -13,8 +13,8 @@
   --purple: #7d3c98;
   --orange: #d35400;
   --text: #d0d0d0;
-  --text2: #888;
-  --text3: #555;
+  --text2: #aaa;
+  --text3: #777;
   --font: 'Courier New', Courier, monospace;
   --r: 3px;
   --gap: 14px;
@@ -35,15 +35,22 @@ body {
 }
 
 /* ── Nav ────────────────────────────────────────────── */
-nav {
+#nav-wrap {
   background: #070707;
   border-bottom: 2px solid var(--red);
   display: flex;
   align-items: stretch;
-  padding: 0 8px;
   position: sticky;
   top: 0;
   z-index: 200;
+}
+
+nav {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
+  padding: 0 8px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -134,8 +141,8 @@ nav h1 {
   text-transform: uppercase;
   padding: 2px 9px;
   border-radius: 10px;
-  border: 1px solid #252525;
-  color: #444;
+  border: 1px solid #383838;
+  color: #666;
   cursor: pointer;
   user-select: none;
   transition: color .1s, border-color .1s, background .1s;
@@ -147,14 +154,14 @@ nav h1 {
   appearance: none;
   line-height: 1.4;
 }
-.stag:hover { color: var(--text2); border-color: #383838; }
+.stag:hover { color: var(--text2); border-color: #555; }
 .stag.on    { color: var(--goldl); border-color: var(--gold); background: rgba(201,149,42,.08); }
 
 .stag-label {
   font-size: 9px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: #2e2e2e;
+  color: #555;
   align-self: center;
   padding: 0 2px;
 }
@@ -440,7 +447,6 @@ body.searching .callout:not(.hi) { display: none; }
 
 /* ── Theme toggle button ────────────────────────────── */
 #theme-btn {
-  margin-left: auto;
   background: none;
   border: none;
   cursor: pointer;
@@ -461,21 +467,22 @@ body.light {
   --surface2: #ede9df;
   --border: #ccc8ba;
   --text: #1a1a1a;
-  --text2: #555;
-  --text3: #999;
+  --text2: #444;
+  --text3: #666;
 }
 
-body.light nav                { background: #fff; }
+body.light #nav-wrap          { background: #fff; }
 body.light #sbar,
 body.light #stags             { background: #f4f0e8; border-color: #ddd8cc; }
 body.light #srch              { background: #fff; color: #1a1a1a; border-color: #ccc; }
-body.light #srch::placeholder { color: #bbb; }
-body.light #src-count         { color: #aaa; }
+body.light #srch::placeholder { color: #999; }
+body.light #src-count         { color: #666; }
 
-body.light .stag       { color: #888; border-color: #ccc; background: transparent; }
-body.light .stag:hover { color: #333; border-color: #bbb; }
+body.light .stag       { color: #555; border-color: #bbb; background: transparent; }
+body.light .stag:hover { color: #222; border-color: #999; }
 body.light .stag.on    { color: var(--goldl); border-color: var(--gold); background: rgba(201,149,42,.12); }
-body.light .stag-label { color: #bbb; }
+body.light .stag-label { color: #777; }
+body.light .stitle     { color: #555; }
 body.light .stag-sep   { background: #ddd; }
 
 body.light .ph.red    { background: #fce8e8; color: #8b1a1a; }
