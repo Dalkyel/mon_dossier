@@ -4,11 +4,11 @@ document.querySelectorAll('.tab').forEach(tab=>{
   if(m){const sec=document.getElementById('s-'+m[1]);if(sec)sec.dataset.label=tab.textContent.trim();}
 });
 
-function show(id){
+function show(id,el){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
   document.getElementById('s-'+id).classList.add('on');
-  event.target.classList.add('on');
+  el.classList.add('on');
 }
 
 function quickSearch(el){
@@ -25,31 +25,32 @@ function onSearchInput(v){
 }
 
 function clearHighlights(){
-  document.querySelectorAll('mark.hl').forEach(m=>m.replaceWith(m.textContent));
+  document.querySelectorAll('span.hl').forEach(m=>{
+    m.parentNode.replaceChild(document.createTextNode(m.textContent),m);
+  });
 }
 
 function highlightText(el,q){
-  const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);
-  const nodes=[];
-  let node;
-  while(node=walker.nextNode()) nodes.push(node);
-  nodes.forEach(textNode=>{
-    const text=textNode.textContent;
+  if(el.nodeType===3){ // text node
+    const text=el.textContent;
     const lower=text.toLowerCase();
-    if(!lower.includes(q)) return;
+    if(!lower.includes(q)||!el.parentNode) return;
     const frag=document.createDocumentFragment();
     let last=0,idx;
     while((idx=lower.indexOf(q,last))!==-1){
       if(idx>last) frag.appendChild(document.createTextNode(text.slice(last,idx)));
-      const m=document.createElement('mark');
-      m.className='hl';
-      m.textContent=text.slice(idx,idx+q.length);
-      frag.appendChild(m);
+      const s=document.createElement('span');
+      s.className='hl';
+      s.textContent=text.slice(idx,idx+q.length);
+      frag.appendChild(s);
       last=idx+q.length;
     }
     if(last<text.length) frag.appendChild(document.createTextNode(text.slice(last)));
-    textNode.parentNode.replaceChild(frag,textNode);
-  });
+    el.parentNode.replaceChild(frag,el);
+    return;
+  }
+  if(el.nodeType!==1||el.className==='hl') return;
+  Array.from(el.childNodes).forEach(child=>highlightText(child,q));
 }
 
 function doSearch(q){
