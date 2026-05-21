@@ -140,6 +140,12 @@ nav h1 {
   user-select: none;
   transition: color .1s, border-color .1s, background .1s;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  background: transparent;
+  font-family: var(--font);
+  -webkit-appearance: none;
+  appearance: none;
+  line-height: 1.4;
 }
 .stag:hover { color: var(--text2); border-color: #383838; }
 .stag.on    { color: var(--goldl); border-color: var(--gold); background: rgba(201,149,42,.08); }
