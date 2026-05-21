@@ -36,26 +36,27 @@ function clearHighlights(){
 }
 
 function highlightText(el,q){
-  if(el.nodeType===3){ // text node
+  if(el.nodeType===3){
     const text=el.textContent;
     const lower=text.toLowerCase();
     if(!lower.includes(q)||!el.parentNode) return;
-    const frag=document.createDocumentFragment();
+    const parent=el.parentNode;
+    const next=el.nextSibling;
+    parent.removeChild(el);
     let last=0,idx;
     while((idx=lower.indexOf(q,last))!==-1){
-      if(idx>last) frag.appendChild(document.createTextNode(text.slice(last,idx)));
+      if(idx>last) parent.insertBefore(document.createTextNode(text.slice(last,idx)),next);
       const s=document.createElement('span');
       s.className='hl';
       s.textContent=text.slice(idx,idx+q.length);
-      frag.appendChild(s);
+      parent.insertBefore(s,next);
       last=idx+q.length;
     }
-    if(last<text.length) frag.appendChild(document.createTextNode(text.slice(last)));
-    el.parentNode.replaceChild(frag,el);
+    if(last<text.length) parent.insertBefore(document.createTextNode(text.slice(last)),next);
     return;
   }
   if(el.nodeType!==1||el.className==='hl') return;
-  Array.from(el.childNodes).forEach(child=>highlightText(child,q));
+  [].slice.call(el.childNodes).forEach(function(child){highlightText(child,q);});
 }
 
 function doSearch(q){
