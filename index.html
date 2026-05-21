@@ -6,7 +6,7 @@
 <title>Dossier</title>
 <link rel="stylesheet" href="style.css">
 </head>
-the <body>
+<body>
 
 <!-- ══ JUMP INDEX ══ peru·~34 | cap1·~113 | cap2·~322 | npcs·~330 | pistas·~600 | inv·~870 | crono·~985 | art·~1110 | hilos·~1210 ══ -->
 <nav>
@@ -28,6 +28,27 @@ the <body>
   <span style="font-size:11px;color:#444">Buscar:</span>
   <input id="srch" type="text" placeholder="nombre, lugar, pista..." oninput="doSearch(this.value)">
   <span id="src-count"></span>
+</div>
+<div id="stags">
+  <span class="stag-label">estado</span>
+  <span class="stag" data-term="aliado"      onclick="quickSearch(this)">aliado</span>
+  <span class="stag" data-term="contacto"    onclick="quickSearch(this)">contacto</span>
+  <span class="stag" data-term="sospechoso"  onclick="quickSearch(this)">sospechoso</span>
+  <span class="stag" data-term="herido"      onclick="quickSearch(this)">herido</span>
+  <span class="stag" data-term="preso"       onclick="quickSearch(this)">preso</span>
+  <span class="stag" data-term="poseído"     onclick="quickSearch(this)">poseído</span>
+  <span class="stag" data-term="enemigo"     onclick="quickSearch(this)">enemigo</span>
+  <span class="stag" data-term="muerto"      onclick="quickSearch(this)">muerto</span>
+  <span class="stag" data-term="desconocido" onclick="quickSearch(this)">desconocido</span>
+  <span class="stag-sep"></span>
+  <span class="stag-label">lugar</span>
+  <span class="stag" data-term="lima"     onclick="quickSearch(this)">lima</span>
+  <span class="stag" data-term="arkham"   onclick="quickSearch(this)">arkham</span>
+  <span class="stag" data-term="londres"  onclick="quickSearch(this)">londres</span>
+  <span class="stag" data-term="egipto"   onclick="quickSearch(this)">egipto</span>
+  <span class="stag" data-term="cairo"    onclick="quickSearch(this)">el cairo</span>
+  <span class="stag" data-term="kenia"    onclick="quickSearch(this)">kenia</span>
+  <span class="stag" data-term="nairobi"  onclick="quickSearch(this)">nairobi</span>
 </div>
 
 
