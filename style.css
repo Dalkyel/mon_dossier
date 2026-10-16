@@ -374,6 +374,8 @@ nav h1 {
 .sn  { color: #c084ff; font-weight: bold; display: block; margin-bottom: 3px; }
 .sc2 { color: var(--text2); font-size: 12px; line-height: 1.6; }
 .sc2 b { color: #ddd; }
+.ext-link { display: inline-block; margin-top: 6px; color: var(--goldl); text-decoration: underline; }
+.ext-link:hover { color: var(--gold); }
 
 /* ── Callouts ───────────────────────────────────────── */
 .callout {
@@ -497,6 +499,7 @@ body.light .ph.teal   { background: #dff5f5; color: #1a5555; }
 body.light .nn    { color: #1a1a1a; }
 body.light .ev b  { color: #222; }
 body.light .te b  { color: #222; }
+body.light .sc2 b { color: #222; }
 body.light .mt    { color: #222; }
 body.light .ln    { color: #1a5080; }
 
