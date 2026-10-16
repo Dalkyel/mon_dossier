@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Círculo de Guarda — Ficha de Hechizo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
+<style>
+  :root{
+    --ink:#121318;
+    --slate:#1c1f26;
+    --slate-2:#262a33;
+    --line:#3a3d46;
+    --chalk:#ece7da;
+    --chalk-dim:#a9a398;
+    --brass:#c9a356;
+    --brass-soft:#8d7238;
+    --warn:#b2584a;
+  }
+
+  *{box-sizing:border-box;}
+
+  html,body{
+    background:var(--ink);
+    margin:0;
+  }
+
+  body{
+    color:var(--chalk);
+    font-family:'Crimson Pro', Georgia, 'Times New Roman', serif;
+    display:flex;
+    justify-content:center;
+    padding:48px 20px 80px;
+  }
+
+  .back-link{
+    display:block;
+    text-align:center;
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--chalk-dim);
+    text-decoration:none;
+    margin-bottom:22px;
+  }
+
+  .back-link:hover{ color:var(--brass); }
+
+  .card{
+    width:100%;
+    max-width:640px;
+  }
+
+  .emblem-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:8px;
+  }
+
+  svg#diagram{
+    width:168px;
+    height:168px;
+    overflow:visible;
+  }
+
+  .ring-outer{ fill:none; stroke:var(--brass); stroke-width:1.4; opacity:.85; }
+  .ring-inner{ fill:none; stroke:var(--brass-soft); stroke-width:1; opacity:.8; }
+  .hex{ fill:none; stroke:var(--chalk-dim); stroke-width:1; opacity:.55; }
+  .tick{ stroke:var(--brass); stroke-width:1.2; opacity:.6; }
+  .tick-major{ stroke:var(--brass); stroke-width:1.6; opacity:.95; }
+  .core{ fill:var(--brass); opacity:.9; }
+
+  header{
+    text-align:center;
+    margin-bottom:6px;
+  }
+
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin:0 0 10px;
+  }
+
+  h1{
+    font-family:'Cinzel', Georgia, serif;
+    font-weight:600;
+    font-size:clamp(28px, 6vw, 38px);
+    letter-spacing:.02em;
+    margin:0 0 6px;
+    text-wrap:balance;
+    color:var(--chalk);
+  }
+
+  .alias{
+    font-style:italic;
+    color:var(--chalk-dim);
+    font-size:16px;
+    margin:0 0 28px;
+  }
+
+  .stats{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+    margin-bottom:34px;
+  }
+
+  .stat{
+    background:var(--slate);
+    padding:16px 18px;
+  }
+
+  .stat-label{
+    font-family:'Space Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--chalk-dim);
+    margin:0 0 7px;
+  }
+
+  .stat-value{
+    font-family:'Space Mono', monospace;
+    font-size:15px;
+    color:var(--brass);
+    line-height:1.45;
+    font-variant-numeric:tabular-nums;
+  }
+
+  section{ margin-bottom:34px; }
+
+  h2{
+    font-family:'Cinzel', Georgia, serif;
+    font-weight:600;
+    font-size:14px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--brass);
+    margin:0 0 14px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--line);
+  }
+
+  p{
+    font-size:17px;
+    line-height:1.65;
+    color:var(--chalk);
+    margin:0 0 14px;
+    max-width:62ch;
+  }
+
+  .rules-text{
+    background:var(--slate);
+    border-left:2px solid var(--brass-soft);
+    padding:18px 22px;
+    border-radius:0 6px 6px 0;
+  }
+
+  .rules-text p:last-child{ margin-bottom:0; }
+
+  ul.mech{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  ul.mech li{
+    display:flex;
+    gap:14px;
+    font-size:16px;
+    line-height:1.55;
+  }
+
+  ul.mech li::before{
+    content:'';
+    flex:0 0 7px;
+    width:7px;
+    height:7px;
+    margin-top:8px;
+    background:var(--brass);
+    border-radius:50%;
+  }
+
+  .examples{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .example{
+    background:var(--slate);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:16px 20px;
+  }
+
+  .example-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:8px;
+  }
+
+  .example-head .pm{
+    font-family:'Space Mono', monospace;
+    font-size:19px;
+    color:var(--brass);
+    font-variant-numeric:tabular-nums;
+  }
+
+  .example-head .arrow{
+    font-family:'Space Mono', monospace;
+    font-size:13px;
+    color:var(--chalk-dim);
+    font-variant-numeric:tabular-nums;
+    text-align:right;
+  }
+
+  .example p{
+    font-size:15.5px;
+    margin:0;
+    color:var(--chalk-dim);
+    max-width:none;
+  }
+
+  .callout{
+    background:var(--slate-2);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:16px 20px;
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+  }
+
+  .callout + .callout{ margin-top:10px; }
+
+  .callout .mark{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:.1em;
+    color:var(--warn);
+    border:1px solid var(--warn);
+    border-radius:3px;
+    padding:2px 6px;
+    flex:0 0 auto;
+    margin-top:2px;
+    white-space:nowrap;
+  }
+
+  .callout p{ margin:0; font-size:15.5px; color:var(--chalk); }
+
+  .calc{
+    background:var(--slate);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:20px 22px;
+  }
+
+  .calc-row{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+
+  .calc label{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--chalk-dim);
+  }
+
+  .calc input[type="number"]{
+    width:76px;
+    background:var(--ink);
+    border:1px solid var(--line);
+    color:var(--chalk);
+    font-family:'Space Mono', monospace;
+    font-size:16px;
+    padding:7px 10px;
+    border-radius:4px;
+  }
+
+  .calc input[type="number"]:focus-visible{
+    outline:2px solid var(--brass);
+    outline-offset:1px;
+  }
+
+  .calc input[type="range"]{
+    flex:1 1 140px;
+    accent-color:var(--brass);
+  }
+
+  .calc input[type="range"]:focus-visible{
+    outline:2px solid var(--brass);
+    outline-offset:3px;
+  }
+
+  .calc-out{
+    margin-top:16px;
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:12px;
+  }
+
+  .calc-out div{
+    background:var(--ink);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:12px 14px;
+  }
+
+  .calc-out .k{
+    font-family:'Space Mono', monospace;
+    font-size:10px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--chalk-dim);
+    margin:0 0 5px;
+  }
+
+  .calc-out .v{
+    font-family:'Space Mono', monospace;
+    font-size:17px;
+    color:var(--brass);
+    font-variant-numeric:tabular-nums;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:40px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
+
+  footer p{
+    margin:0;
+    font-size:12.5px;
+    color:var(--chalk-dim);
+    max-width:none;
+    font-style:italic;
+  }
+
+  @media (prefers-reduced-motion: no-preference){
+    .example, .callout{ transition:border-color .15s ease; }
+    .example:hover, .callout:hover{ border-color:var(--brass-soft); }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <a class="back-link" href="../index.html">← Volver al Dossier</a>
+
+  <div class="emblem-wrap">
+    <svg id="diagram" viewBox="0 0 320 320" aria-hidden="true">
+      <circle class="ring-outer" cx="160" cy="160" r="140"></circle>
+      <circle class="ring-inner" cx="160" cy="160" r="104"></circle>
+      <polygon class="hex" points="160,70 237.9,115 237.9,205 160,250 82.1,205 82.1,115"></polygon>
+      <circle class="core" cx="160" cy="160" r="3.2"></circle>
+      <g id="dial"></g>
+    </svg>
+  </div>
+
+  <header>
+    <p class="eyebrow">Ficha de hechizo · Invocación / Protección</p>
+    <h1>Círculo de Guarda</h1>
+    <p class="alias">Alias: <em>La Geometría Antigua</em></p>
+  </header>
+
+  <div class="stats">
+    <div class="stat">
+      <p class="stat-label">Coste</p>
+      <p class="stat-value">PM variables<br>(a elección del lanzador)</p>
+    </div>
+    <div class="stat">
+      <p class="stat-label">Tiempo de lanzamiento</p>
+      <p class="stat-value">1 hora por cada PM invertido</p>
+    </div>
+    <div class="stat">
+      <p class="stat-label">Tirada de resistencia</p>
+      <p class="stat-value">POD opuesto del intruso<br>vs. (PM invertidos × 5)</p>
+    </div>
+    <div class="stat">
+      <p class="stat-label">Duración</p>
+      <p class="stat-value">Hasta el primer cruce no invocado o el siguiente amanecer/atardecer</p>
+    </div>
+  </div>
+
+  <section>
+    <h2>Efecto</h2>
+    <div class="rules-text">
+      <p>El lanzador traza un diagrama geométrico en el suelo; trazarlo lleva una hora por cada Punto de Magia que se invierta en él.</p>
+      <p>Mientras el círculo esté activo, cualquier <strong>ser invocado</strong> que intente cruzar la barrera debe superar una tirada de Poder (POD) enfrentada contra el total de Puntos de Magia invertidos, multiplicado por cinco. Si falla, no puede cruzar el círculo físicamente ni perturbarlo de ningún modo.</p>
+      <p>El círculo se rompe en el instante en que una criatura <strong>no invocada</strong> entra o sale de él, o al llegar el siguiente amanecer o atardecer — lo que ocurra primero.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Lo que hay que recordar en mesa</h2>
+    <ul class="mech">
+      <li>El diagrama queda fijo en el lugar donde se dibuja: no es un amuleto ni un refugio portátil. Para protegerse en otro sitio hay que volver a trazarlo y volver a esperar el tiempo de lanzamiento completo.</li>
+      <li>Solo detiene a seres <strong>invocados</strong> (convocados por un hechizo o ritual). Una criatura que llega por sus propios medios — sin haber sido llamada — no está sujeta a la tirada de POD del círculo.</li>
+      <li>La tirada la hace quien intenta entrar, no el lanzador: el círculo no requiere que nadie la vigile activamente mientras está en pie.</li>
+      <li>Invertir más Puntos de Magia encarece el conjuro en horas de lanzamiento, pero endurece proporcionalmente la tirada que debe superar el intruso.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Ejemplos</h2>
+    <div class="examples">
+      <div class="example">
+        <div class="example-head">
+          <span class="pm">3 PM</span>
+          <span class="arrow">3 horas de lanzamiento → POD opuesto a 15</span>
+        </div>
+        <p>Una inversión modesta. Basta para que un sirviente menor convocado a la carrera —algo débil de Poder— no logre forzar el paso, pero una entidad convocada con POD alto todavía tiene opciones reales de superar la tirada.</p>
+      </div>
+      <div class="example">
+        <div class="example-head">
+          <span class="pm">8 PM</span>
+          <span class="arrow">8 horas de lanzamiento → POD opuesto a 40</span>
+        </div>
+        <p>El lanzador sacrifica casi toda una noche trazando el diagrama. A cambio, incluso un horror convocado con Poder considerable presiona la línea sin éxito mientras el círculo aguanta hasta el amanecer.</p>
+      </div>
+      <div class="example">
+        <div class="example-head">
+          <span class="pm">15 PM</span>
+          <span class="arrow">15 horas de lanzamiento → POD opuesto a 75</span>
+        </div>
+        <p>Una inversión extrema, que consume más de medio día de preparación y buena parte de la reserva de magia del lanzador. Casi ningún servidor convocado tiene Poder suficiente para cruzar; el riesgo pasa a ser el tiempo perdido, no la barrera.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Cuándo falla la protección</h2>
+    <div class="callout">
+      <span class="mark">No invocado</span>
+      <p>Una criatura que no fue convocada por magia —por poderosa que sea— puede cruzar el círculo libremente, sin tirada. El círculo no distingue "amistoso" de "hostil": distingue "invocado" de "no invocado".</p>
+    </div>
+    <div class="callout">
+      <span class="mark">Cruce aliado</span>
+      <p>Si cualquier criatura no invocada —incluido un miembro del propio grupo— entra o sale del círculo, la protección se rompe de inmediato para todos, no solo para quien cruzó.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Simulador rápido</h2>
+    <div class="calc">
+      <div class="calc-row">
+        <label for="pmRange">Puntos de Magia invertidos</label>
+        <input type="range" id="pmRange" min="1" max="30" value="6">
+        <input type="number" id="pmNum" min="1" max="60" value="6" aria-label="Puntos de Magia invertidos, valor exacto">
+      </div>
+      <div class="calc-out">
+        <div>
+          <p class="k">Horas de lanzamiento</p>
+          <p class="v" id="outHoras">6 h</p>
+        </div>
+        <div>
+          <p class="k">POD opuesto a superar</p>
+          <p class="v" id="outPod">30</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Fuente: <em>The Grand Grimoire of Cthulhu Mythos Magic</em>, pág. 65 — no listado en el grimorio base de la campaña.</p>
+  </footer>
+
+</div>
+
+<script>
+  (function(){
+    var dial = document.getElementById('dial');
+    var cx = 160, cy = 160;
+    for (var i = 0; i < 12; i++){
+      var angle = (i * 30) * Math.PI / 180;
+      var isMajor = i % 3 === 0;
+      var r1 = 142;
+      var r2 = isMajor ? 158 : 152;
+      var x1 = cx + r1 * Math.sin(angle);
+      var y1 = cy - r1 * Math.cos(angle);
+      var x2 = cx + r2 * Math.sin(angle);
+      var y2 = cy - r2 * Math.cos(angle);
+      var line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', x1.toFixed(1));
+      line.setAttribute('y1', y1.toFixed(1));
+      line.setAttribute('x2', x2.toFixed(1));
+      line.setAttribute('y2', y2.toFixed(1));
+      line.setAttribute('class', isMajor ? 'tick-major' : 'tick');
+      dial.appendChild(line);
+    }
+  })();
+
+  (function(){
+    var range = document.getElementById('pmRange');
+    var num = document.getElementById('pmNum');
+    var outHoras = document.getElementById('outHoras');
+    var outPod = document.getElementById('outPod');
+
+    function update(pm){
+      pm = Math.max(1, Math.min(60, pm));
+      outHoras.textContent = pm + ' h';
+      outPod.textContent = String(pm * 5);
+    }
+
+    range.addEventListener('input', function(){
+      num.value = range.value;
+      update(Number(range.value));
+    });
+
+    num.addEventListener('input', function(){
+      var v = Number(num.value) || 1;
+      if (v <= Number(range.max)) range.value = v;
+      update(v);
+    });
+
+    update(Number(range.value));
+  })();
+</script>
+
+</body>
+</html>
